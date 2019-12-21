@@ -1,0 +1,20 @@
+{
+  "files.exclude": {
+    "misc\\frontpage.aux": true,
+    "**/*.aux": true,
+    "**/*.gz": true,
+    ".vscode": true,
+    "main.pdf": true,
+    "main.toc": true,
+    "main.bbl": true,
+    "main.blg": true,
+    "main.log": true,
+    "main.synctex(busy)": true,
+    "main.lof": true,
+    "main.glo": true,
+    "main.acn": true,
+    "Document.zip": true,
+    "main.lot": true,
+    "main.ist": true
+  }
+}

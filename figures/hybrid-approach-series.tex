@@ -1,0 +1,9 @@
+\begin{tikzpicture}
+ 	\node[draw, rectangle] (ph) {Physics based approach};
+ 	\node[draw, rectangle, below = 3em of ph] (dd) {Data-driven approach};
+ 	
+ 	\draw[->, >=angle 60] (dd.north) -- node[right] {\scriptsize  Parameter tuning} (ph.south);
+ 	\draw[->, >=angle 60] (ph.east) -- node[above] {\scriptsize Prediction} ([xshift=4.5em]ph.east);
+ 	\draw[->, >=angle 60] (-4.5,0) -- node[above] {\scriptsize Input} (ph.west);
+	\draw[->, >=angle 60] (-3,0) |-  (dd.west);
+\end{tikzpicture}

@@ -1,0 +1,65 @@
+
+\begin{tikzpicture}
+	[all/.style={draw, minimum height=2em, fill=white, font=\small}]
+
+	\fill [gray!30!white] (-1.41,-6.3) rectangle (1.41,-9.7) ;
+	
+	\draw(0,0) node[all] (progApp)                       	{Les Approches du Pronostic};
+	\draw node[all, below = 1.6em of progApp] (dataDriv)		{Data-Driven};
+	\draw node[all, left = 7em of dataDriv] (physBas)      	{Modèles Physiques};
+	\draw node[all, right = 7em of dataDriv] (hybridApp)				{Modèles Hybrides};
+
+	\draw node[all,text width=2cm,align=center,minimum height=3em, below = 1.6em of physBas] (appSpec)		{Application Specific};
+	
+	\begin{scope}[node distance=1.6em and -3.5em]
+		\draw node[all,text width=2cm,align=center,minimum height=3em, below right = of hybridApp] (serApp)		{Approches en Série};
+		\draw node[all,text width=2cm,align=center,minimum height=3em, below left = of hybridApp] (parApp)		{Approches Parallèles};
+	\end{scope}
+	
+	\begin{scope}[node distance=1.6em and -2.5em]
+		\draw node[all,text width=2cm,align=center,minimum height=3em, below right = of dataDriv] (statMod)		{Modèles Statistiques};
+		\draw node[all,text width=2cm,minimum height=3em, align=center, below left = of dataDriv] (ML)		{Machine Learning};
+	\end{scope}
+
+	\begin{scope}[node distance=1.6em and 0em]
+		\draw node[xshift=1em,all,text width=2.9cm,align=center,minimum height=3em, below left = of ML] (connect) {Méthodes Connectionnistes};
+		\draw node[all,text width=2.9cm,align=center,minimum height=3em, below = of connect] (instance) {Apprentissage Contextuel};
+		\draw node[ all,text width=2.9cm,align=center,minimum height=3em, below = of instance] (comb)		{Méthodes Combinées};
+	\end{scope}
+
+	\begin{scope}[node distance=1.6em and 0em]
+		\draw node[xshift=-1em,all,text width=2.9cm,align=center,minimum height=3em, below right = of statMod] (reg)		{Méthodes de Regression};
+		\draw node[all,text width=2.9cm,align=center,minimum height=3em, below = of reg] (arma)		{ARMA \& variantes};
+		\draw node[all,text width=2.9cm,align=center,minimum height=3em, below = of arma] (propor)		{Modèle à Risque Proportionnel};
+	\end{scope}
+
+	\begin{scope}[node distance=1.6em and 0em]
+	\path let \p1 = (connect) in node[all,text width=2.3cm,align=center,minimum height=3em] (bayes)	at (0,\y1)	{Méthodes Bayésiennes};
+	\draw node[all,text width=2.3cm,align=center,minimum height=3em, below  = of bayes] (hmm)		{Modèles de Markov};
+	\draw node[all,text width=2.3cm,align=center,minimum height=3em, below  = of hmm] (sotch)		{Filtrage Stochastique};
+	\end{scope}
+
+	\draw[->, >=angle 60] (progApp.south)   -- ++(0,0) -- ++(0,-0.8em) -| (physBas.north);
+	\draw[->, >=angle 60] (progApp.south)   -- ++(0,0) -- ++(0,-0.8em) -| (hybridApp.north);
+	\draw[->, >=angle 60] (progApp.south)   --  (dataDriv.north);
+	
+	\draw[->, >=angle 60] (physBas.south)   --  (appSpec.north);
+	
+	\draw[->, >=angle 60] (hybridApp.south)   -- ++(0,0) -- ++(0,-0.8em) -| (parApp.north);
+	\draw[->, >=angle 60] (hybridApp.south)   -- ++(0,0) -- ++(0,-0.8em) -| (serApp.north);
+	
+	\draw[->, >=angle 60] (dataDriv.south)   -- ++(0,0) -- ++(0,-0.8em) -| (statMod.north);
+	\draw[->, >=angle 60] (dataDriv.south)   -- ++(0,0) -- ++(0,-0.8em) -| (ML.north);
+	
+	\draw[->, >=angle 60] ([xshift=-1em]ML.south)   |- (connect.east);
+	\draw[->, >=angle 60] ([xshift=-1em]ML.south)   |- (instance.east);
+	\draw[->, >=angle 60] ([xshift=-1em]ML.south)   |- (comb.east);
+	
+	\draw[->, >=angle 60] ([xshift=1em]statMod.south)   |- (reg.west);
+	\draw[->, >=angle 60] ([xshift=1em]statMod.south)   |- (arma.west);
+	\draw[->, >=angle 60] ([xshift=1em]statMod.south)   |- (propor.west);
+
+	\draw[->, >=angle 60] (ML.south)   -- ++(0,0) -- ++(0,-0.8em) -| (bayes.north);
+	\draw[-] (statMod.south)   -- ++(0,0) -- ++(0,-0.8em) -| (bayes.north);
+	\draw[->, >=angle 60] (bayes.south)   -- (hmm.north);
+\end{tikzpicture}

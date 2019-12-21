@@ -1,0 +1,77 @@
+\chapter{Vers un Approche de Pronostic Data-Driven}
+
+\begin{chapterintro}
+    The goal of this chapter is to introduce the different prognostic approaches with a detailed taxonomy, the various steps of any prognostic approach will be described then the focus will shift towards the data-driven methods.
+\end{chapterintro}
+
+\section{Approches Physiques, Data-Driven et Hybrides}
+
+Any prognostics approach is either based on: physical models, data-driven models or a hybrid combination of both of them (Figure \ref{fig:prognostic-approaches-venn}).
+
+\begin{figure}[h]
+    \centering
+	\input{figures/prognostic-approaches-venn.tex}
+    \caption{Taxonomie des approches du pronostic}
+    \label{fig:prognostic-approaches-venn}
+\end{figure}
+
+These three categories are broad classification based on the followed approach, each one can be further divided into subcategories. A detailed taxonom is presented in Figure \ref{fig:prognostic-approaches-tree}.
+\begin{figure}[H]
+	\resizebox{\textwidth}{!}{\input{figures/prognostic-approaches.tex}}
+    \caption{Taxonomie des approches du pronostic}
+    \label{fig:prognostic-approaches-tree}
+\end{figure}
+
+
+
+%\begin{figure}[h]
+ %   \centering
+  %  \input{figures/prognostic-approaches-literature-statistics.tex}
+ %   \caption{}
+  %  \label{fig:prognostic-approaches-literature-statistics}
+%\end{figure}
+
+
+\subsection{Modèles Physiques}
+Physical models assess the health of the system using explicit mathematical formulation (white boxes) developed based on scientific and engineering understanding of its behavior. However, the main advantage of these physical models consists of using degradation models to predict long-term behaviour \cite{Cubillo2016}.
+
+The physics model-based approaches are able to provide accurate estimation of RUL if the physics model is developed with complete understanding of the failure mechanisms and effective estimation of model parameters. For some complex mechanical systems, however, it is difficult to understand the physics of damage, which restricts the application of these approaches \cite{Lei2018}.
+
+\subsection{Modèles Data-Driven}
+Data-Driven models rely on previously collected data (monitoring data, operational settings data, …) to establish a model able to assess the health of the system and predict its behaviour and degradation.
+In contrast to physical models, and as the name implies, data-driven models don't rely on human knowledge but mainly on collected historic data to model the degradation process. Usually data-driven models are considered as black boxes.
+
+\subsubsection{Modèles Statistiques}
+Statistical approach, for the estimation of RUL, relies on constructing and fitting a probabilistic model to the past obeserved data without relying on any physical or engineering principles \cite{Si2011}. 
+% TODO: finish this shit
+The authors of \cite{Si2011} presented a review on statistical data-driven approaches for prognostics, according to this review, many models fall into this category such as regression models (e.g. linear regression), autoregressive-moving average and its variants, stochastic filtering techniques (Kalman Filter, Particles Filter, …).
+
+\subsubsection{Machine Learning}
+Machine learning is a field of Artificial Intelligence that exploded in the recent years and made breakthroughs in many fields such as computer vision and nautral language processing. Machine learning models are black-box models that can discover even very complex mapping from an input to an output. Many types of models fall into this category like connectionist methods (e.g. Artificial Neural Networks), Instance-Based Learning (e.g. Support-Vector Machines). Different approaches can be combined together to create combined machine learning models that can perform better than a single model.
+
+\subsection{Modèles Hybrides}
+Hybrid models are a combination of a physical-based model and a data-driven one.
+There are two types of hybrid models depending on how the physical and data-driven models are combined.
+The data-driven can be integrated within a physical model in serial configuration (Figure \ref{fig:hybrid-approach-series}) where it is used to tune the parameters of the physical model which then makes predicitons.
+
+\begin{figure}[h]
+    \centering
+    \input{figures/hybrid-approach-series.tex}
+    \caption{Configuration hybride en série (Figure adaptée de la référence \cite{Mangili2013})}
+    \label{fig:hybrid-approach-series}
+\end{figure}
+
+Both of data-driven and physical models can be combined in parallel configuration (Figure \ref{fig:hybrid-approach-parallel}) where both of the models make seperate predicitons which can be combined to come up with the final estimation.
+\begin{figure}[h]
+    \centering
+    \input{figures/hybrid-approach-parallel.tex}
+    \caption{Configuration hybride parallèle (Figure adaptée de la référence \cite{Mangili2013})}
+    \label{fig:hybrid-approach-parallel}
+\end{figure}
+
+\section{Pourquoi un Approche Data-Driven?}
+
+
+\section{Conclusion}
+% TODO: finish this shit too
+The classification of various prognostic approaches was introduced and divided into three main categories: 1) Physical models, 2) Data-Driven models and 3) Hybrid models. Detailed taxonomy was presented and the different examples were given. The focus now will shift toward data-driven models.

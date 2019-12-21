@@ -1,0 +1,36 @@
+\usepackage[margin=3cm]{geometry}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[acronym,automake]{glossaries}
+\usepackage{epigraph}
+\usepackage{fancyhdr}
+\fancyhead[R]{}
+\fancyhead[L]{\textsl{\leftmark}}
+
+\usepackage[Lenny]{fncychap}
+%the following package is to apply chapter header style to ToC, LoF, LoT
+%\usepackage[titles]{tocloft}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{float}
+\usepackage{tikz}
+%\usepackage{xcolor}
+%\usepackage{xcolor-material}
+%\usepackage{pgf-pie}
+\usetikzlibrary{positioning, calc, arrows}
+
+%\definecolor{FIII}{HTML}{018383}
+%\definecolor{SEEE}{HTML}{02a8a8}
+%\definecolor{THHH}{HTML}{42e6a4}
+%\definecolor{FEEE}{HTML}{f5dea3}
+
+\newenvironment{dedication}
+	{\vspace{6ex}\begin{quotation}\begin{center}\begin{em}}
+	{\par\end{em}\end{center}\end{quotation}}
+
+\newcommand{\asudedication}[1]{{\clearpage\mbox{}\vfill\centering #1 \par\vfill\clearpage}}
+
+\newenvironment{chapterintro}{\begin{center}\begin{minipage}{.7\linewidth}\begin{em}}{\end{em}\end{minipage}\end{center}}
+
+\pagestyle{empty}
+
