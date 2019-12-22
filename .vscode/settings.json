@@ -15,6 +15,7 @@
     "main.acn": true,
     "Document.zip": true,
     "main.lot": true,
-    "main.ist": true
+    "main.ist": true,
+    "figures\\**/*.pdf": true
   }
 }
