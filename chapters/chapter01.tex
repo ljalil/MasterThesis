@@ -1,11 +1,29 @@
 \chapter{Vers un Approche de Pronostic Data-Driven}
 
-\chapterintrobox{
-    The goal of this chapter is to introduce the different prognostic approaches with a detailed taxonomy, the various steps of any prognostic approach will be described then the focus will shift towards the data-driven methods.
-    }
+\chapterintrobox{The goal of this chapter is to introduce the different prognostic approaches with a detailed taxonomy, the various steps of any prognostic approach will be described then the focus will shift towards the data-driven methods.}
+
+\section{Le Pronostic des équipements mécaniques}
+Les systèmes complexes surtout dans le domaine de pétrolière fonctionnent sous des conditions très sévères (offshore, désert… ) ce qui peut engendrer l’occurrence des défaillances et leur dégradation. Les pannes et les arrêts non planifiés causent automatiquement des pertes de production, ce qui peut avoir des conséquences économiques énormes surtout dans des industries telles que du pétrole et de gaz. Avec ces contraintes économiques, il faut développer les programmes de maintenance pour minimiser le taux des défaillances, le coût et maximiser le profit. Comme discuté dans l'introduction de ce mémoire, ces programmes doivent être basés sur les principes \acrlong{cbm} et \acrlong{phm}.
+
+Le pronostic et la gestion de la santé (\acrlong{phm}) a deux aspects principaux\cite{Hess2008}:
+
+\begin{enumerate}
+    \item \textbf{Pronostic}: diagnostic prédictif, ce qui comprend la détermination de la durée de vie utile restante (durée de bon fonctionnement) d'une composante ou d'un bien.
+    \item \textbf{Gestion de la santé}: la capabilité de prendre des décisions concernant les actions de maintenance en basant sur les informations du diagnostic/pronostic, les ressources disponibles et la demande opérationnelle.
+\end{enumerate}
+
+\section{Estimation de durée de vie utile restante}
+L'objectif principal du pronostic c'est l'estimation de la durée de vie utile restante (\acrlong{rul}) du système.
+\acrshort{rul} est défini comme la différence entre le temps actuel (au cours de la surveillance du système) et le temps prédit de la défaillance selon l'équation \ref{eq:rul}:
+
+\begin{equation}
+    RUL = t_f-t_c
+    \label{eq:rul}
+\end{equation}
+
+Où $t_f$ est le temps prédit pour l’occurrence de la défaillance et $t_c$ est le temps actuel (le temps quand la prédiction est faite).
 
 \section{Approches Physiques, Data-Driven et Hybrides}
-
 Toute approche pronostique est soit basée sur : modèles physiques, modèles data-driven ou une combinaison hybride des deux (Figure \ref{fig:prognostic-approaches-venn}).
 
 \begin{figure}[h]
@@ -53,8 +71,21 @@ Les deux types de modèles peuvent être combinés dans une configuration parall
     \label{fig:hybrid-approach-parallel}
 \end{figure}
 
-\section{Pourquoi un Approche Data-Driven?}
-Comme mentionné précédemment, comprendre le processus de dégradation pour les systèmes complexes est très difficile, voire impossible, c'est pourquoi le développement des modèles physiques est très problématique pour ces systèmes. D'autre part, les capteurs dans l'industrie sont devenus peu coûteux et omniprésents, la puissance de calcul a augmenté exponentiellement ce qui a permis de dévlopper des algorithmes et outils informatiques plus avancés, la révolution de l'intelligence artificielle et l'apprentissage automatique.
+\section{Pourquoi un approche Data-Driven?}
+Comme mentionné précédemment, comprendre le processus de dégradation pour les systèmes complexes est très difficile, voire impossible, c'est pourquoi le développement des modèles physiques est très problématique pour ces systèmes.
+
+Les 20 dernières années ont vu de grands progrès dans le développement de nouvelles techniques de détection, de méthodes de pronostic/diagnostic et dans l’application des méthodes d’analyse informatisées. 
+
+Il est intéressant de noter que, lors de l’atelier de 2002 sur la maintenance conditionnelle organisé par Advanced Technology Program du National Institute of Standards and Technology (NIST) des États-Unis, les obstaces suivants à l’application généralisée des mesures de confiance ont été identifiés :
+\begin{itemize}
+    \item L’impossibilité de prédire avec exactitude et fiabilité la durée de vie utile restante d'une machine.
+    \item L’incapacité de surveiller continuellement une machine.
+    \item L’incapacité des systèmes de maintenance à apprendre et à identifier les défaillances imminentes et à recommander les mesures à prendre.
+\end{itemize} 
+
+Ces obstacles peuvent être redéfinis comme des déficiences au niveau des pronostics, de la détection et du raisonnement. Ces limitations et d'autres encore de la mise en œuvre actuelle des techniques de maintenance conditionnelle ont, bien entendu, été reconnues par d'autres et ont conduit à l'élaboration de programmes (e.g. dans le domaine militaire) visant à les surmonter \cite{Hess2008}.
+
+Aujourd'hui, les capteurs dans l'industrie sont devenus peu coûteux et omniprésents, la puissance de calcul a augmenté exponentiellement ce qui a permis de dévlopper des algorithmes et outils informatiques plus avancés : la révolution de l'intelligence artificielle et l'apprentissage automatique. L’industrie génère d’énormes quantités de données dans de nombreux domaines dont la majorité est inexploitée, l’exploitation de ces données en utilisant les dernières avancées technologiques peut augmenter les profits, réduire les coûts de manière drastique et s’avérer être un énorme avantage économique.
 
 \section{Conclusion}
 % TODO: finish this shit too

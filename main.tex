@@ -1,12 +1,13 @@
 \documentclass[12pt,a4paper, oneside]{book}
-
 \include{misc/preamble}
 \include{misc/glossary}
-\renewcommand\thesection{\arabic{section}}
+
+%\renewcommand\thesection{\arabic{section}}
+
 \begin{document}
 	\pagenumbering{gobble}
 	\pagestyle{plain}
-	
+
 	\include{misc/frontpage}
 	
 	\frontmatter
@@ -20,6 +21,7 @@
 	\clearpage
 	\printglossary[type=\acronymtype,nonumberlist]
 	\printglossary
+
 	\mainmatter
 	\pagestyle{fancy}
 	\include{chapters/introduction}
@@ -31,9 +33,9 @@
 	%\input{chapters/chapter06}
 	\input{chapters/conclusion}
 
-\newpage
+	\newpage
 
-\bibliography{misc/bibliography} 
-\bibliographystyle{siam}
+	\bibliography{misc/bibliography} 
+	\bibliographystyle{siam}
 
 \end{document}

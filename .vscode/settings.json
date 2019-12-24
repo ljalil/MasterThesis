@@ -16,6 +16,19 @@
     "Document.zip": true,
     "main.lot": true,
     "main.ist": true,
-    "figures\\**/*.pdf": true
+    "figures\\**/*.pdf": true,
+    "LICENSE": true,
+    "**/*.glg": true,
+    "**/*.alg": true,
+    "**/*.gls": true,
+    "**/*.acr": true,
+    "**/*.out": true,
+    "figures\\**/*.log": true,
+    "misc\\**/*.bak": true,
+    "figures\\forward-backward-pass.pdf": true,
+    "figures\\mlp-structure.pdf": true,
+    "figures\\mlp-structure.log": true,
+    "figures\\forward-backward-pass.log": true,
+    "misc\\bibliography.bib.bak": true
   }
 }
