@@ -1,10 +1,11 @@
 \chapter{Les étapes d'un approche data-driven}
-\begin{chapterintro}
-    In this chapter the different steps for establishing a data-driven prognostic approach are discussed
-\end{chapterintro}
+\chapterintrobox{Une approche de pronostic \acrlong{dd} (une approche qui s’appuie sur des données opérationnelles historiques pour construire un modèle qui est utilisé pour prédire la durée de vie utile restante) doit passer par de multiples étapes—de l’acquisition de données jusqu’à l’estimation de la durée de vie utile restante. Dans ce chapitre, ces différentes étapes seront examinées en détail.}
 
-\section{Aquisition des données}
-% TODO: check Jardine 2006 A review on machinery diagnostics and: Data acquisition is a process of collectin
-\section{Construction d'un indicateur de santé}
-\section{Division d'états de santé}
-\section{Estimation de RUL}
+\section{Aquisition de données}
+L'acquisition de données est un processus de capture et de stockage de différents types de données de surveillance provenant de divers capteurs installés sur l'équipement surveillé. C'est le premier processus de pronostic des machines, qui fournit des informations de base de surveillance d'état (\acrlong{cm}) pour les processus suivants. Un système d'acquisition de données est composé de capteurs, de dispositifs de transmission de données et de dispositifs de stockage de données \cite{Lei2018}. Les données de surveillance d'état sont très versatiles. Il peut s'agir de données sur les vibrations, de données acoustiques, de données d'analyse d'huile, de données sur la température, la pression, l'humidité, les conditions météorologiques ou l'environnement, etc. Différents capteurs, tels que les micro-capteurs, les capteurs à ultrasons, les capteurs d'émission acoustique, etc. ont été conçus pour collecter différents types de données. Les technologies sans fil, telles que Bluetooth, ont fourni une solution alternative à la communication de données à un prix avantageux \cite{Jardine2006}.
+
+Bien que la recherche sur des concepts avancés comme les réseaux de capteurs sans fil et la récolte d’énergie pour alimenter des capteurs autonomes soit en cours, l’acquisition de données (capteurs) et la manipulation sont aujourd’hui plutôt bien établies. Par conséquent, une grande partie de la recherche dans cette discipline se concentre sur l’analyse des données obtenues pour en extraire de l’information \cite{Tinga2014}. Parce que cette discipline est bien développée, beaucoup de nouvelles installations et techniques d’acquisition de données ont été conçues et appliquées dans les industries modernes. Ces installations puissantes et polyvalentes ont rendu l’acquisition de données pour la mise en œuvre du PHM plus pratique et plus faisable \cite{Lei2016}.
+\section{Traitement des données}
+\section{Diagnostic}
+\section{Pronostic}
+\section{Décision de la maintenance}
