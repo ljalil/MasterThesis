@@ -1,9 +1,9 @@
-\chapter{Vers un Approche de Pronostic Data-Driven}
+\chapter{Vers une Approche de Pronostic Data-Driven}
 
 \chapterintrobox{The goal of this chapter is to introduce the different prognostic approaches with a detailed taxonomy, the various steps of any prognostic approach will be described then the focus will shift towards the data-driven methods.}
 
 \section{Le Pronostic des équipements mécaniques}
-Les systèmes complexes surtout dans le domaine de pétrolière fonctionnent sous des conditions très sévères (offshore, désert… ) ce qui peut engendrer l’occurrence des défaillances et leur dégradation. Les pannes et les arrêts non planifiés causent automatiquement des pertes de production, ce qui peut avoir des conséquences économiques énormes surtout dans des industries telles que du pétrole et de gaz. Avec ces contraintes économiques, il faut développer les programmes de maintenance pour minimiser le taux des défaillances, le coût et maximiser le profit. Comme discuté dans l'introduction de ce mémoire, ces programmes doivent être basés sur les principes \acrlong{cbm} et \acrlong{phm}.
+Les systèmes complexes surtout dans le domaine de pétrolière fonctionnent sous des conditions très sévères (offshore, désert… ) ce qui peut engendrer l’occurrence des défaillances et leur dégradation. Les pannes et les arrêts non planifiés causent automatiquement des pertes de production, ce qui peut avoir des conséquences économiques énormes. Avec ces contraintes économiques, il faut développer les programmes de maintenance pour minimiser la probabilité des défaillances et le coût. Comme discuté dans l'introduction de ce mémoire, ces programmes doivent être basés sur les principes \acrlong{cbm} et \acrlong{phm}.
 
 Le pronostic et la gestion de la santé (\acrlong{phm}) a deux aspects principaux\cite{Hess2008}:
 
@@ -14,7 +14,7 @@ Le pronostic et la gestion de la santé (\acrlong{phm}) a deux aspects principau
 
 \section{Estimation de durée de vie utile restante}
 L'objectif principal du pronostic c'est l'estimation de la durée de vie utile restante (\acrlong{rul}) du système.
-\acrshort{rul} est défini comme la différence entre le temps actuel (au cours de la surveillance du système) et le temps prédit de la défaillance selon l'équation \ref{eq:rul}:
+\acrshort{rul} est défini selon l'équation \ref{eq:rul}:
 
 \begin{equation}
     RUL = t_f-t_c
@@ -25,7 +25,7 @@ Où $t_f$ est le temps prédit pour l’occurrence de la défaillance et $t_c$ e
 %TODO: discussion of abstraction levels for RUL estimation
 
 \section{Approches Physiques, Data-Driven et Hybrides}
-Toute approche pronostique est soit basée sur : modèles physiques, modèles data-driven ou une combinaison hybride des deux (Figure \ref{fig:prognostic-approaches-venn}).
+Toute approche pronostique peut être basée sur des modèles physiques, modèles data-driven ou une combinaison hybride des deux (Figure \ref{fig:prognostic-approaches-venn}).
 
 \begin{figure}[h]
     \centering
@@ -37,7 +37,7 @@ Toute approche pronostique est soit basée sur : modèles physiques, modèles da
 Ces trois catégories constituent une classification générale fondée sur l'approche suivie, chacune d'entre elles pouvant être subdivisée en sous-catégories. Une taxonomie détaillée est présentée à la figure \ref{fig:prognostic-approaches-tree}.
 \begin{figure}[H]
 	\resizebox{\textwidth}{!}{\input{figures/prognostic-approaches.tex}}
-    \caption{Taxonomie des approches de pronostic}
+    \caption{Taxonomie des approches de pronostic \cite{Javed2017}}
     \label{fig:prognostic-approaches-tree}
 \end{figure}
 
@@ -49,7 +49,7 @@ Les modèles \acrshort{dd} s'appuient sur des données collectées précédemmen
 
 \subsubsection{Modèles Statistiques}
 L'approche statistique, pour l'estimation des \acrshort{rul}, repose sur la construction et l'ajustement d'un modèle probabiliste en utilisant les données historiques sans dépendre d'aucun principe physique ou technique \cite{Si2011}. 
-Les auteurs de la \cite{Si2011} ont présenté une revue des approches statistiques. Selon cette revue, de nombreux modèles entrent dans cette catégorie tels que les modèles de régression (e.g. la régression linéaire), la moyenne mobile autorégressive et ses variantes, les techniques de filtrage stochastique (e.g. filtre de Kalman, filtre particulaire, ...).
+Si et al. \cite{Si2011} ont présenté une revue des approches statistiques. Selon cette revue, de nombreux modèles entrent dans cette catégorie tels que les modèles de régression (e.g. la régression linéaire), la moyenne mobile autorégressive et ses variantes, les techniques de filtrage stochastique (e.g. filtre de Kalman, filtre particulaire, ...).
 
 \subsubsection{Machine Learning}
 L'apprentissage automatique est un domaine de l'intelligence artificielle qui a explosé ces dernières années et a fait des percées dans de nombreux domaines tels que Computer Vision et Natural Language Processing. Les modèles d'apprentissage automatique sont des modèles boîte noire qui permettent de découvrir des mappages même très complexes d'une entrée à une sortie. De nombreux types d'algorithmes entrent dans cette catégorie comme les méthodes connectionnistes (e.g. les réseaux neuronaux artificiels), l'apprentissage contextuel (e.g. les machine à vecteurs de support). Différentes approches peuvent être combinées ensemble pour créer des modèles mixte qui peuvent être plus performants qu'un modèle unique.
@@ -72,8 +72,8 @@ Les deux types de modèles peuvent être combinés dans une configuration parall
     \label{fig:hybrid-approach-parallel}
 \end{figure}
 
-\section{Pourquoi un approche Data-Driven?}
-Comme mentionné précédemment, comprendre le processus de dégradation pour les systèmes complexes est très difficile, voire impossible, c'est pourquoi le développement des modèles physiques est très problématique pour ces systèmes.
+\section{Pourquoi une approche Data-Driven?}
+Comme mentionné précédemment, comprendre le processus de dégradation pour les systèmes très complexes est extrêmement difficile, c'est pourquoi le développement des modèles physiques est très problématique pour ces systèmes.
 
 Les 20 dernières années ont vu de grands progrès dans le développement de nouvelles techniques de détection, de méthodes de pronostic/diagnostic et dans l’application des méthodes d’analyse informatisées. 
 
