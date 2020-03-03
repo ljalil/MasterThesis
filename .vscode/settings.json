@@ -30,5 +30,6 @@
     "figures\\mlp-structure.log": true,
     "figures\\forward-backward-pass.log": true,
     "misc\\bibliography.bib.bak": true
-  }
+  },
+  "python.pythonPath": "C:\\Users\\abdel\\Miniconda3\\python.exe"
 }

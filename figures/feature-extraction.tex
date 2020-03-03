@@ -1,19 +1,12 @@
-\documentclass[12pt]{article}
-
-\usepackage{tikz}
-\usetikzlibrary{positioning,arrows}
-
-\begin{document}
-	
 \begin{tikzpicture}
 \tikzstyle{element}=[draw,rectangle]
 \tikzstyle{entity}=[fill=gray!20,align=center, text width=8em]
-\node[element] (fe) {Feature Extraction};
+\node[element] (fe) {Traitement du Signal};
 
 
-\node[element,below = 1.6em of fe] (fd) {Frequency Domain};
-\node[element,left = of fd] (td) {Time Domain};
-\node[element,right = of fd] (tfd) {Time--Frequency Domain};
+\node[element,below = 1.6em of fe] (fd) {Analyse Fréquentielle};
+\node[element,left = of fd] (td) {Analyse Temporelle};
+\node[element,right = of fd] (tfd) {Analyse Temps--Fréquence};
 
 \node[entity,below =.5em of td] (stat) {Statistics-based};
 \node[entity,below =.5em of stat] (arm) {Autoregressive Model};
@@ -22,6 +15,8 @@
 
 \node[entity,below =.5em of fd] (fft) {Fourier Transform};
 \node[entity,below =.5em of fft] (cep) {Cepstrum};
+\node[entity,below =.5em of cep] (hil) {Hilbert Transform};\node[entity,below =.5em of hil] (env) {Envelope Analysis};
+
 
 \node[entity,below =.5em of tfd] (stft) {Short-Time Fourier Transform};
 \node[entity,below =.5em of stft] (wt) {Wavelet Transform};
@@ -32,6 +27,3 @@
 \draw[->,>=angle 60] (fe.south) -| (fd);
 \draw[->,>=angle 60] (fe.south) -- ++(0,0) -- ++(0,-.8em) -| (tfd);
 \end{tikzpicture}
-
-
-\end{document}
