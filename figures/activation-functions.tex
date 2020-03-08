@@ -1,16 +1,3 @@
-\documentclass[12pt]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\usepackage{pgfplots}
-
-\usepackage{caption}
-\usepackage{subcaption}
-\begin{document}
-
-
-
-\begin{figure}
 \begin{subfigure}[b]{0.24\linewidth}
 
 
@@ -62,8 +49,7 @@ scaled ticks=false]
 		\begin{tikzpicture}
 		\begin{axis}[ 
 		%title=$\tanh(x)$,
-		xmin=-4, xmax=4,ymin=-1, 
-		ymax=3, grid=major,
+		xmin=-4, xmax=4, ymin=-2, ymax=2, grid=major,
 		height=5cm, width=5cm,
 		axis line style={latex-latex},
 		axis lines=middle,
@@ -84,8 +70,8 @@ scaled ticks=false]
 		\begin{tikzpicture}
 		\begin{axis}[ 
 		%title=$\tanh(x)$,
-		xmin=-4, xmax=4,ymin=-1, 
-		ymax=3, grid=major,
+		xmin=-4, xmax=4,ymin=-2, 
+		ymax=2, grid=major,
 		height=5cm, width=5cm,
 		axis line style={latex-latex},
 		axis lines=middle,
@@ -100,8 +86,3 @@ scaled ticks=false]
 		\end{tikzpicture}
 		\subcaption{Leaky ReLU}
 		\end{subfigure}
-			
-			\caption{Different activation functions}	
-
-\end{figure}
-\end{document}

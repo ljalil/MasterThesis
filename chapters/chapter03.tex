@@ -1,16 +1,97 @@
-\chapter{Introduction au Réseaux des Neurones}
+\chapter{Introduction au Réseaux de Neurones}
+\chapterintrobox{Les réseaux neuronaux sont des systèmes de calcul capables d'identifier les tendances dans les données et de trouver des fonctions complexes qui relient une entrée à une sortie. ces systèmes peuvent être utilisés pour une variété de tâches comme la régression et la classification. Ils peuvent être utilisés dans le domaine de la maintenance prédictive et des pronostics pour estimer l'état de santé de l'équipement et prévoir avec une certaine incertitude sa durée de vie utile restante. Ce chapitre traite les réseaux de neurones, leur topologie, leur entraînement et leur formulation mathématique.}
+
+
+\section{La structure de réseaux de neurones}
+Les réseaux neuronaux sont des systèmes de calcul utilisés pour trouver la correspondance entre une entrée et une sortie, ils sont constitués de plusieurs couches (couche d'entrée, couche de sortie et un nombre arbitraire de couches cachées entre l'entrée et la sortie) et chaque couche contient un certain nombre de neurones où chaque neurone de chaque couche est connecté à tous les neurones de la couche précédente et de la couche suivante (à l'exception des couches d'entrée et de sortie qui sont connectées uniquement aux couches suivante et précédente respectivement).
+chaque neurone de chaque couche reçoit une entrée des neurones de la couche précédente (sous la forme d'un vecteur), multiplie le vecteur par quelques poids et somme le résultat puis applique une fonction d'activation non linéaire. Chaque neurone se retrouve avec une seule valeur numérique appelée activation, qui sera transmise aux neurones de la couche suivante.
+
+Figure \ref{fig:neural-network-structure} montre un réseau de neurones avec la structure suivante :
+
+\begin{itemize}
+    \item Une couche d'entrée avec 3 entrée
+    \item Une seule couche cachée avec 4 neurones
+    \item Une couche de sortie avec 1 neurone 
+\end{itemize}
 
 \begin{figure}[h]
     \centering
 	\input{figures/mlp-structure.tex}
-    \caption{Forward et Backward passes}
-    \label{fig:forward-backward-pass}
+    \caption{Structure d'un réseau de neurones}
+    \label{fig:neural-network-structure}
+\end{figure}
+
+\section{Fonction d'activation}
+
+\subsection{L'importance des fonctions d'activation non linéaires}
+L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent au réseau de neurones d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
+
+\subsection{Types de fonctions d'activation}
+Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques examples:
+
+\begin{figure}[h]
+    \centering
+	\input{figures/activation-functions.tex}
+    \caption{Différentes fonctions d'activation}
+    \label{fig:activation-function}
 \end{figure}
 
 
+\section{Entraînement du réseau}
+Le processus de formation d'un réseau de neurones consiste à déterminer les poids (coefficients) qui relient les neurones de chaque couche aux neurones de la couche suivante. Ce processus peut être formulé en termes plus mathématiques comme un problème d'optimisation : optimisation des coefficients du réseau pour trouver leurs valeurs qui minimisent une fonction de coût.
+
+L'entraînement du réseau de neurones utilise des données d'entraînement (training data) qui fournissent des entrées et leurs sorties correspondantes.
+
+\subsection{Fonction de coût}
+
+
+\subsection{Backpropagation}
 \begin{figure}[h]
     \centering
 	\input{figures/forward-backward-pass.tex}
     \caption{Forward et Backward passes}
     \label{fig:forward-backward-pass}
 \end{figure}
+
+
+
+\begin{comment}
+    \begin{tikzpicture}
+    \begin{axis}[
+    hide axis,
+    xlabel=$x$,ylabel=$y$,
+    mesh/interior colormap name=hot,
+    colormap/blackwhite,
+    ]
+    \addplot3 [domain=-1.5:1.5,surf]
+    {-exp(-x^2-y^2)};
+    \end{axis}
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \begin{axis}[
+        hide axis,
+        xlabel=$x$,
+        ylabel=$y$,
+        ]
+        \addplot3 [
+        surf,
+        mesh/interior colormap={blueblack}{
+        color=(black) color=(blue)
+        },
+        % slightly increase sampling quality (was 25):
+        samples=31,
+        % avoids overshooting corners:
+        miter limit=1,
+        % move boundary between inner and outer:
+        mesh/interior colormap thresh=0.1,
+        colormap/blackwhite,
+        domain=0:1,
+        ] {
+        sin(deg(8*pi*x))* exp(-20*(y-0.5)^2)
+        + exp(-(x-0.5)^2*30
+        - (y-0.25)^2 - (x-0.5)*(y-0.25))
+        };
+        \end{axis}
+        \end{tikzpicture}
+\end{comment}

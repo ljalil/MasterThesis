@@ -8,7 +8,12 @@ L'acquisition de données est un processus de capture et de stockage de différe
 
 Bien que la recherche sur des concepts avancés comme les réseaux de capteurs sans fil et la récolte d’énergie pour alimenter des capteurs autonomes soit en cours, l’acquisition de données (capteurs) et la manipulation sont aujourd’hui plutôt bien établies. Par conséquent, une grande partie de la recherche dans cette discipline se concentre sur l’analyse des données obtenues pour en extraire de l’information \cite{Tinga2014}. Parce que cette discipline est bien développée, beaucoup de nouvelles installations et techniques d’acquisition de données ont été conçues et appliquées dans les industries modernes. Ces installations puissantes et polyvalentes ont rendu l’acquisition de données pour la mise en œuvre du PHM plus pratique et plus faisable \cite{Lei2016}.
 
-\section{Analyse de données}
+\section{Extraction de Caractéristiques}
+L'approche de pronostic data-driven est principalement utilisée lorsqu'il est difficile de comprendre le comportement physique d'un système complexe. La compréhension du comportement et de l'interaction des différents éléments qui conduisent à la dégradation des machines est le point de départ pour développer un modèle physique pour les pronostics.
+D'autre part, cette approche utilise des données de surveillance des conditions pour modéliser implicitement son comportement. Les modèles utilisés dans l'approche data-driven utilisent des données de surveillance pour modéliser un comportement complexe et capturer des modèles complexes, mais ils sont considérés comme des boîtes noires : ils ne fournissent pas nécessairement un aperçu du processus.
+En général, la performance de ces modèles dépend de la qualité des données d'entrée (données). La partie humaine ne peut pas effectuer la tâche que le modèle effectue, mais le traitement des données d'entrée peut augmenter considérablement les résultats. Ce traitement est nécessaire parce que les données des capteurs sur lesquelles le modèle repose sont généralement redondantes, bruyantes et incomplètes, ces imperfections sont dues à de nombreuses raisons.
+
+
 \subsection{Traitement du signal}
 Le traitement du signal est l'étude et l'analyse des signaux stockés afin de révéler leurs propriétés—qui peuvent ne pas être apparentes au premier abord, en utilisant un ensemble d'algorithmes et de techniques. Dans le contexte de la surveillance de l'état, ces propriétés révélées par le traitement du signal peuvent être révélatrices de santé de la machine.
 Le traitement du signal est un sous-domaine bien établi et mature du génie électrique, avec de nombreuses techniques et algorithmes proposés dans la littérature.
@@ -39,6 +44,8 @@ La figure \ref{fig:signal-processing} présente les différentes techniques util
     \caption{Techniques de traitement du signal dans les différents domaines}
     \label{fig:signal-processing}
 \end{figure}
+
+\subsection{Reduction de la dimensionalité}
 
 \section{Diagnostic}
 Le diagnostic se résume à un processus d'identification et de détermination de la relation entre les informations obtenues dans l'espace de mesure et les modes de défaillance des machines dans l'espace de défaillance. Le diagnostic comporte trois grandes étapes, à savoir la détection des défauts, l'isolation des défauts et l'identification des défauts. La détection des défauts est une tâche qui consiste à indiquer si un défaut a s'est déjà produite dans les machines surveillées. L'isolation des défauts consiste à trouver la composante de la défaillance et la position de la défaillance. L'identification des défauts est la dernière étape du diagnostic, qui tente de déterminer le mode et la gravité de la défaillance. Les trois étapes sont en corrélation entre eux. Cette dernière étape repose sur les résultats de la première et ne peut donc pas être réalisée individuellement \cite{Lei2016b}.
