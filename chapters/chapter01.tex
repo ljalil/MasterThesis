@@ -35,7 +35,7 @@ Toute approche pronostique peut être basée sur des modèles physiques, modèle
 \end{figure}
 
 Ces trois catégories constituent une classification générale fondée sur l'approche suivie, chacune d'entre elles pouvant être subdivisée en sous-catégories. Une taxonomie détaillée est présentée à la figure \ref{fig:prognostic-approaches-tree}.
-\begin{figure}[H]
+\begin{figure}[h]
 	\resizebox{\textwidth}{!}{\input{figures/prognostic-approaches.tex}}
     \caption{Taxonomie des approches de pronostic \cite{Javed2017}}
     \label{fig:prognostic-approaches-tree}
@@ -52,7 +52,9 @@ L'approche statistique, pour l'estimation des \acrshort{rul}, repose sur la cons
 Si et al. \cite{Si2011} ont présenté une revue des approches statistiques. Selon cette revue, de nombreux modèles entrent dans cette catégorie tels que les modèles de régression (e.g. la régression linéaire), la moyenne mobile autorégressive et ses variantes, les techniques de filtrage stochastique (e.g. filtre de Kalman, filtre particulaire, ...).
 
 \subsubsection{Machine Learning}
-L'apprentissage automatique est un domaine de l'intelligence artificielle qui a explosé ces dernières années et a fait des percées dans de nombreux domaines tels que Computer Vision et Natural Language Processing. Les modèles d'apprentissage automatique sont des modèles boîte noire qui permettent de découvrir des mappages même très complexes d'une entrée à une sortie. De nombreux types d'algorithmes entrent dans cette catégorie comme les méthodes connectionnistes (e.g. les réseaux neuronaux artificiels), l'apprentissage contextuel (e.g. les machine à vecteurs de support). Différentes approches peuvent être combinées ensemble pour créer des modèles mixte qui peuvent être plus performants qu'un modèle unique.
+L'apprentissage machine (en anglais Machine Learning) est un domaine de l'intelligence artificielle qui a explosé ces dernières années et a fait des percées dans de nombreux domaines tels que Computer Vision et Natural Language Processing. Les modèles d'apprentissage machine sont des modèles boîte noire qui permettent de découvrir des mappages même très complexes d'une entrée à une sortie. De nombreux types d'algorithmes entrent dans cette catégorie comme les méthodes connectionnistes (e.g. les réseaux de neurones artificiels), l'apprentissage contextuel (e.g. les machine à vecteurs de support). Différentes approches peuvent être combinées ensemble pour créer des modèles mixte qui peuvent être plus performants qu'un modèle unique.
+
+
 
 \subsection{Modèles Hybrides}
 Les modèles hybrides sont une combinaison d'un modèle physique et d'un modèle \acrlong{dd}. Il existe deux types de modèles hybrides selon la façon dont les deux types des modèles sont combinés. Le modèle \acrlong{dd} peut être intégré dans un modèle physique en configuration série (Figure \ref{fig:hybrid-approach-series}) où il est utilisé pour ajuster les paramètres du modèle physique qui utilisé alors pour faire des prédictions.

@@ -46,6 +46,16 @@ La figure \ref{fig:signal-processing} présente les différentes techniques util
 \end{figure}
 
 \subsection{Reduction de la dimensionalité}
+La réduction de la dimensionnalité se réfère au processus consistant à prendre des données à haute dimension et à trouver une bonne représentation de ces données dans une dimension inférieure tout en préservant ses caractéristiques originales. La réduction de la dimensionnalité est effectuée pour l'extraction de caractéristiques en trouvant les principales composantes ou pour la visualisation (en réduisant le nombre de dimensions à 2 ou 3).
+Il existe de nombreuses techniques et algorithmes de réduction de la dimensionnalité comme:
+\begin{itemize}
+    \item Principal Component Analysis (PCA)
+    \item Autoencoders
+    \item t-Distributed Stochastic Neighbor Embedding (t-SNE)
+\end{itemize}
+
+Il faut noter que pour les pronostics, où les données utilisées consistent en des entrées de capteurs où chaque variable a une signification physique et une interprétation directe, le fait d'effectuer une réduction de la dimensionnalité donnera les principales composantes, mais les nouvelles variables \textit{perdront leur interprétabilité physique} et \textit{devront être traitées comme des abstractions}.
+
 
 \section{Diagnostic}
 Le diagnostic se résume à un processus d'identification et de détermination de la relation entre les informations obtenues dans l'espace de mesure et les modes de défaillance des machines dans l'espace de défaillance. Le diagnostic comporte trois grandes étapes, à savoir la détection des défauts, l'isolation des défauts et l'identification des défauts. La détection des défauts est une tâche qui consiste à indiquer si un défaut a s'est déjà produite dans les machines surveillées. L'isolation des défauts consiste à trouver la composante de la défaillance et la position de la défaillance. L'identification des défauts est la dernière étape du diagnostic, qui tente de déterminer le mode et la gravité de la défaillance. Les trois étapes sont en corrélation entre eux. Cette dernière étape repose sur les résultats de la première et ne peut donc pas être réalisée individuellement \cite{Lei2016b}.
