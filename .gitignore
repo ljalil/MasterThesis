@@ -22,7 +22,7 @@
 # *.pdf
 
 ## Generated if empty string is given at "Please type another file name for output:"
-*.pdf
+main.pdf
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
@@ -275,3 +275,6 @@ TSWLatexianTemp*
 # Makeindex log files
 *.lpz
 *.ist
+figures/feature-extraction.pdf
+figures/mlp-structure.pdf
+figures/forward-backward-pass.pdf

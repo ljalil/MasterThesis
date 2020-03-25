@@ -31,12 +31,14 @@ Une formule générale pour passer de la couche $l-1$ à la couche $l$ est donn�
     \label{equation:forward-step}
 \end{equation}
 
-Où $g^{[l]}$ est la fonction d'activation de la couche $l$, $W^{[l]}$ est la matrice des poids qui transforme les valeurs (activations) de la couche $l-1$ à la couche $l$.
+Où $g^{[l]}$ est la fonction d'activation de la couche $l$, $W^{[l]}$ est la matrice des poids qui transforme les valeurs (activations) de la couche $l-1$ à la couche $l$ et $a^{[l]}$ représente les activations de la couche $l$. $b$ est la valeur du biais (ou valeur d'interception), elle est ajoutée à la multiplication entre les activations et la matrice des poids, c'est un paramètre qui peut être appris comme les poids. L'opération se répète pour chaque couche jusqu'à la couche de sortie.
+La première couche peut être considérée comme la couche 0 et les entrées peuvent être désignées par le vecteur $a^{[0]}$.
 
 \section{Fonction d'activation}
+Les fonctions d'activation sont appliquées au résultat de la multiplication des entrées de la couche précédente avec les poids correspondants, pour déterminer la valeur de chaque neurone. Il existe différents types de ces fonctions.
 
 \subsection{L'importance des fonctions d'activation non linéaires}
-L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent au réseau de neurones d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
+L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
 
 \subsection{Types de fonctions d'activation}
 Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques examples:
@@ -82,7 +84,10 @@ Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimi
 Backpropagation est l'algorithme utilisé pour calculer les gradients de la fonction de coût (la fonction objectif) d'un réseau de neurones. Comme un réseau de neurones peut être interprété comme une fonction composite, Backpropagation utilise le théorème de dérivation des fonctions composées
 pour trouver les gradients par rapport aux poids du réseau.
 
-Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backward Pass, le Forward Pass calcule la sortie de réseau
+L'utilisation de Backpropagation pour l'entraînement de réseaux de neurones a été popularisée par David E. Rumelhart, Geoffrey E. Hintont et Ronald J. Williams \cite{Rumelhart1986}, ils l'ont décrit comme une procédure qui ajuste de manière répétée les poids des connexions du réseau de manière à minimiser une mesure de la différence entre le vecteur de sortie réel du réseau et le vecteur de sortie souhaité. À la suite des ajustements de poids, des unités internes "cachées" qui ne font pas partie de l'entrée ou de la sortie en viennent à représenter des caractéristiques importantes du domaine de la tâche, et les régularités de la tâche sont saisies par les interactions de ces unités.
+
+Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backward Pass, le Forward Pass calcule la sortie de réseau, le Backward pass calcule les gradients de la fonction de coût qui mesure la difference entre cette sortie et la sortie réelle souhaitée:
+
 \begin{figure}[h]
     \centering
 	\input{figures/forward-backward-pass.tex}
@@ -93,6 +98,8 @@ Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backwar
 
 \section{Réseaux de neurones récurrents}
 
+\section{Conclusion}
+Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
 
 \begin{comment}
     \begin{tikzpicture}
