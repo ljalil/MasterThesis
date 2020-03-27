@@ -1,23 +1,28 @@
-\chapter{Classification de l'Etat d'un Equipement avec un Réseau de Neurones}
+\chapter{Equipment Health Assessment using Artificial Neural Networks}
 %\chapter{Classification of Healthy and Faulty States using Neural Networks}
 
-\chapterintrobox{In this chapter, a neural network will be used to classify the health state of an equipment (differentiate the healthy and faulty states) using a neural network, different metrics will be used to quantify the performance of the network.}
+\chapterintrobox{This chapter demonstrates the use of an artificial neural network to estimate the health state of a set of turbofan engines from NASA C-MAPSS dataset and predict the remaining useful life. Also different metrics to assess the performance of the network will be introduced.}
 
 
 \section{Introduction to NASA C-MAPSS dataset}
-C-MAPSS is a tool for simulating a realistic large commercial turbofan engine. The software is coded in the MATLAB\textsuperscript{\textregistered} and Simulink\textsuperscript{\textregistered} environment, and includes a number of editable input parameters that allow the user to enter specific values of his/her own choice regarding operational profile, closed-loop controllers, environmental conditions, etc. \cite{Saxena2008}
 
-Figure \ref{figure:c-mapss-engine-diagram} is a simplified diagram of the simulated engine showing its main elements.
-\begin{figure}[H]
+C-MAPSS is a tool for simulating a realistic large commercial turbofan engine. The software is coded in the MATLAB\textsuperscript{\textregistered} and Simulink\textsuperscript{\textregistered} environment.
+
+
+\begin{wrapfigure}{r}{0.5\textwidth}
     \centering
-    \includegraphics[width=.5\linewidth]{figures/c-mapss-engine-diagram.jpg}
+    \includegraphics[width=.48\textwidth]{figures/c-mapss-engine-diagram.jpg}
     \caption{Simplified diagram of engine simulated in C-MAPSS \cite{Saxena2008}}
-    \label{figure:c-mapss-engine-diagram}
-\end{figure}
+    \label{figure:c-mapss-engine-diagram}    
+\end{wrapfigure}
+\vspace{-5pt}
 
-Table \ref{table:c-mapss-sensors} shows different variables, the output of the simulation and their units.
+It includes a number of editable input parameters that allow the user to enter specific values of his/her own choice regarding operational profile, closed-loop controllers, environmental conditions, etc. \cite{Saxena2008} Figure \ref{figure:c-mapss-engine-diagram} is a simplified diagram of the simulated engine showing its main elements, like low pressure compressor section (LPC), high pressure compressor section (HPC), fan and combustor. The dataset released by NASA Ames Research Center contains resulting data from simulating many turbofine engines, from beginning of operation until failure.
 
-\begin{table}
+
+The dataset was originally released for Prognostics and Health Management 2008 Data Competition, Table \ref{table:c-mapss-sensors} shows different variables, the output of the simulation and their units, that were provided for the participants in the competition:
+
+\begin{table}[h]
     \centering
     \begin{tabular}{l|l|l}
         \hline
@@ -50,19 +55,27 @@ Table \ref{table:c-mapss-sensors} shows different variables, the output of the s
     \label{table:c-mapss-sensors}
 \end{table}
 
+\section{Visualization of equipment degredation}
+Visualizing the simulation output can give a sense of how these variables change during the life of the engine, Figure \ref{fig:sensors-plot} shows four different sensors from one of the engines (values are normalized):
 
-\section{Visualization of equipment degredation development using Principal Component Analysis}
-Principal Component Analysis is a dimsneionality reduction technique, it was described in \ref{section:dimensionality-reduction}. In this section, PCA will be used to reduce the dimension of sensors data from C-MAPSS dataset for the purpose of visualization, if condition monitoring data is explicitly indicative of the equipment health state, visualization of principal components can show apparent visual degradation patterns.
-
-\begin{figure}[H]
+\begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{figures/plots/pc-degradation.pdf}
-    \caption{Visualization of equipment health degredation development (lighter to darker colors) of different engines from C-MAPSS dataset by using Principal Component Analysis (PCA) for condition monitoring data dimensionality reduction.}
+    \includegraphics[width=.8\linewidth]{figures/plots/sensors_plot.pdf}
+    \caption{Development of 6 sensors outputs from one of the engines (normalized)}
+    \label{fig:sensors-plot}
+\end{figure}
+
+It is apparent that sensors output follow a specific pattern (increasing or decreasing) from beginning of operation until breakdown, this is very useful and can increase the robustness of the predictive model.
+
+Alternatively, all sensors values can be combined and visualized altogether using Principal Component Analysis (section \ref{section:dimensionality-reduction}) to reveal the general trend in the data a dimsneionality reduction technique, if condition monitoring data is directly indicative of the equipment health state, visualization of principal components can show apparent visual degradation patterns.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=.9\linewidth]{figures/plots/pc-degradation.pdf}
+    \caption{Equipment health degredation (darkening color indicates advancing of health degradation) of four turbofan engines from C-MAPSS dataset}
     \label{fig:pca-degradation}
 \end{figure}
 
-An apparent 
-
-\section{Health state classification using neural networks}
+Sensors values from 4 different engines are combined using PCA and the two first principal components are represented on Figure \ref{fig:pca-degradation}. There is absolutely an apparent pattern for health state degradation across the different engines from left (where lighter colors indicate normal working state) to the right (where the darkening color indicates fault development).
 
 \section{Conclusion}
