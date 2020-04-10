@@ -13,6 +13,7 @@ Le pronostic et la gestion de la santé (\acrlong{phm}) a deux aspects principau
 \end{enumerate}
 
 \section{Estimation de durée de vie utile restante}
+% TODO: mentioning of RUL
 L'objectif principal du pronostic c'est l'estimation de la durée de vie utile restante (\acrlong{rul}) du système.
 \acrshort{rul} est défini selon l'équation \ref{eq:rul}:
 
@@ -42,13 +43,13 @@ Ces trois catégories constituent une classification générale fondée sur l'ap
 \end{figure}
 
 \subsection{Modèles Physiques}
-Les modèles physiques évaluent la santé du système en utilisant une formulation mathématique explicite (boîtes blanches) développée sur la base d'une compréhension scientifique et technique de son comportement. Cependant, le principal avantage de ces modèles physiques consiste à utiliser des modèles de dégradation pour prédire le comportement à long terme \cite{Cubillo2016}. Les approches physiques sont capables de fournir une estimation précise de \acrshort{rul} si le modèle physique est développé avec une compréhension complète des mécanismes de défaillance et une estimation efficace des paramètres du modèle. Cependant, pour certains systèmes mécaniques complexes, il est difficile de comprendre la physique des dommages, ce qui limite l'application de ces approches \cite{Lei2018}.
+Les modèles physiques évaluent la santé du système en utilisant une formulation mathématique explicite (boîtes blanches) développée sur la base d'une compréhension scientifique et technique de son comportement. Cependant, le principal avantage de ces modèles physiques consiste à utiliser des modèles de dégradation pour prédire le comportement à long terme \cite{Cubillo2016}. Les approches physiques sont capables de fournir une estimation précise de l'état de santé du systèmes si le modèle physique est développé avec une compréhension complète des mécanismes de défaillance et une estimation efficace des paramètres du modèle. Cependant, pour certains systèmes mécaniques complexes, il est difficile de comprendre la physique des dommages, ce qui limite l'application de ces approches \cite{Lei2018}.
 
 \subsection{Modèles Data-Driven}
-Les modèles \acrshort{dd} s'appuient sur des données collectées précédemment (données de surveillance, données sur les paramètres opérationnels, ... ) pour établir un modèle capable d'évaluer la santé du système et de prévoir son comportement et sa dégradation. Contrairement aux modèles physiques, et comme leur nom l'indique, les modèles \acrshort{dd} ne s'appuient pas sur les connaissances humaines mais principalement sur les données historiques collectées pour modéliser le processus de dégradation. Habituellement, ils sont considérés comme des boîtes noires.
+Les modèles \acrlong{dd} s'appuient sur des données collectées précédemment (données de surveillance, données sur les paramètres opérationnels, ... ) pour établir un modèle capable d'évaluer la santé du système et de prévoir son comportement et sa dégradation. Contrairement aux modèles physiques, et comme leur nom l'indique, les modèles \acrlong{dd} ne s'appuient pas sur les connaissances humaines mais principalement sur les données historiques collectées pour modéliser le processus de dégradation. Habituellement, ils sont considérés comme des boîtes noires.
 
 \subsubsection{Modèles Statistiques}
-L'approche statistique, pour l'estimation des \acrshort{rul}, repose sur la construction et l'ajustement d'un modèle probabiliste en utilisant les données historiques sans dépendre d'aucun principe physique ou technique \cite{Si2011}. 
+L'approche statistique repose sur la construction et l'ajustement d'un modèle probabiliste en utilisant les données historiques sans dépendre d'aucun principe physique ou technique \cite{Si2011}. 
 Si et al. \cite{Si2011} ont présenté une revue des approches statistiques. Selon cette revue, de nombreux modèles entrent dans cette catégorie tels que les modèles de régression (e.g. la régression linéaire), la moyenne mobile autorégressive et ses variantes, les techniques de filtrage stochastique (e.g. filtre de Kalman, filtre particulaire, ...).
 
 \subsubsection{Machine Learning}
@@ -91,4 +92,5 @@ Ces obstacles peuvent être redéfinis comme des déficiences au niveau des pron
 Aujourd'hui, les capteurs dans l'industrie sont devenus peu coûteux et omniprésents, la puissance de calcul a augmenté exponentiellement ce qui a permis de dévlopper des algorithmes et outils informatiques plus avancés : la révolution de l'intelligence artificielle et l'apprentissage automatique. L’industrie génère d’énormes quantités de données dans de nombreux domaines dont la majorité est inexploitée, l’exploitation de ces données en utilisant les dernières avancées technologiques peut augmenter les profits, réduire les coûts de manière drastique et s’avérer être un énorme avantage économique.
 
 \section{Conclusion}
-%TODO: finish this shit too
+% TODO: translate
+Adoption of data-driven prognostics models can be helpful especially when behavior of degradation process is ambiguous and developing physics-based models to quantify the health state of complex systems is complicated and their results become unreliable. Recent developments in sensoring techniques, increase in available computation power (i.e. faster and cheaper processing units) and also abundance of—unexploited—monitoring data has provided the needed framework for adopting these data-driven models which are easier to develop, deploy and automate than their physics-based counterparts.
