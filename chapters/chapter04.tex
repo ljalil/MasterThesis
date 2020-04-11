@@ -1,4 +1,4 @@
-\chapter{Vibration Analysis & Feature Extraction for Deep Learning}
+\chapter{Vibration Analysis \& Feature Extraction for Deep Learning}
 
 \chapterintrobox{Feature extraction is an important preprocessing step in the workflow of developing machine learning models and directly influences the model's performance. Therefore, this step should be carried out carefuly in order to extract meaningful features from the raw data. Vibration data carries very useful information about the system health, yet it needs a lot of preprocessing before being used as an input for a specific model. This chapter describes some of signal processing techniques used in traditional vibration analysis, but in this context they will be used as feature extractors for a neural network architecture.}
 
@@ -12,12 +12,37 @@ Fourier analysis, also called harmonic analysis, of a periodic signal $x(t)$ is 
 The Fourier transform (FT) of a signal $x(t)$ can be mathematically given by equation \ref{equation:fourier-transform}:
 
 \begin{equation}
-    x(w) = \int_{-\infty}^{\infty}x(t)e^{-jwt}dt
+    X(w) = \int_{-\infty}^{\infty}x(n)e^{-jwt}dt
     \label{equation:fourier-transform}
 \end{equation}
 
+In practical applications of digital signal processing where signals are discrete in time rather than continuous (e.g. vibration analysis) a discretized version called discrete fourier transform (DFT) is used instead, it is expressed mathematically by equation \ref{equation:discrete-fourier-transform}:
+
+\begin{equation}
+    X(w) = \sum_{-\infty}^{\infty}x(t)e^{-jwt}dt
+    \label{equation:discrete-fourier-transform}
+\end{equation}
+
+Fast Fourier transform (FFT) is an effective algorithm used to implement DFT in computers. Figure \ref{figure:fft} shows a signal in its waveform (or time domain) and its corresponding spectrum (frequency domain) obtained using FFT algorithm. The spectrum shows the frequency components present in the signal
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=.9\linewidth]{figures/plots/fft.pdf}
+    \caption{Signal in the time domain and its fast Fourier transform}
+    \label{figure:fft}
+\end{figure}
+
 \section{Wavelet transform}
 Wavelet transform is also a spectral analysis tool, like Fourier transform. The main difference is that Fourier transform decomposes the signal into sinusoidal components, but wavelet transform decomposes it into a set of oscillatory functions called wavelets. Unlike sinusoids, wavelets are localized in time, thus wavelet transform doesn't only provide information about the frequency present in a signal but also the time of their occurence. Wavelet transform is a much better solution than Fourier transform when studying non-linear non-stationary signals (i.e. its frequency components vary with time).
+
+\begin{figure}[H]
+    \centering
+    \input{figures/time-frequency-resolution.tex}
+    \caption{Time—frequency resolution plane}
+    \label{fig:time-frequency-plane}
+\end{figure}
+
+There are a wide variety of wavelets that serve different purposes like Morlet wavelet, Daubechies wavelet and many others. 
 
 \subsection{Continuous wavelet transform}
 
@@ -25,3 +50,4 @@ Wavelet transform is also a spectral analysis tool, like Fourier transform. The 
 
 
 \section{Conclusion}
+Vibration data are discrete signals sampled at a certain frequency in time. Although they hold so many valuable information about equipment performance, these information are usually not directly observable in the time domain. Digital signal processing techniques offer a way to gain more insights from raw vibration data by converting it to frequency or time–frequency domains where unusual frequency components can indicate development of certain degradation pattern. This chapter introduced several of these techniques like Fourier and Wavelet transforms. A following chapter will present the use of these techniques for extracting features that serve as an input for a neural network that can estimate the remaining useful life.

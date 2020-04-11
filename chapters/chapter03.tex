@@ -103,5 +103,23 @@ Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backwar
 \section{Convolutional neural networks}
 Convolutional neural networks (CNN) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a convolutional neural networks is called cross-corelation which is a a bit different than the mathematical definition of a convolution. But in Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
 
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.20\textwidth}
+        \includegraphics{figures/convolutions/no_padding_no_strides_00.pdf}
+    \end{subfigure}\hfill%
+    \begin{subfigure}{0.20\textwidth}
+        \includegraphics{figures/convolutions/no_padding_no_strides_01.pdf}
+    \end{subfigure}\hfill%
+    \begin{subfigure}{0.20\textwidth}
+        \includegraphics{figures/convolutions/no_padding_no_strides_02.pdf}
+    \end{subfigure}\hfill%
+    \begin{subfigure}{0.20\textwidth}
+        \includegraphics{figures/convolutions/no_padding_no_strides_03.pdf}
+    \end{subfigure}
+    \caption{Applying convolutions iteratively to different regions (dark blue) of 2D input (whole blue square). Each iteration results in one numerical value (dark green). The result of all iterations is the 2D green output.}
+    \label{fig:convolutions}
+\end{figure}
+
 \section{Conclusion}
 Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
