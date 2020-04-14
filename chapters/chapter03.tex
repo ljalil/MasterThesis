@@ -38,10 +38,8 @@ La première couche peut être considérée comme la couche 0 et les entrées pe
 \section{Fonction d'activation}
 Les fonctions d'activation sont appliquées au résultat de la multiplication des entrées de la couche précédente avec les poids correspondants, pour déterminer la valeur de chaque neurone. Il existe différents types de ces fonctions.
 
-\subsection{L'importance des fonctions d'activation non linéaires}
 L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
 
-\subsection{Types de fonctions d'activation}
 Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques examples:
 
 \begin{figure}[h]
@@ -63,7 +61,8 @@ Tablea \ref{table:activation-functions} montre les définition mathematiques de 
         Sigmoid & $\sigma(x)= \frac{1}{1+e^{-x}}$ \\
         tanh & $tanh(x)=\frac{(e^x-e^{-x})}{(e^x+e^{-x})}$\\
         Rectified Linear Unit (ReLU) & $ReLU(x)=max(0,x)$\\
-    Leaky ReLU & $LeakyReLU(x)=max(0.1 x,x)$
+        Leaky ReLU & $LeakyReLU(x)=max(0.1 x,x)$\\
+    \hline
         
     \end{tabular}
     \caption{Définitions mathématiques de quelques fonctions d'activation}
@@ -77,6 +76,41 @@ L'entraînement du réseau de neurones utilise des données d'entraînement (tra
 
 \subsection{Fonction de coût}
 La fonction de coût est la fonction utilisée pour calculer la différence entre la sortie du réseau de neurones et la sortie réelle attendue, elle quantifie la performance du réseau. Le but du processus d'entraînement est de minimiser cette fonction en utilisant Gradient Descent (voir la section suivante) pour trouver le meilleur ensemble de poids qui donne la différence la plus basse entre les données d'entraînement et la prédiction du réseau.
+
+Il existe de nombreux types de fonctions de coût, chaque type correspondant à différentes tâches des réseaux de neurones (par exemple, régression, classification binaire, ...). La fonction de coût généralement utilisée pour les problèmes de régression est une fonction d'erreur quadratique moyenne (Equation \ref{equation:mse}) qui calcule la somme des distances entre les prédictions du modèle $\hat{y}_i$ et la sortie réelle ($y_i$), $N$ le nombre de points de données disponibles pour l'entraînement :
+
+\begin{equation}
+    MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
+    \label{equation:mse}
+\end{equation}
+
+L'autre principale tâche des réseaux de neurones et des autres types de modèles est la classification. Il existe deux principaux types de classification : la classification binaire, ou classification de deux classes et la classification multiclasse ou classification de plusieurs classes. La première utilise la fonction de perte d'entropie croisée binaire (Equation \ref{equation:logloss}) et la seconde utilise l'entropie croisée catégorielle.
+
+\begin{equation}
+    BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
+    \label{equation:logloss}
+\end{equation}
+
+Le choix de la fonction d'activation pour la dernière couche du réseau est directement lié à la fonction de coût utilisée. Pour les tâches de régression, la fonction d'activation linéaire est utilisée. Pour la classification binaire, c'est la fonction sigmoïde et pour la classification multiclasse, c'est la fonction softmax.
+
+\begin{comment}
+    There are many types of cost functions, each type corresponds to different neural networks tasks (e.g. regression, binary classification, …). The cost function usually used for regression problems is mean-squared error function (Equation \ref{equation:mse}) which calculates the sum of distances between the model predictions $\hat{y}_i$ and the actual output ($y_i$), $N$ is the number of data points available for training:
+
+\begin{equation}
+    MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
+    \label{equation:mse}
+\end{equation}
+
+The other major task of neural networks and other types of models is classificaton. There are two main types of classification: binary classification, or classification of two classes and multiclass classification or classification of many classes. The first one uses binary cross-entropy loss function (Equation \ref{equation:logloss}) and the latter uses categorical cross-entropy.
+
+\begin{equation}
+    BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
+    \label{equation:logloss}
+\end{equation}
+
+The choice of activation function for the last layer of the network is directly related to the used cost function. For regression tasks, linear activation function is used. For binary classficiation it's sigmoid and for multiclass classficiation it's softmax function.
+\end{comment}
+
 
 \subsection{Gradient Descent}
 Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimiser une fonction différentiable. Gradient Descent fonctionne en calculant les gradients de la fonction objectif puis en prenant des mesures itératives dans le sens du négatif des gradients.
@@ -92,40 +126,59 @@ Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backwar
 \begin{figure}[h]
     \centering
 	\input{figures/forward-backward-pass.tex}
-    \caption{Forward et Backward passes}
+    \caption{Forward (gauche) et Backward (droite) passes}
     \label{fig:forward-backward-pass}
 \end{figure}
 
 
 \section{Réseaux de neurones récurrents}
-
-
-\section{Convolutional neural networks}
-Convolutional neural networks (CNN) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a convolutional neural networks is called cross-corelation which is a a bit different than the mathematical definition of a convolution. But in Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
+Les réseaux de neurones récurrents (\acrshort{rnn}) sont une architecture spéciale qui convient mieux à la modélisation de données séquentielles. Les \acrshort{rnn} traitent une séquence d'entrée un élément à la fois, en maintenant dans leurs unités cachées un "vecteur d'état" qui contient implicitement des informations sur l'historique de tous les éléments passés de la séquence \cite{LeCun2015}. Figure \ref{fig:rnn} montre une architecture \acrshort{rnn}. À gauche, on voit la version dépliée avec une boucle cyclique dans la couche cachée et à droite la version déroulée. $x_1$, $x_2$, …$x_t$ représentent le vecteur d'entrée (séquence), $y_1$, $y_2$, …$y_t$ est le vecteur de sortie (peut être une séquence de longueur égale à l'entrée, de longueur différente ou un seul élément). $h_1$, $h_2$, …$h_t$ sont les neurones de la couche cachée, chaque neurone passe un vecteur de son état caché au neurone suivant.
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}{0.20\linewidth}
+    \input{figures/rnn.tex}
+    \caption{Recurrent neural networks architecture}
+    \label{fig:rnn}
+\end{figure}
+
+\begin{comment}
+\acrlong{rnn} (\acrshort{rnn}) is a special architecture that is more suitable for modeling sequential data. \acrshort{rnn}s process an input sequence one element at a time, maintaining in their hidden units a 'state vector' that implicitly contains information about the history of all the past elemets of the sequence \cite{LeCun2015}. Figure \ref{fig:rnn} shows an example of a \acrshort{rnn} architecture. To the left is the unfolded version with a cylic loop in the hidden layer, to the right is shows unfolding of the network which is easier to understand. $x_1$, $x_2$, …$x_t$ represents the input vector (sequence), $y_1$, $y_2$, …$y_t$ represents
+the output vector (can be a sequence with length equals to the input, of different length or a single element). $h_1$, $h_2$, …$h_t$ are neurons of the hidden layer. In \acrshort{rnn} each neuron passes a vector of its hidden state to the next neuron corresponding to the next time step.
+
+\begin{figure}[H]
+    \centering
+    \input{figures/rnn.tex}
+    \caption{Recurrent neural networks architecture}
+    \label{fig:rnn}
+\end{figure}
+\end{comment}
+
+\section{Convolutional neural networks}
+\acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-corelation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.22\linewidth}
         \centering
-        \includegraphics{figures/convolutions/no_padding_no_strides_00.pdf}
+        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_00.pdf}
         \subcaption*{step 01}
     \end{subfigure}\hfill%
-    \begin{subfigure}{0.20\linewidth}
+    \begin{subfigure}{0.22\linewidth}
         \centering
-        \includegraphics{figures/convolutions/no_padding_no_strides_01.pdf}
+        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_01.pdf}
         \subcaption*{step 02}
     \end{subfigure}\hfill%
-    \begin{subfigure}{0.20\linewidth}
+    \begin{subfigure}{0.22\linewidth}
         \centering
-        \includegraphics{figures/convolutions/no_padding_no_strides_02.pdf}
+        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_02.pdf}
         \subcaption*{step 03}
     \end{subfigure}\hfill%
-    \begin{subfigure}{0.20\linewidth}
+    \begin{subfigure}{0.22\linewidth}
         \centering
-        \includegraphics{figures/convolutions/no_padding_no_strides_03.pdf}
+        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_03.pdf}
         \subcaption*{step 04}
     \end{subfigure}
-    \caption{Applying convolutions iteratively to different regions (dark blue) of 2D input (whole blue square). Each iteration results in one numerical value (dark green). The result of all iterations is the 2D green output.}
+    \caption{Applying convolutions iteratively to different regions (dark blue) of 2D input (whole blue square). Each iteration results in one numerical value (dark green). The result of all iterations is the 2D green output \cite{dumoulin2016guide}.}
     \label{fig:convolutions}
 \end{figure}
 

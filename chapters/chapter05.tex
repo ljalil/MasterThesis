@@ -3,11 +3,8 @@
 
 \chapterintrobox{This chapter demonstrates the use of an artificial neural network to estimate the health state of a set of turbofan engines from NASA C-MAPSS dataset and predict the remaining useful life. Also different metrics to assess the performance of the network will be introduced.}
 
-
 \section{Introduction to NASA C-MAPSS dataset}
-
-C-MAPSS is a tool for simulating a realistic large commercial turbofan engine. The software is coded in the MATLAB\textsuperscript{\textregistered} and Simulink\textsuperscript{\textregistered} environment.
-
+C-MAPSS is a tool for simulating a realistic large commercial turbofan engine. The software is coded in the MATLAB\textsuperscript{\textregistered} and Simulink\textsuperscript{\textregistered} environment. It includes a number of editable input parameters that allow the user to enter specific values of his/her own choice regarding operational profile, closed-loop controllers, environmental conditions, etc. \cite{Saxena2008}. 
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \centering
@@ -15,12 +12,8 @@ C-MAPSS is a tool for simulating a realistic large commercial turbofan engine. T
     \caption{Simplified diagram of engine simulated in C-MAPSS \cite{Saxena2008}}
     \label{figure:c-mapss-engine-diagram}    
 \end{wrapfigure}
-\vspace{-5pt}
 
-It includes a number of editable input parameters that allow the user to enter specific values of his/her own choice regarding operational profile, closed-loop controllers, environmental conditions, etc. \cite{Saxena2008} Figure \ref{figure:c-mapss-engine-diagram} is a simplified diagram of the simulated engine showing its main elements, like low pressure compressor section (LPC), high pressure compressor section (HPC), fan and combustor. The dataset released by NASA Ames Research Center contains resulting data from simulating many turbofine engines, from beginning of operation until failure.
-
-
-The dataset was originally released for Prognostics and Health Management 2008 Data Competition, Table \ref{table:c-mapss-sensors} shows different variables, the output of the simulation and their units, that were provided for the participants in the competition:
+Figure \ref{figure:c-mapss-engine-diagram} is a simplified diagram of the simulated engine showing its main elements, like low pressure compressor section (LPC), high pressure compressor section (HPC), fan and combustor. The dataset released by NASA Ames Research Center contains resulting data from simulating many turbofine engines, from beginning of operation until failure. The dataset was originally released for Prognostics and Health Management 2008 Data Competition, Table \ref{table:c-mapss-sensors} shows different variables, the output of the simulation and their units, that were provided for the participants in the competition:
 
 \begin{table}[h]
     \centering
@@ -58,7 +51,7 @@ The dataset was originally released for Prognostics and Health Management 2008 D
 \section{Visualization of equipment degredation}
 Visualizing the simulation output can give a sense of how these variables change during the life of the engine, Figure \ref{fig:sensors-plot} shows four different sensors from one of the engines (values are normalized):
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\linewidth]{figures/plots/sensors_plot.pdf}
     \caption{Development of 6 sensors outputs from one of the engines (normalized)}
@@ -69,7 +62,7 @@ It is apparent that sensors output follow a specific pattern (increasing or decr
 
 Alternatively, all sensors values can be combined and visualized altogether using Principal Component Analysis (section \ref{section:dimensionality-reduction}) to reveal the general trend in the data a dimsneionality reduction technique, if condition monitoring data is directly indicative of the equipment health state, visualization of principal components can show apparent visual degradation patterns.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=.9\linewidth]{figures/plots/pc-degradation.pdf}
     \caption{Equipment health degredation (darkening color indicates advancing of health degradation) of four turbofan engines from C-MAPSS dataset}

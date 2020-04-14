@@ -1,0 +1,45 @@
+	\begin{tikzpicture}[layer/.style={rectangle,draw, thick,align=center, minimum width=3em, minimum height=2em,inner sep=5pt,rounded corners=4},neuron/.style={circle,draw, thick,align=center,inner sep=5pt,rounded corners=4}, links/.style={->, thick}]
+	
+	\node[layer] (h-rolled) {$h$};
+	\node[neuron, below = 2em of h-rolled] (input-rolled) {$x_t$};
+	\node[neuron, above = 2em of h-rolled] (output-rolled) {$y_t$};
+		\draw[links, rounded corners] (h-rolled.east) -| ++(1em,2em) -- ++(-5em,.0em) |- (h-rolled.west);
+	\draw[links] (input-rolled) -- (h-rolled);
+	\draw[line width=3pt,white] (h-rolled) -- (output-rolled);
+	\draw[links] (h-rolled) -- (output-rolled);
+	
+
+	\node[right = 2em of h-rolled] (equals) {$=$};
+	
+
+	\node[layer, right = 2em of equals] (h-unrolled1) {$h_1$};
+		\node[neuron, below = 2em of h-unrolled1] (input-unrolled1) {$x_1$};
+	\node[neuron, above = 2em of h-unrolled1] (output-unrolled1) {$y_1$};
+	\draw[links] (h-unrolled1) -- node[right] {\footnotesize $W_{hy}$} (output-unrolled1);
+	\draw[links] (input-unrolled1) -- node[right] {\footnotesize $W_{xh}$} (h-unrolled1);
+	
+	
+	
+	\node[layer, right = 2.5em of h-unrolled1] (h-unrolled2) {$h_2$};
+	\node[neuron, below = 2em of h-unrolled2] (input-unrolled2) {$x_2$};
+	\node[neuron, above = 2em of h-unrolled2] (output-unrolled2) {$y_2$};
+	
+	\draw[links] (h-unrolled2) -- node[right] {\footnotesize $W_{hy}$} (output-unrolled2);
+	\draw[links] (input-unrolled2) -- node[right] {\footnotesize $W_{xh}$} (h-unrolled2);
+	
+	\draw[links] (h-unrolled1) -- node[above] {\footnotesize $W_{hh}$} (h-unrolled2) ;
+	
+	\node[right = 2.5em of h-unrolled2] (dots) {$\cdots$}; 
+	
+	\draw[links] (h-unrolled2) -- node[above] {\footnotesize $W_{hh}$}(dots);
+	
+	\node[layer, right = 2.5em of dots] (h-unrolled3) {$h_t$};
+	\node[neuron, below = 2em of h-unrolled3] (input-unrolled3) {$x_t$};
+	\node[neuron, above = 2em of h-unrolled3] (output-unrolled3) {$y_t$};
+	
+	\draw[links] (h-unrolled3) -- node[right] {\footnotesize $W_{hy}$} (output-unrolled3);
+	\draw[links] (input-unrolled3) -- node[right] {\footnotesize $W_{xh}$} (h-unrolled3);
+	
+	\draw[links] (dots) -- node[above] {\footnotesize $W_{hh}$}(h-unrolled3);
+	
+	\end{tikzpicture}
