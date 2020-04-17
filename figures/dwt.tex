@@ -1,15 +1,15 @@
 \begin{tikzpicture}[cell/.style={rectangle,draw, thick,align=center, minimum size=2em,inner sep=5pt}, input/.style={->}]
 
-\node[cell] at (0,0) (xn) {$x[n]$};
+\node[cell] at (0,0) (xn) {\footnotesize $x[n]$};
 
-\node[cell] at (-1.5,-1.5) (lpf1) {$LPF$};
-\node[cell] at (1.5,-1.5) (hpf1){$HPF$};
+\node[cell] at (-1.5,-1.5) (lpf1) {\footnotesize $LPF$};
+\node[cell] at (1.5,-1.5) (hpf1){\footnotesize $HPF$};
 
 \node[cell] at (-1.5,-3) (A1) {A1};
 \node[cell, below = 1em of hpf1]  (D1) {D1};
 
-\node[cell, below left = 2em of A1] (lpf2) {$LPF$};
-\node[cell, below right = 2em of A1] (hpf2){$HPF$};
+\node[cell, below left = 2em of A1] (lpf2) {\footnotesize $LPF$};
+\node[cell, below right = 2em of A1] (hpf2){\footnotesize $HPF$};
 
 \node[cell, below = 1em of lpf2]  (A2) {A2};
 \node[cell, below = 1em of hpf2]  (D2) {D2};

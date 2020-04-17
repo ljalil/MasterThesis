@@ -27,7 +27,7 @@ Fast Fourier transform (FFT) is an effective algorithm used to implement DFT in 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.9\linewidth]{figures/plots/fft.pdf}
+    \includegraphics{figures/fft.pdf}
     \caption{Signal in the time domain and its fast Fourier transform}
     \label{figure:fft}
 \end{figure}
@@ -43,6 +43,13 @@ Wavelet transform is also a spectral analysis tool, like Fourier transform. The 
 \end{figure}
 
 There are a wide variety of wavelets that serve different purposes like Morlet wavelet, Daubechies wavelet and many others. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/wavelets.pdf}
+    \caption{Different types of wavelets}
+    \label{fig:wavelets}
+\end{figure}
 
 \subsection{Continuous wavelet transform}
 Mathematically, continuous wavelet transform is defined by equation \ref{equation:cwt}:
@@ -62,6 +69,13 @@ In practical applicaions, discrete wavelet transform (DWT) is implemented as a f
     \input{figures/dwt.tex}
     \caption{Discrete wavelet transform (DWT) as a filter bank}
     \label{fig:dwt}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/dwt_chirp.pdf}
+    \caption{Level 3 signal decomposition using DWT}
+    \label{fig:dwt-chirp-signal}
 \end{figure}
 
 DWT returns two sets of coefficients: \textbf{approximation coefficients} associated with the low pass filter and \textbf{detail coefficients} associated with the high pass filter of the DWT. By applying DWT again on the approximation coefficients the next level of decomposition can be obtained. At each level the original signal is downsampled by a factor of 2, this fact imposes a limitation on the possible number of decomposition levels for a given signal.
