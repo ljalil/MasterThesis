@@ -154,7 +154,12 @@ the output vector (can be a sequence with length equals to the input, of differe
 \end{comment}
 
 \section{Convolutional neural networks}
+Les réseaux neuronaux convolutifs (\acrlong{cnn}: \acrshort{cnn}) ont ce qu'on appelle des couches convolutives. Une couche convolutive accepte une entrée (généralement des images 2D, mais elle peut aussi être 1D ou 3D) et applique une opération mathématique appelée convolution \footnote{Mathématiquement, l'opération qui se produit dans un \acrshort{cnn} est appelée corrélation croisée, ce qui est un peu différent de la définition mathématique d'une convolution. Dans la littérature sur l'apprentissage automatique, ces opérations sont appelées convolutions, c'est la terminologie qui sera utilisée ici.}. Les convolutions agissent comme des filtres qui extraient des caractéristiques des données brutes en multipliant récursivement ce qu'on appelle le noyau par les données d'entrée.
+Les différents noyaux ont des objectifs différents et peuvent extraire une grande variété de caractéristiques des données brutes. Après l'extraction de caractéristiques par la couche convolutive, ils servent d'entrée pour un réseau neuronal de feedforward (comme décrit dans la section \ref{section:feedforward-neural-network}) pour la classification ou la régression.
+
+\begin{comment}
 \acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-corelation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
+\end{comment}
 
 \begin{figure}[H]
     \centering
@@ -178,9 +183,13 @@ the output vector (can be a sequence with length equals to the input, of differe
         \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_03.pdf}
         \subcaption*{step 04}
     \end{subfigure}
-    \caption{Applying convolutions iteratively to different regions (dark blue) of 2D input (whole blue square). Each iteration results in one numerical value (dark green). The result of all iterations is the 2D green output \cite{dumoulin2016guide}.}
+    \caption{Appliquer des convolutions (en multipliant l'entrée par un noyau) de manière itérative à différentes régions (bleu foncé) de l'entrée 2D (carré bleu entier). Chaque itération donne une valeur numérique (vert foncé). Le résultat de toutes les itérations est la sortie 2D verte \cite{dumoulin2016guide}.}
     \label{fig:convolutions}
 \end{figure}
+
+\begin{comment}
+    Applying convolutions iteratively to different regions (dark blue) of 2D input (whole blue square). Each iteration results in one numerical value (dark green). The result of all iterations is the 2D green output
+\end{comment}
 
 \section{Conclusion}
 Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
