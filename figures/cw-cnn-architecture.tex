@@ -1,0 +1,74 @@
+	\begin{tikzpicture}
+	[blend group = soft light]
+	
+	\tikzstyle{input} = [rectangle, minimum width = 8em, minimum height = 3em, rounded corners=4pt, thick, draw ]
+	
+	\tikzstyle{convolution} = [rectangle, minimum width = 8em, minimum height = 3em, rounded corners=4pt, thick, draw ]
+	
+	\tikzstyle{maxpooling} = [rectangle, minimum width = 8em, minimum height = 3em, rounded corners=4pt, thick, draw ]
+	
+	\tikzstyle{flatten} = [rectangle,minimum width = 8em, minimum height = 3em, rounded corners=4pt, thick, draw  ]
+	
+	\tikzstyle{fc} = [rectangle, minimum width = 8em, minimum height = 3em, rounded corners=4pt, thick, draw ]
+	
+		\node[input] (input-node) {\makecell[c]{Input\\ \small{64$\times$64}}};
+		
+		\node[convolution, below = 1em of input-node](conv1) {\makecell[c]{
+				Convolution\\
+				\footnotesize{3$\times$3, 32 filters}
+			}};
+		
+		\node[maxpooling, below = 1em of conv1](maxpool1) {\makecell[c]{
+				MaxPooling\\
+				\footnotesize{2$\times$2}
+		}};
+	
+	\node[convolution, below = 1em of maxpool1](conv2) {\makecell[c]{
+			Convolution\\
+			\footnotesize{3$\times$3, 64 filters}
+	}};
+
+\node[maxpooling, below = 1em of conv2](maxpool2) {\makecell[c]{
+		MaxPooling\\
+		\footnotesize{2$\times$2}
+}};
+
+\node[convolution, below = 1em of maxpool2](conv3) {\makecell[c]{
+		Convolution\\
+		\footnotesize{3$\times$3, 128 filters}
+}};
+
+\node[maxpooling, below = 1em of conv3](maxpool3) {\makecell[c]{
+		MaxPooling\\
+		\footnotesize{2$\times$2}
+}};
+
+\node[fc, below = 1em of maxpool3](flatten) {Flatten};
+
+\node[convolution, below = 1em of flatten](fc1) {\makecell[c]{
+		Fully-connected\\
+		\footnotesize{128 neurons, ReLU}
+}};
+
+\node[fc, below = 1em of fc1](fc2) {\makecell[c]{
+		Fully-connected\\
+		\footnotesize{64 neurons, ReLU}
+}};
+
+\node[fc, below = 1em of fc2](fc3) {\makecell[c]{
+		Fully-connected\\
+		\footnotesize{10 neurons, Softmax}
+}};
+
+\draw[->] (input-node) -- (conv1);
+\draw[->] (conv1) -- (maxpool1);
+\draw[->] (maxpool1) -- (conv2);
+\draw[->] (conv2) -- (maxpool2);
+\draw[->] (maxpool2) -- (conv3);
+\draw[->] (conv3) -- (maxpool3);
+\draw[->] (maxpool3) -- (flatten);
+\draw[->] (flatten) -- (fc1);
+\draw[->] (fc1) -- (fc2);
+\draw[->] (fc2) -- (fc3);
+\end{tikzpicture}
+	

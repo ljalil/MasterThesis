@@ -154,6 +154,7 @@ the output vector (can be a sequence with length equals to the input, of differe
 \end{comment}
 
 \section{Convolutional neural networks}
+\label{section:cnn}
 Les réseaux neuronaux convolutifs (\acrlong{cnn}: \acrshort{cnn}) ont ce qu'on appelle des couches convolutives. Une couche convolutive accepte une entrée (généralement des images 2D, mais elle peut aussi être 1D ou 3D) et applique une opération mathématique appelée convolution \footnote{Mathématiquement, l'opération qui se produit dans un \acrshort{cnn} est appelée corrélation croisée, ce qui est un peu différent de la définition mathématique d'une convolution. Dans la littérature sur l'apprentissage automatique, ces opérations sont appelées convolutions, c'est la terminologie qui sera utilisée ici.}. Les convolutions agissent comme des filtres qui extraient des caractéristiques des données brutes en multipliant récursivement ce qu'on appelle le noyau par les données d'entrée.
 Les différents noyaux ont des objectifs différents et peuvent extraire une grande variété de caractéristiques des données brutes. Après l'extraction de caractéristiques par la couche convolutive, ils servent d'entrée pour un réseau neuronal de feedforward (comme décrit dans la section \ref{section:feedforward-neural-network}) pour la classification ou la régression.
 
