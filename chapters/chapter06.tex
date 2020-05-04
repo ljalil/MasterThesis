@@ -1,6 +1,176 @@
+\chapter{Diagnostic des Roulements à l'Aide de Réseaux de Neurones}
+
+\chapterintrobox{La surveillance des vibrations est vitale pour de nombreux systèmes industriels. Les mesures des vibrations contiennent des informations très utiles sur l'état de santé des équipements et les types de défauts. Néanmoins, obtenir des informations à partir de ces signaux dans des applications réelles se révèle être un processus complexe. Cela est principalement dû à la complexité du problème. Ce chapitre présente une approche pour le diagnostic des défauts de roulements à l'aide de réseaux de neurones convolutifs.}
+
+\section{Données de Case Western Reserve University}
+
+\begin{wrapfigure}[14]{r}{0.5\textwidth}
+    \centering
+	\input{figures/skf.tex}
+	\caption{Composants d'un roulement}
+    \label{figure:skf-bearing-components}    
+\end{wrapfigure}
+
+Les données utilisées dans ce chapitre sont des données de vibrations des roulements fournies par Case Western Reserve University (CWRU). Les roulements utilisés dans le test sont des roulements à billes SKF. La figure \ref{figure:skf-bearing-components} montre les différents composants d'un roulement à billes standard. L'essai a été réalisé là où les roulements supportent l'arbre d'un moteur de 2 chevaux dans différentes conditions de charge. 
+
+Les roulements d'essai possèdent des défauts ponctuels qui ont été introduits par électroérosion avec des diamètres de défaut de 0,18 mm, 0,36 mm, 0,53 mm, 0,71 mm et 1,02 mm. Ces défauts ont été introduits dans la bille et les chemins de roulement intérieurs et extérieurs du roulement. Des roulements SKF ont été utilisés pour les défauts de 0,18 mm, 0,36 mm et 0,53 mm, et des roulements équivalents NTN ont été utilisés pour les défauts de 0,71 mm et 1,02 mm. Le tableau \ref{tableau:cwru-bearings-specification} contient les dimensions des modèles de roulements SKF utilisés et les fréquences correspondantes (en multiples de RPM) associées aux différents types de défauts.
+
+\begin{table}[H]
+	\centering
+	\begin{tabu}{cc|[1.5pt]cc}
+		\tabucline[1.5pt]{-} 
+		Dimension		&	Valeur (mm)	&	Défaut 			& Fréquence ($\times$RPM Hz)	\\
+		\hline
+		Diamètre intérieur	&	25.00		& Chemin intérieur 		& 5.4152\\
+		Diamètre extérieur&	52.00		& Chemin extérieur 		& 3.5848 \\
+		Epaisseur 		&	15.00		& Cage		& 0.3983 \\
+		Diamètre du pas	&	08.03		& Bille	& 4.7135\\
+		\tabucline[1.5pt]{-} 
+	\end{tabu}
+	\caption{Dimensions des roulements CWRU et les fréquences de défaults}
+	\label{table:cwru-bearings-specification}
+\end{table}
+
+\section{Génération de données à partir de vibration}
+Les données de vibration non traitées ne peuvent pas être utilisées directement pour entraîner un réseau de neurones. Ce chapitre utilise l'approche proposée dans \cite{Wen2018} pour convertir les données de vibration non traitées en images. La figure \ref{fig:cw_bearings_data_generation} montre le principe de génération de données où les signaux de vibration à une dimension sont convertis en matrices à deux dimensions (images) en transformant des morceaux de longueur 4096 en matrices de 64$\times$64.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{figures/cw_bearings_data_generation.pdf}
+	\caption{Génération de données par conversion du signal en images 64$\times$64}
+	\label{fig:cw_bearings_data_generation}
+\end{figure}
+
+Comme mentionné précédemment, plusieurs essais ont été réalisés avec différents types de défauts de roulements (c'est-à-dire des défauts de billes, de chemins de roulement intérieurs et extérieurs) avec différents diamètres de défaut. Les signaux des différents tests sont transformés en images pour servir d'entrée à un réseau de neurones convolutif qui sera entraîné à classer les différents signaux dans les types de défauts correspondants et leurs diamètres. Les signaux sont répartis en 10 classes : trois types de défauts différents et pour chaque type de défaut, il y a trois diamètres de défaut différents, plus un signal de base normal qui appartient au roulement sain. La figure \ref{fig:bearings_faults_samples} montre quelques échantillons des signaux transformés des neuf différents types de défaut/diamètres : 
+
+\begin{figure}[h]
+    \centering
+	\includegraphics{figures/cw_bearings_faults_samples.pdf}
+    \caption{Signaux convertis de différents types de défauts}
+    \label{fig:bearings_faults_samples}
+\end{figure}
+
+Les signaux des différents types de défauts ont des longueurs variables, ce qui se traduit par un nombre différent d'images synthétisées par type de défaut. Le nombre d'images par type de défaut (classe) est donné par l'équation \ref{equation:labels-per-classe} :
+
+\begin{equation}
+	N=floor \left(\frac{\text{signal length}}{64\times64}\right)
+	\label{equation:labels-per-class}
+\end{equation}
+
+Le nombre d'images correspondant à chaque classe est indiqué dans la figure \ref{fig:bearings_faults_samples_count}:
+
+\begin{figure}[h]
+    \centering
+	\includegraphics{figures/cw_bearings_faults_count.pdf}
+    \caption{Converted signals of different faults types}
+	\label{fig:bearings_faults_samples_count}
+\end{figure}
+
+%\begin{comment
+\begin{table}[h]
+	\centering
+	\begin{tabu}{lc}
+		\tabucline[1.5pt]{-} 
+	   Class 					&	Samples count	\\
+	   \hline 
+	   Normal bearing 			&	295				\\
+	   Roller element 0.18mm 	&	146				\\
+	   Roller element 0.36mm 	&	116				\\
+	   Roller element 0.54mm	&	116				\\
+	   Inner race 0.18mm		&	295				\\
+	   Inner race 0.36mm		&	116				\\
+	   Inner race 0.54mm		&	116				\\
+	   Outer race 0.18mm		&	116				\\
+	   Outer race 0.36mm		&	116				\\
+	   Outer race 0.54mm		&	116				\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{}
+   \label{table:cw-classes-count}
+\end{table}
+%\end{comment
+
+\section{Diagnostic des défauts de roulements à l'aide de réseaux de neurones}
+Après avoir généré des données en convertissant des signaux vibratoires bruts en images, ces images servent d'entrée pour un réseau de neurones convolutif.
+
+\subsection{Architecture de réseau}
+\acrlong{cnn} (\acrshort{cnn}) décrit un type de réseaux de neurones qui convient au traitement des images. Cette section présente l'utilisation de \acrshort{cnn} pour classer les signaux de vibration des roulements qui ont été transformés en images dans les types de défauts correspondants. Les \acrshort{cnn} ont été décrits en détail dans la section \ref{section:cnn}.
+
+Pour effectuer cette tâche de classification, une architecture \acrshort{cnn} est utilisée, le réseau se compose de trois couches convolutionnelles avec des couches MaxPool entre elles, suivies de trois couches Fully-Connected. Tous les détails de cette architecture sont mentionnés dans le tableau\ref{table:bearings-faults-cnn-classifier-architecture}.
+
+\begin{table}[h]
+    \centering
+    \begin{tabu}{lll}
+		\tabucline[1.5pt]{-}
+		\textbf{Couche (type)}   & \textbf{Forme de la sortie} &   \textbf{Param \#} \\
+		\tabucline[1pt]{-}
+		Conv1 (Conv2D) 			&   (None, 1, 64 ,32)   &   18464   \\
+		MaxPool1 (MaxPool2D) 	&   (None, 1, 32, 32)   &   0       \\
+		Conv2 (Conv2D)			&   (None, 1, 32, 64)   &   18496   \\
+		MaxPool2 (MaxPooling2D) &   (None, 1, 16, 64)   &   0       \\
+		Conv3 (Conv2D)          &   (None, 1, 16, 128)  &   73856   \\
+		MaxPool3 (MaxPooling2D) &   (None, 1, 8, 128)   &   0       \\       
+		Flatten1 (Flatten)      &   (None, 1024)        &   0       \\     
+		Dense1 (Dense)          &   (None, 128)         &   131200  \\   
+		Dense2 (Dense)          &   (None, 64)          &   8256    \\     
+		Dense3 (Dense)          &   (None, 10)          &   650     \\
+		\tabucline[1pt]{-}
+		Total params: 250,922       &                   &           \\
+		Trainable params: 250,922   &                   &           \\
+		Non-trainable params: 0     &                   &           \\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Architecture \acrshort{cnn}}
+    \label{table:bearings-faults-cnn-classifier-architecture}
+\end{table}
+
+
+\subsection{Processus d'entraînement}
+La base de données contient au total 1 548 échantillons, dont 20 \% sont utilisés comme test, les 80 \% restants étant destinés à l'entraînement. De l'ensemble d'entraînement, 15 \% sont utilisés comme fractionnement de validation pendant le processus d'entraînement. Le réseau a été entraîné pour 30 époques et batch size de 32.
+La figure \ref{fig:bearings_faults_classification_training} montre l'évolution de la précision (\%) et de la perte (entropie croisée catégorique) en fonction des époques d'entraînement. Le réseau converge vers la 10éme époque avec une légère augmentation de la précision et une diminution de la perte par la suite. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/cw_bearings_faults_classification_training.pdf}
+    \caption{Entraînement de classificateur}
+    \label{fig:bearings_faults_classification_training}
+\end{figure}
+
+\subsection{Discussion des résultats}
+Le modèle atteint une précision parfaite de 100 \% sur l'ensemble d'entraînement et une précision proche sur l'ensemble de validation. Après l'entraînement, le modèle est évalué sur l'ensemble de test et atteint une précision presque parfaite de 98,72 \%. L'entraînement, la validation et la perte et la précision du test sont résumées dans le tableau \ref{tableau:cw-cnn-results}.
+
+\begin{table}[H]
+	\centering
+	\begin{tabu}{lcc}
+		\tabucline[1.5pt]{2-3} 
+						&	\textbf{Perte}	&	\textbf{Précision}	\\
+	   \tabucline[1pt]{-}
+		Ensemble d'entraînement 		&	0.0003			&	100.00\%				\\
+		Ensemble de validation 	&	0.0269 			&	99.46\%					\\
+		Ensemble de test		&	0.0586 			&	98.71\%					\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{Résultats de l'entraînement}
+   \label{table:cw-cnn-results}
+\end{table}
+
+Pour mieux comprendre les résultats du modèle, une matrice de confusion est construite. La matrice de confusion (Figure \ref{fig:bearings_faults_classification_confusion_matrix}) montre les résultats des prédictions du modèle sur l'ensemble de test où l'axe des y montre les classes réelles (réelles) dans l'ensemble de test et l'axe des x les prédictions du modèle. La diagonale de la matrice de confusion est l'endroit où les classes réelles croisent les classes prédites par le modèle pour chaque échantillon et il est évident que le modèle atteint une classification quasi parfaite.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/cw_bearings_faults_classification.pdf}
+    \caption{Matrice de confusion de la classification des défauts de roulements à l'aide de CNN}
+    \label{fig:bearings_faults_classification_confusion_matrix}
+\end{figure}
+
+\section{Conclusion}
+Ce chapitre a adopté une approche de génération de données provenant de la littérature qui convertit les signaux de vibration en images. Les signaux de vibration utilisés ici correspondent à des roulements présentant différents types de défauts et diamètres de défaut. Après avoir converti les signaux non traités en images, un \acrshort{cnn} est utilisé pour classer les signaux transformés (c'est-à-dire les images) dans leurs types de défauts et diamètres correspondants. Le modèle permet d'obtenir une précision de classification quasi parfaite sur l'ensemble de test.
+
+
+\begin{comment}
 \chapter{Bearings Faults Diagnostic using Neural Networks}
 
-\chapterintrobox{Vibration condition monitoring are vital for many industrial systems, vibration data contains very useful information about health state of the equipment. Nevertheless, gaining insights from vibration signals in real-world applications turns out to be a complex—and in many times, unfruitful—process. This is mainly due to the complexity of the problem. This chapter demonstrates image processing based approach for bearings faults diagnostics using convolutional neural networks.}
+\chapterintrobox{Vibration condition monitoring are vital for many industrial systems, vibration data contains very useful information about health state of the equipment and the fault type. Nevertheless, gaining insights from vibration signals in real-world applications turns out to be a complex—and in many times, unfruitful—process. This is mainly due to the complexity of the problem. This chapter demonstrates image processing based approach for bearings faults diagnostics using convolutional neural networks.}
 
 \section{Case Western Reserve University Bearings Data}
 
@@ -22,10 +192,10 @@ The test bearings have single point faults which were introduced using electro-d
 		\tabucline[1.5pt]{-} 
 		Dimension		&	Size (mm)	&	Defect 			& Frequency ($\times$RPM Hz)	\\
 		\hline
-		Inner Diameter	&	25.00		& Inner Ring 		& 5.4152\\
-		Outside Diameter&	52.00		& Outer Ring 		& 3.5848 \\
+		Inner diameter	&	25.00		& Inner Ring 		& 5.4152\\
+		Outside diameter&	52.00		& Outer Ring 		& 3.5848 \\
 		Thickness 		&	15.00		& Cage Train		& 0.3983 \\
-		Pitch Diameter	&	08.03		& Rolling Element	& 4.7135\\
+		Pitch diameter	&	08.03		& Rolling Element	& 4.7135\\
 		\tabucline[1.5pt]{-} 
 	\end{tabu}
 	\caption{CWRU bearings dimensions and faults frequencies}
@@ -58,7 +228,7 @@ Signals of the different fault types have varying lengths which results in a dif
 	\label{equation:labels-per-class}
 \end{equation}
 
-Number of images corresponding to each class is showin in Figure \ref{fig:bearings_faults_samples_count}:
+Number of images corresponding to each class is shown in in Figure \ref{fig:bearings_faults_samples_count}:
 
 \begin{figure}[h]
     \centering
@@ -66,7 +236,8 @@ Number of images corresponding to each class is showin in Figure \ref{fig:bearin
     \caption{Converted signals of different faults types}
 	\label{fig:bearings_faults_samples_count}
 \end{figure}
-\begin{comment}
+
+%\begin{comment
 \begin{table}[h]
 	\centering
 	\begin{tabu}{lc}
@@ -88,25 +259,17 @@ Number of images corresponding to each class is showin in Figure \ref{fig:bearin
    \caption{}
    \label{table:cw-classes-count}
 \end{table}
-\end{comment}
+%\end{comment
 
 \section{Bearings faults diagnostic using neural networks}
 After generating data by converting raw vibration signals into images, these images serve as an input for a convolutional neural network.
 
 \subsection{Network architecture}
-\acrlong{cnn} (\acrshort{cnn}) describes a type of neural networks that is suitable for image processing. This section presents the use of \acrshort{cnn} to classify bearings vibration signals that have been transformed into images into the corresponding fault types. CNN were described in details in section \ref{section:cnn}.
+\acrlong{cnn} (\acrshort{cnn}) describes a type of neural networks that is suitable for image processing. This section presents the use of \acrshort{cnn} to classify bearings vibration signals that have been transformed into images into the corresponding fault types. \acrshort{cnn} were described in details in section \ref{section:cnn}.
 
 To perform this classification task, a \acrshort{cnn} architecture is used, the network consists of three convolutional layers with max-pooling layers in between, followed by three fully-connected layers. All the details of this architecture from are mentioned in Table \ref{table:bearings-faults-cnn-classifier-architecture}.
 
 
-\begin{comment}
-\begin{figure}[h]
-	\centering
-	\input{figures/cw-cnn-architecture.tex}
-	\caption{}
-	\label{}
-\end{figure}
-\end{comment}
 
 \begin{table}[h]
     \centering
@@ -130,7 +293,7 @@ To perform this classification task, a \acrshort{cnn} architecture is used, the 
 		Non-trainable params: 0     &                   &           \\
 	\tabucline[1.5pt]{-}
     \end{tabu}
-    \caption{CNN architecture}
+    \caption{\acrshort{cnn} architecture}
     \label{table:bearings-faults-cnn-classifier-architecture}
 \end{table}
 
@@ -160,7 +323,7 @@ The model achieves perfect 100\% accuracy on training set and a close accuracy o
 		Test set		&	0.0586 			&	98.71\%					\\
    \tabucline[1.5pt]{-}
    \end{tabu}
-   \caption{CNN training results}
+   \caption{\acrshort{cnn} training results}
    \label{table:cw-cnn-results}
 \end{table}
 
@@ -169,10 +332,10 @@ To further understand the model's results, confusion matrix is constructed. The 
 \begin{figure}[h]
     \centering
     \includegraphics{figures/cw_bearings_faults_classification.pdf}
-    \caption{Confusion matrix of bearings faults classification using CNN}
+    \caption{Confusion matrix of bearings faults classification using \acrshort{cnn}}
     \label{fig:bearings_faults_classification_confusion_matrix}
 \end{figure}
 
 \section{Conclusion}
 This chapter adopted a data generation approach from literature that converts vibration signals into images. Vibration signals used here corresponds to bearings with different types of faults and fault diameters. After converting raw signals into images, a \acrshort{cnn} is used to classify transformed signals (i.e. images) into their corresponding faults types and diameters. The model achieves near-perfect classification accuracy on the test set.
-
+\end{comment}

@@ -95,7 +95,7 @@ Sensors values from 4 different engines are combined using PCA and the two first
 There is absolutely an apparent pattern for health state degradation across the different engines from left (where darker colors indicate normal working state) to the right (where the lighter colors indicate fault development).
 
 \section{Engines health classification}
-Before proceeding with a complicated task such as RUL estimation, a simpler task like engines health classification can show the complexity of the problem. This section describes using neural networks to classify engines states as healty or faulty. The first and last 25 cycles from each unit are considered to be healthy and faulty respectively.
+Before proceeding with a complicated task such as \acrshort{rul} estimation, a simpler task like engines health classification can show the complexity of the problem. This section describes using neural networks to classify engines states as healty or faulty. The first and last 25 cycles from each unit are considered to be healthy and faulty respectively.
 
 A neural network that uses all 24 inputs (all operational settings and sensors) with two hidden layers is used to carry out this classification. Table \ref{table:c-mapss-classifier-architecture} summarizes the network architecture:
 
@@ -158,10 +158,10 @@ In order to train a neural network to estimate the \acrlong{rul} (\acrshort{rul}
 
 It must be noted that not any of these approaches can be claimed to be representative of the real world degradation process, but choosing the most intuitive representation of \acrshort{rul} can help the learning algorithm learn the implicit degradation trends in the data.
 
-\subsection{RUL prediction using feed-forward network}
-The last section dealt with classifying units health state as healthy or faulty. This section instead presents a neural network for estimating the \acrshort{RUL}
+\subsection{\acrshort{rul} prediction using feed-forward network}
+The last section dealt with classifying units health state as healthy or faulty. This section instead presents a neural network for estimating the \acrshort{rul}
 
-\subsection{Improving RUL prediction using LSTM networks}
+\subsection{Improving \acrshort{rul} prediction using LSTM networks}
 
 \section{Conclusion}
 Fully-connected neural networks are a powerful tool for quantifying health state of complex systems using condition monitoring data. C-MAPSS dataset is an example of a system with many interacting parts that provide a variety of condition-monitoring data (e.g. temperature, pressure, rpm, …) where the degradation isn't directly related to one component but is indicated by the sum of the trends in all the monitoring data. Neural networks are able to capture such trends and produce a mapping from this data to the actual health of the machine.
