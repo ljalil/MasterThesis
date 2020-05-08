@@ -93,27 +93,67 @@ L'autre principale tâche des réseaux de neurones et des autres types de modèl
 
 Le choix de la fonction d'activation pour la dernière couche du réseau est directement lié à la fonction de coût utilisée. Pour les tâches de régression, la fonction d'activation linéaire est utilisée. Pour la classification binaire, c'est la fonction sigmoïde et pour la classification multiclasse, c'est la fonction softmax.
 
-\begin{comment}
-    There are many types of cost functions, each type corresponds to different neural networks tasks (e.g. regression, binary classification, …). The cost function usually used for regression problems is mean-squared error function (Equation \ref{equation:mse}) which calculates the sum of distances between the model predictions $\hat{y}_i$ and the actual output ($y_i$), $N$ is the number of data points available for training:
-
-\begin{equation}
-    MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
-    \label{equation:mse}
-\end{equation}
-
-The other major task of neural networks and other types of models is classificaton. There are two main types of classification: binary classification, or classification of two classes and multiclass classification or classification of many classes. The first one uses binary cross-entropy loss function (Equation \ref{equation:logloss}) and the latter uses categorical cross-entropy.
-
-\begin{equation}
-    BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
-    \label{equation:logloss}
-\end{equation}
-
-The choice of activation function for the last layer of the network is directly related to the used cost function. For regression tasks, linear activation function is used. For binary classficiation it's sigmoid and for multiclass classficiation it's softmax function.
-\end{comment}
-
-
 \subsection{Gradient Descent}
 Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimiser une fonction différentiable. Gradient Descent fonctionne en calculant les gradients de la fonction objectif puis en prenant des mesures itératives dans le sens du négatif des gradients.
+
+\subsection{Convex and non-convex functions}
+Gradient descent in neural networks is used to optimize (minimize) the cost function by finding the best set of weights and biases that give the lowest cost possible. Objective functions can be categorized into two types: convex and non-convex functions.
+A convex function is said to be convex if it has the property that every chord lies on or above the function. Any value of $x$ in the interval from $x=a$ to $x=b$ can be written in the form $\lambda a+(1-\lambda)b$ where $0\leq\lambda\leq 1$. The corresponding point on the chord is given by $\lambda f(a)+(1-\lambda)f(b)$, and the corresponding value of the function is $f(\lambda a+(1-\lambda)b)$ (Figure \ref{fig:convexity}). Convexity then implies:
+\begin{equation}
+    f(\lambda a+(1-\lambda)b)\leq \lambda f(a)+(1-\lambda)f(b)
+    \label{equation:convexity}
+\end{equation}
+
+This is equivalent to the requirement that the second derivative of the function be everywhere positive \cite{Bishop2006}. This condition of convexity can be extended to spaces with arbitrariliy large number of dimensions.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{figures/convex_function.pdf}
+    \caption{Condition of convexity}
+    \label{fig:convexity}
+\end{figure}
+
+A non-convex function is a funciton that doesn't satisfy the convexity condition. Figure \ref{fig:convex-nonconvex-functions} shows an example of a convex (left) and a non-convex function (right) where the function parameters are in two-dimensional space.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{figures/gradient_descent.pdf}
+    \caption{Example of convex and non-convex functions}
+    \label{fig:convex-nonconvex-functions}
+\end{figure}
+
+
+\subsection{Global and local minima}
+Global minimum refers to the lowest possible value in a set (or of a function). Finding the global minimum refers to finding the set of parameters that correspond to this minimum value. When the function is convex, finding the global maximum is possible and easy, algorithms like gradient descent always converge to the global minimum in convex optimization. Examples of convex cost functions is linear regression cost function. For more complex models such as neural networks, cost function is highly non-convex with many local minima.
+
+Figure \ref{fig:global_local_minima} shows an example of a non-convex function with a global and local minima. The problem with non-convex optimization is that the optimization algorithm can converge to the local minimum instead of the global one. The algorithm convergence is related to the random initialization of network weights.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{figures/global_local_minima.pdf}
+    \caption{Non-convex function with global and local minima}
+    \label{fig:global_local_minima}
+\end{figure}
+
+\subsection{Saddle points}
+A saddle point or minimax point is a point on the surface of the graph of a function where the slopes (derivatives) in orthogonal directions are all zero (a critical point), but which is not a local extremum of the function (Figure \ref{fig:saddle-point}).
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{figures/saddle_point.pdf}
+    \caption{Saddle point}
+    \label{fig:saddle-point}
+\end{figure}
+
+\subsection{Optimization of multilayer networks}
+In  \cite{Choromanska2014} the authors showed that getting stuck in poor local minima is a major problem for smaller networks but becomes gradually of less importance as the network size increases. This is because critical points of large networks exhibit the layered structure where high-quality low-index critical points lie close to the global minimum.
+
+The following hypotheses were also verified empirically in the mentioned paper regarding learning with large-size networks:
+\begin{itemize}
+    \item For large-size networks, most local minima are equivalent and yield similar performance on a test set.
+    \item The probability of finding a “bad” (high value) local minimum is non-zero for small-size networks and decreases quickly with network size.
+    \item Struggling to find the global minimum on the training set (as opposed to one of the many good local ones) is not useful in practice and may lead to overfitting.
+\end{itemize}
 
 \subsection{Backpropagation}
 Backpropagation est l'algorithme utilisé pour calculer les gradients de la fonction de coût (la fonction objectif) d'un réseau de neurones. Comme un réseau de neurones peut être interprété comme une fonction composite, Backpropagation utilise le théorème de dérivation des fonctions composées
@@ -141,26 +181,49 @@ Les réseaux de neurones récurrents (\acrshort{rnn}) sont une architecture spé
     \label{fig:rnn}
 \end{figure}
 
-\begin{comment}
-\acrlong{rnn} (\acrshort{rnn}) is a special architecture that is more suitable for modeling sequential data. \acrshort{rnn}s process an input sequence one element at a time, maintaining in their hidden units a 'state vector' that implicitly contains information about the history of all the past elemets of the sequence \cite{LeCun2015}. Figure \ref{fig:rnn} shows an example of a \acrshort{rnn} architecture. To the left is the unfolded version with a cylic loop in the hidden layer, to the right is shows unfolding of the network which is easier to understand. $x_1$, $x_2$, …$x_t$ represents the input vector (sequence), $y_1$, $y_2$, …$y_t$ represents
-the output vector (can be a sequence with length equals to the input, of different length or a single element). $h_1$, $h_2$, …$h_t$ are neurons of the hidden layer. In \acrshort{rnn} each neuron passes a vector of its hidden state to the next neuron corresponding to the next time step.
+\subsection{Long Short-Term Memory}
+Simple \acrshort{rnn}s have problems with learning long-term dependencies (i.e. making predictions based on predictions made many steps previously in the past) and vanishing gradients. \acrlong{lstm} (\acrshort{lstm}) was first introduced by Jürgen Schmidhuber and Sepp Hochreiter \cite{Hochreiter1997}. \acrshort{lstm} overcomes problems with basic \acrshort{rnn} by using what is called a cell state which enables \acrshort{lstm} networks to learn long-term dependencies. \acrshort{lstm} cells also possess three types of gates which together control the flow of information inside the cell:
+\begin{itemize}
+    \item \textbf{Forget gate}: Controls which information are kept or discarded at time $t$
+    \item \textbf{Input gate}: Controls which information to store in the cell state at time $t$
+    \item \textbf{Output gate}: Controls the final output of the cell at time $t$
+\end{itemize}
 
-\begin{figure}[H]
+Input, forget and output gates values are calculated using Equations \ref{equation:lstm_input_gate}, \ref{equation:lstm_forget_gate} and \ref{equation:lstm_output_gate} respectively:
+
+\begin{align}
+i_t &= \sigma(W_{xi}x_t + W_{hi}h_{t-1}+W_{ci}c_{t-1}+b_i) \label{equation:lstm_input_gate}\\
+f_t &= \sigma(W_{xf}x_t + W_{hf}h_{t-1}+W_{cf}c_{t-1}+b_f) \label{equation:lstm_forget_gate}\\
+o_t &= \sigma(W_{xo}x_t + W_{ho}h_{t-1}+W_{co}c_t+b_o) \label{equation:lstm_output_gate}\\
+\end{align}
+
+Input, forget and output gates are calculated at time $t$ using sets of weights and biases ($W_{xi}$, $W_{hi}$, $W_{ci}$, $b_i$), ($W_{xf}$, $W_{hf}$, $W_{cf}$, $b_f$) and ($W_{xo}$, $W_{ho}$, $W_{co}$, $b_o$) that controls how each of $x_t$, $h_{t-1}$ and $c_{t-1}$ affects the value of the gate respectively. A sigmoid function is used to convert the values to the range of 0 to 1. 
+
+At each time step $t$, a candidate cell state $\tilde{c}_t$ is calculated using weights and a bias term ($W_{xc}$, $W_{hc}$, $b_c$) that maps the values of input $x_t$ and previous hidden state $h_{t-1}$ to the candidate cell state (Equation \ref{equation:lstm_candidate_cell_state}). As the name indicates, $\tilde{c}_t$ serves as a candidate to replace current cell state $c_t$ at time $t$. Cell state at time $t$ is obtained by using the forget gate to control which information are kept from the previous cell state and input gate to control which information are kept from the candidate cell state according to Equation \ref{equation:lstm_cell_state}. Final cell output is calculated using current cell state $c_t$ and output gate according to Equation \ref{equation:lstm_hidden_state}.
+
+\begin{align}
+    \tilde{c}_t &= tanh(W_{xc}x_t+W_{hc}h_{t-1}+b_c) \label{equation:lstm_candidate_cell_state} \\
+    c_t &= f_tc_{t-1}+i_t\tilde{c}_t \label{equation:lstm_cell_state}\\
+    h_t &= o_ttanh(c_t) \label{equation:lstm_hidden_state}
+\end{align}
+
+Gates control the flow of information inside the \acrshort{lstm} cell, their values range from 0 to 1 (sigmoid function) and control which information to keep and which to discard when updating the cell state (forget and input gates) and when calculating the \acrshort{lstm} cell output (output gate).
+
+Figure \ref{fig:lstm} illustrates the different operations happening in a signle \acrshort{lstm} cell:
+
+\begin{figure}[h]
     \centering
-    \input{figures/rnn.tex}
-    \caption{Recurrent neural networks architecture}
-    \label{fig:rnn}
+    \input{figures/lstm.tex}
+    \caption{Long Short-Term Memory Cell}
+    \label{fig:lstm}
 \end{figure}
-\end{comment}
 
 \section{Convolutional neural networks}
 \label{section:cnn}
 Les réseaux neuronaux convolutifs (\acrlong{cnn}: \acrshort{cnn}) ont ce qu'on appelle des couches convolutives. Une couche convolutive accepte une entrée (généralement des images 2D, mais elle peut aussi être 1D ou 3D) et applique une opération mathématique appelée convolution \footnote{Mathématiquement, l'opération qui se produit dans un \acrshort{cnn} est appelée corrélation croisée, ce qui est un peu différent de la définition mathématique d'une convolution. Dans la littérature sur l'apprentissage automatique, ces opérations sont appelées convolutions, c'est la terminologie qui sera utilisée ici.}. Les convolutions agissent comme des filtres qui extraient des caractéristiques des données brutes en multipliant récursivement ce qu'on appelle le noyau par les données d'entrée.
 Les différents noyaux ont des objectifs différents et peuvent extraire une grande variété de caractéristiques des données brutes. Après l'extraction de caractéristiques par la couche convolutive, ils servent d'entrée pour un réseau neuronal de feedforward (comme décrit dans la section \ref{section:feedforward-neural-network}) pour la classification ou la régression.
 
-\begin{comment}
-\acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-corelation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
-\end{comment}
+
 
 \begin{figure}[H]
     \centering
@@ -188,9 +251,41 @@ Les différents noyaux ont des objectifs différents et peuvent extraire une gra
     \label{fig:convolutions}
 \end{figure}
 
-\begin{comment}
-    Applying convolutions iteratively to different regions (dark blue) of 2D input (whole blue square). Each iteration results in one numerical value (dark green). The result of all iterations is the 2D green output
-\end{comment}
 
 \section{Conclusion}
 Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
+
+
+\begin{comment}
+    There are many types of cost functions, each type corresponds to different neural networks tasks (e.g. regression, binary classification, …). The cost function usually used for regression problems is mean-squared error function (Equation \ref{equation:mse}) which calculates the sum of distances between the model predictions $\hat{y}_i$ and the actual output ($y_i$), $N$ is the number of data points available for training:
+
+\begin{equation}
+    MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
+    \label{equation:mse}
+\end{equation}
+
+The other major task of neural networks and other types of models is classificaton. There are two main types of classification: binary classification, or classification of two classes and multiclass classification or classification of many classes. The first one uses binary cross-entropy loss function (Equation \ref{equation:logloss}) and the latter uses categorical cross-entropy.
+
+\begin{equation}
+    BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
+    \label{equation:logloss}
+\end{equation}
+
+The choice of activation function for the last layer of the network is directly related to the used cost function. For regression tasks, linear activation function is used. For binary classficiation it's sigmoid and for multiclass classficiation it's softmax function.
+
+
+    \acrlong{rnn} (\acrshort{rnn}) is a special architecture that is more suitable for modeling sequential data. \acrshort{rnn}s process an input sequence one element at a time, maintaining in their hidden units a 'state vector' that implicitly contains information about the history of all the past elemets of the sequence \cite{LeCun2015}. Figure \ref{fig:rnn} shows an example of a \acrshort{rnn} architecture. To the left is the unfolded version with a cylic loop in the hidden layer, to the right is shows unfolding of the network which is easier to understand. $x_1$, $x_2$, …$x_t$ represents the input vector (sequence), $y_1$, $y_2$, …$y_t$ represents
+    the output vector (can be a sequence with length equals to the input, of different length or a single element). $h_1$, $h_2$, …$h_t$ are neurons of the hidden layer. In \acrshort{rnn} each neuron passes a vector of its hidden state to the next neuron corresponding to the next time step.
+    
+    \begin{figure}[H]
+        \centering
+        \input{figures/rnn.tex}
+        \caption{Recurrent neural networks architecture}
+        \label{fig:rnn}
+    \end{figure}
+
+
+ 
+\acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-corelation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
+
+\end{comment}

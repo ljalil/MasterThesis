@@ -154,14 +154,99 @@ Figure \ref{fig:cmapss-classifier-roc} shows \acrlong{roc} (\acrshort{roc}) Curv
 
 \section{Remaining Useful Life prediction}
 \subsection{Remaining Useful Life modeling}
-In order to train a neural network to estimate the \acrlong{rul} (\acrshort{rul}) of a new unseen data from C-MAPSS dataset, an appropriate \acrshort{rul} that corresponds to the training data must be constructed. \acrshort{rul} was defined in Section \ref{section:rul}, from this definition several approaches to construct an appropriate \acrshort{rul} can be developed for units in the train data (where the total number of cycles before failure is known). The simplest approach is to use an always-decreasing \acrshort{rul}, this implies that the equipment state is always decreasing and moving towards failure. The problem with this approach is that degradation process isn't linear and in real life, machines don't start to degrade as soon as they are start working. A second approach is to use a piecewise function where the equipment state is constant at first then at a specific point it starts to degrade linearly. This approach is much better than the first one but it is not very representative of the real world behaviour of degradation process. In the context of this thesis, \acrshort{rul} is approached as a nonlinear polynomial function where the degradation is slow at first then accelerates towards the end of life.
+In order to train a neural network to estimate the \acrlong{rul} (\acrshort{rul}) of a new unseen data from C-MAPSS dataset, an appropriate \acrshort{rul} that corresponds to the training data must be constructed. \acrshort{rul} was defined in Section \ref{section:rul}, from this definition several approaches to construct an appropriate \acrshort{rul} can be developed for units in the train data (where the total number of cycles before failure is known). The simplest approach is to use an always-decreasing \acrshort{rul}, this implies that the equipment state is always decreasing and moving towards failure. The problem with this approach is that degradation process isn't linear and in real life, machines don't start to degrade as soon as they are start working. A second approach is to use a piecewise function where the equipment state is constant at first then at a specific point it starts to degrade linearly. This approach is much better than the first one but it is not very representative of the real world behaviour of degradation process. In the context of this thesis, \acrshort{rul} is approached as a nonlinear polynomial function where the degradation is slow at first then accelerates towards the end of life. Figure \ref{fig:rul-models} shows the different choices for modeling \acrshort{rul}:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/rul_models.pdf}
+    \caption{Different \acrshort{rul} modeling choices}
+    \label{fig:rul-models}
+\end{figure}
 
 It must be noted that not any of these approaches can be claimed to be representative of the real world degradation process, but choosing the most intuitive representation of \acrshort{rul} can help the learning algorithm learn the implicit degradation trends in the data.
 
 \subsection{\acrshort{rul} prediction using feed-forward network}
-The last section dealt with classifying units health state as healthy or faulty. This section instead presents a neural network for estimating the \acrshort{rul}
+The last section dealt with classifying units health state as healthy or faulty. This section instead presents a neural network for estimating the \acrshort{rul}. In this section, a neural network architecture with 3 hidden layers is used. Since this is a regression problem, mean squared error is used as the loss function, mean absolute error is used as a metric for the model. Table \ref{table:cmapss-regression-architecture} presents the architecture details:
+
+\begin{table}[h]
+    \centering
+    \begin{tabu}{lll}
+		\tabucline[1.5pt]{-}
+		\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+		\tabucline[1pt]{-}
+		Dense1 (Dense) 			&   (None, 32)  &       800     \\
+		Dense2 (Dense)          &   (None, 16)  &       528     \\
+		Dense3 (Dense)          &   (None, 8)   &       136     \\
+		Dense4 (Dense)          &   (None, 1)   &       9       \\
+
+		\tabucline[1pt]{-}
+		Total params: 1,473       &                   &           \\
+		Trainable params: 1,473   &                   &           \\
+		Non-trainable params: 0   &                   &           \\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Fully-connected network architecture for \acrshort{rul} prediction}
+    \label{table:cmapss-regression-architecture}
+\end{table}
+
+The network was trained for 300 epochs, batch size of 128 samples. Figure \ref{fig:cmapss-regression-training} shows the training process of the network. The figures show the development of training and validation losses (mean squared error) and metrics (mean absolute error) respectively as a function of training epochs.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/cmapss_regression_training.pdf}
+    \caption{}
+    \label{fig:cmapss-regression-training}
+\end{figure}
+
+After training, the model is evaluated on two units from the test set. Figure \ref{fig:cmapss-regression-prediction} shows the actual \acrshort{rul} (dashed line), model prediction at each cycle and a 3rd degree polyomial fit of model's predictions.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics{figures/cmapss_regression_predictions.pdf}
+    \caption{Prediction results on two test units}
+    \label{fig:cmapss-regression-prediction}
+\end{figure}
+
+Although the model's prediction are close the the actual \acrshort{rul}, but they are noisy and there is so much fluctuation. The noise can be reduced by smoothing the output for example using moving average or fitting the points to a polynomial. But the reason of the noise in the first place is that fully-connected architecture doesn't take into consideration the previous predictions (i.e. acyclic architecture). Since \acrshort{rul} at each instant of time depends on the \acrshort{rul} from the previous one, taking previous steps into consideration while making new predictions can effectively reduce the noise and also improve prediction accuracy. To achieve that, a cyclic neural archtiecture like recurrent neural networks should be used.
 
 \subsection{Improving \acrshort{rul} prediction using LSTM networks}
 
+\begin{table}[h]
+    \centering
+    \begin{tabu}{lll}
+		\tabucline[1.5pt]{-}
+		\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+		\tabucline[1pt]{-}
+		LSTM1 (LSTM) 			&   (None, 100, 100)    &       50000   \\
+		LSTM2 (LSTM)           &   (None, 100, 100)    &       80400   \\
+		LSTM3 (LSTM)           &   (None, 75)          &       52800   \\
+        Dense1 (Dense)         &   (None, 120)         &       9120    \\
+        Dense2 (Dense)         &   (None, 110)         &       13310   \\
+        Dense3 (Dense)         &   (None, 100)         &       11100   \\
+		\tabucline[1pt]{-}
+		Total params: 216,730       &                   &               \\
+		Trainable params: 216,730   &                   &               \\
+		Non-trainable params: 0     &                   &               \\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{LSTM network architecture for \acrshort{rul} prediction}
+    \label{table:cmapss-lstm-architecture}
+\end{table}
+
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{figures/cmapss_lstm_training.pdf}
+    \caption{LSTM training process}
+    \label{fig:cmapss-lstm-training}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{figures/cmapss_lstm_regression_predictions.pdf}
+    \caption{LSTM prediction results on two test units}
+    \label{fig:cmapss-lstm-prediction}
+\end{figure}
+
 \section{Conclusion}
-Fully-connected neural networks are a powerful tool for quantifying health state of complex systems using condition monitoring data. C-MAPSS dataset is an example of a system with many interacting parts that provide a variety of condition-monitoring data (e.g. temperature, pressure, rpm, …) where the degradation isn't directly related to one component but is indicated by the sum of the trends in all the monitoring data. Neural networks are able to capture such trends and produce a mapping from this data to the actual health of the machine.
+Fully-connected neural networks are a powerful tool for quantifying health state of complex systems using condition monitoring data. C-MAPSS dataset is an example of a system with many interacting parts that provide a variety of condition-monitoring data (e.g. temperature, pressure, rpm, …) where the degradation isn't directly related to one component but is indicated by the sum of the trends in all the monitoring data. Neural networks are able to capture such trends and predict the \acrshort{rul} of the system before failure. Fully-connected networks were first used for this task, but a cyclic architecture like \acrshort{lstm} can produce better results with improved accuracy and much less noise.
