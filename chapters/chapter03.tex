@@ -182,6 +182,7 @@ Les réseaux de neurones récurrents (\acrshort{rnn}) sont une architecture spé
 \end{figure}
 
 \subsection{Long Short-Term Memory}
+\label{section:lstm}
 Simple \acrshort{rnn}s have problems with learning long-term dependencies (i.e. making predictions based on predictions made many steps previously in the past) and vanishing gradients. \acrlong{lstm} (\acrshort{lstm}) was first introduced by Jürgen Schmidhuber and Sepp Hochreiter \cite{Hochreiter1997}. \acrshort{lstm} overcomes problems with basic \acrshort{rnn} by using what is called a cell state which enables \acrshort{lstm} networks to learn long-term dependencies. \acrshort{lstm} cells also possess three types of gates which together control the flow of information inside the cell:
 \begin{itemize}
     \item \textbf{Forget gate}: Controls which information are kept or discarded at time $t$
