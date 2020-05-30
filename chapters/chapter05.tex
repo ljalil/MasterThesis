@@ -75,13 +75,13 @@ La visualisation des résultats de la simulation peut donner une idée de la fa�
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{figures/plots/sensors_plot.pdf}
+    \includegraphics[width=\linewidth]{figures/sensors_plot.pdf}
     \caption{Développement de 6 capteurs de sortie d'un des turboréacteurs (normalisé)}
     \label{fig:sensors-plot}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.9\linewidth]{figures/plots/pca-degradation.pdf}
+    \includegraphics[width=.9\linewidth]{figures/pca-degradation.pdf}
     \caption{Dégradation de la santé de l'équipement (des couleurs plus claires indiquent l'avancement de la dégradation de la santé) de quatre turboréacteurs à partir de la base de données C-MAPSS}
     \label{fig:pca-degradation}
 \end{figure}
@@ -151,7 +151,7 @@ La figure \ref{fig:cmapss-classifier-roc} montre la courbe \acrlong{roc} (\acrsh
 \end{table}
 
 \section{Prédiction de \acrshort{rul}}
-\sous-section{Modèlisation de \acrshort{rul}}
+\subsection{Modèlisation de \acrshort{rul}}
 
 Afin d'entraîner un réseau de neurones pour l'estimation de  \acrlong{rul} (\acrshort{rul}) d'une nouvelle donnée non vue provenant de base de données C-MAPSS, un \acrshort{rul} approprié correspondant aux données d'entraînement doit être construit.
 
@@ -200,7 +200,7 @@ Le réseau a été entraîné pour 300 époques, avec batch size de 128 échanti
 \begin{figure}[H]
     \centering
     \includegraphics{figures/cmapss_regression_training.pdf}
-    \caption{Processus d'entraînement du réseau utilitsé pour prédire \acrshort{RUL}}
+    \caption{Processus d'entraînement du réseau utilitsé pour prédire \acrshort{rul}}
     \label{fig:cmapss-regression-training}
 \end{figure}
 
@@ -285,7 +285,7 @@ Quatre unités différentes ont été réservées comme unités de test. Après 
 Il est évident que les prédictions du réseau \acrshort{lstm} sont bien meilleures et presque exemptes de bruit par rapport à celles faites par le réseau entièrement connecté, comme le montre la figure \ref{fig:cmapss-regression-prediction}. La prédiction \acrshort{rul} est presque identique à la prédiction réelle \acrshort{rul} vers la fin de vie du turboréacteur.
 
 \section{Conclusion}
-Les réseaux de neurones entièrement connectés sont un outil puissant pour quantifier l'état de santé de systèmes complexes à l'aide de données de surveillance des conditions. L'ensemble de données C-MAPSS est un exemple de système comportant de nombreuses parties en interaction qui fournissent une variété de données de surveillance de l'état de santé (par exemple, la température, la pression, le régime, ...) où la dégradation n'est pas directement liée à une composante mais est indiquée par la somme des tendances de toutes les données de surveillance. Les réseaux de neurones sont capables de saisir de telles tendances et de prédire la \accessibilité du système avant une défaillance. Les réseaux entièrement connectés ont d'abord été utilisés pour cette tâche, mais une architecture cyclique comme \acrshort{lstm} peut produire de meilleurs résultats avec une précision accrue et beaucoup moins de bruit.
+Les réseaux de neurones entièrement connectés sont un outil puissant pour quantifier l'état de santé de systèmes complexes à l'aide de données de surveillance des conditions. L'ensemble de données C-MAPSS est un exemple de système comportant de nombreuses parties en interaction qui fournissent une variété de données de surveillance de l'état de santé (par exemple, la température, la pression, le régime, ...) où la dégradation n'est pas directement liée à une composante mais est indiquée par la somme des tendances de toutes les données de surveillance. Les réseaux de neurones sont capables de saisir de telles tendances et de prédire \acrshort{rul} du système avant une défaillance. Les réseaux entièrement connectés ont d'abord été utilisés pour cette tâche, mais une architecture cyclique comme \acrshort{lstm} peut produire de meilleurs résultats avec une précision accrue et beaucoup moins de bruit.
 
 \begin{comment}
 \chapter{Equipment Health Assessment using Artificial Neural Networks}
@@ -365,13 +365,13 @@ Visualizing the simulation output can give a sense of how these variables change
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{figures/plots/sensors_plot.pdf}
+    \includegraphics[width=\linewidth]{figures/sensors_plot.pdf}
     \caption{Development of 6 sensors outputs from one of the engines (normalized)}
     \label{fig:sensors-plot}
 \end{figure}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=.9\linewidth]{figures/plots/pca-degradation.pdf}
+    \includegraphics[width=.9\linewidth]{figures/pca-degradation.pdf}
     \caption{Equipment health degredation (lighter colors indicate advancing of health degradation) of four turbofan engines from C-MAPSS dataset}
     \label{fig:pca-degradation}
 \end{figure}
