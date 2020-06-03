@@ -170,14 +170,59 @@ Pour mieux comprendre les résultats du modèle, une matrice de confusion est co
 
 \section{Etude de cas: Pronostique des roulements}%
 \label{sec:etude_de_cas_pronostique_des_roulements}
-Section \ref{sec:etude_de_cas_diagnostique_des_roulements} presented an approach for diagnosing bearings faults using vibration data and neural networks. Diagnosis is important aspect of maintenance in general, but it's not enough alone, in a predictive maintenance program and in the context of \acrshort{phm}, it is also important to monitor the equipmet, estimate its health state and project it into the future to predict the \acrshort{rul} and that is what is covered in this section.
+Section \ref{sec:etude_de_cas_diagnostique_des_roulements} presented an approach for diagnosing bearings faults using vibration data and neural networks. Diagnosis is important aspect of maintenance in general, but it's not enough alone, in a predictive maintenance program and in the context of \acrshort{phm}, it is also important to monitor the equipmet, estimate its health state and project it into the future to predict the \acrshort{rul} and that is what is covered in this section. In this section, FEMTO bearings dataset is used.
 
 \subsection{Introduction au base de données FEMTO}%
 \label{sub:introduction_au_base_de_donnees_femto}
 
+FEMTO Bearings dataset was provided by FEMTO-ST Institute (Besançon - France) as a part of PHM 2012 Data Challenge. The dataset consists of vibration and temperature measurements from bearings accelerated aging (run to failure) experiments which were conducted using PRONOSTIA platform.
+
+PRONOSTIA (Figure \ref{fig:pronostia-platform}) is an experimental platform used for accelerated bearings life tests. PRONOSTIA makes it possible to conduct these tests in few hours. Data provided by the platform corresponds to naturally degraded bearings rather than using bearings with artificially-induced faults (e.g. CWRU bearings data).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\linewidth]{figures/pronostia.jpg}
+	\caption{PRONOSTIA platform \cite{pronostia}}%
+	\label{fig:pronostia-platform}
+\end{figure}
+
+PRONOSTIA consists of three main parts:
+
+\begin{itemize}
+	\item \textbf{Rotating part}: Asynchronous motor with a power of 250W that transmits rotation motion through a gearbox which allows a rotation speed up to 2830 rpm. The motor's speed and direction of rotation are controlled by the user through a human machine interface (HMI).
+	\item \textbf{Load part}: Which is used to apply a radial force to induce faults in bearings. By applying a load that exeeds the bearing's maximum dynamic load (4000 N), this part allows to drastically reduce the bearing's life and conduct the accelerated aging test. The load is generated using a force actuator that consits of a pneumatic jack powered by a pressure delivered through a digital electro-pneumatic regulator.
+	\item \textbf{Measurement part}: Operation conditions consist of three variables: a) the applied radial force, b) shaft speed and c) torque inflicted on the bearings, all three which are sampled at a frequency of 100Hz. Bearings health is measured by two variables: a) vibrations (both horizontal and vertical) which are measured by 2 accelerometers placed on the bearing's outer race and b) temperature measured by an RTD (Resistance Temperature Detector) probe placed close to the outer race. Vibration is sampled at 26.5kHz and temperature at 10Hz. Vibration measurements consist of snapshots of 2560 samples taken every 10s while temperature measurements are 600 samples taken each minute.
+\end{itemize}
+
+The bearings in the datasets are grouped under three operation conditions:
+\begin{itemize}
+	\item First operating conditions: rotation speed of 1800 rpm and load of 4000N.
+	\item Second operating conditions: rotation speed of 1650 rpm and load of 4200N.
+	\item Third operating conditions: rotation speed of 1500 rpm and load of 5000N.
+\end{itemize}
+
+Table \ref{table:femto-bearings-dataset} shows different operating conditions and their corresponding bearings in both learning and testing datasets:
+
+\begin{table}[ht]
+\centering
+\begin{tabu}{cccc}
+\tabucline[1.5pt]{-}
+Datasets & \multicolumn{3}{c}{Operation conditions} \\
+\cline{2-4}
+ & Conditions 1 & Conditions 2 & Conditions 3 \\
+\hline
+Learning set & \begin{tabular}[c]{@{}c@{}}Bearing1\_1\\ Bearing1\_2\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing2\_1\\ Bearing2\_2\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing3\_1\\ Bearing3\_2\end{tabular} \\
+\hline
+Testing set & \begin{tabular}[c]{@{}c@{}}Bearing1\_3\\ Bearing1\_4\\ Bearing1\_5\\ Bearing1\_6\\ Bearing1\_7\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing2\_3\\ Bearing2\_4\\ Bearing2\_5\\ Bearing2\_6\\ Bearing2\_7\end{tabular} & Bearing3\_3 \\
+\tabucline[1.5pt]{-}
+\end{tabu}
+\caption{Different operating conditions and correspondig bearings in FEMTO dataset}
+\label{table:femto-bearings-dataset}
+\end{table}
+
 \subsection{The need for appropriate features}%
 \label{sub:the_need_for_appropriate_features}
-When vibration data were used for detecting bearings fault in \ref{sec:etude_de_cas_diagnostique_des_roulements}, vibration signals were transformed into images by reshaping 1D signals into 2D arrays which were used as an input to a \acrshort{cnn}. This approach worked very well for diagnositcs but it can't be used for prognostics. 
+When vibration data were used for detecting bearings fault in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}, vibration signals were transformed into images by reshaping 1D signals into 2D arrays which were used as an input to a \acrshort{cnn}. This approach worked very well for diagnositcs but it can't be used for prognostics. 
 
 The prognostic model's input is vital to its predictions accuracy \cite{coble2009} and since that's the case, a feature selection step should be carried out while developing the model, which aims to select a set of appropriate features that can make the prediction more accurate \cite{javed2012}. That's why it's important to use concrete metrics which can quantify the quality of our selected prognostics features and help comparing them directly and select the most suitable ones.
 
@@ -194,12 +239,53 @@ M=\frac{\text{no. of d/dx > 0}}{n-1} - \frac{\text{no. of d/dx < 0}}{n-1}
 \label{sub:trigonometric_features}
 In \cite{javed2013} the authors proposed a new feature extraction procedure from vibration data based on discrete wavelet transform (Section \ref{subsub:transformation_en_ondelettes_discrete}) and trigonometric functions. Firts, the raw vibration signal is decomposed using discrete wavelet transform with db4 wavelet and 4th level of decomposition, then the decomposition coefficients are scaled using trigonometric functions (e.g. asinh, atan), finally standard deviation of the scaled coefficients is calculated to obtain the final value. According to the authors, these features are less sensitive to noise and variability of raw vibration signals. 
 
+
+\begin{table}[ht]
+    \centering
+    \begin{tabu}{ll}
+		\tabucline[1.5pt]{-}
+		\textbf{Trigonometric features}   & \textbf{Formula} \\
+		\tabucline[1pt]{-}
+		Standard deviation of asinh &   $\sigma\left(log\left[x_j+\sqrt(x_j^2+1)\right]\right)$  \\
+		Standard deviation of atan  &   $\sigma\left(\frac{i}{2}log\left(\frac{i+x_j}{i-x_j}\right)\right)$ \\
+					    &  \\
+		\textbf{Classic features} & \textbf{Formula}\\
+		\tabucline[1pt]{-}
+		Entropy & $E(x)=\sum_jE(x_j)$ \\
+		Energy & $e=\sum_{j=0}^nx_j^2$\\
+		Root mean square & $RMS=\sqrt{\frac{1}{n}(x_1^2+\ldots+x_n^2)}$\\
+		Skewness &  $\frac{\sum_{j=1}^n(x_j-\bar{X})^3}{(n-1)\sigma^3}$\\
+		Kurtosis &  $\frac{\sum_{j=1}^n(x_j-\bar{X})^4}{(n-1)\sigma^4}$\\
+		Upper bound & $max(x)+\frac{1}{2}\frac{max(X)-min(X)}{n-1}$\\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Prognostics trignonometric and classic features \cite{javed2013}}
+    \label{table:trigonometric-classic_features}
+\end{table}
+
+Figure \ref{fig:trigonometric_features_bearing1_1} shows two trigonometric features (asinh and atan) for Bearing1\_1 from FEMTO dataset. They have been filtered using Savitsky--Golay filter to reduce noise and variability.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{figures/trigonometric_features.pdf}
+	\caption{Trigonometric features of Bearing1\_1}%
+	\label{fig:trigonometric_features_bearing1_1}
+\end{figure}
+
+
 Even that trigonometric features are less susceptible to noise compared to classical features (e.g. rms, skewness, kurtosis, etc.), that's not always the case. The authors also proposed the use of cumulative descriptors (i.e. running total) in order to assure monotonicity of the features. The cumulative feature associated with each feature is calculated according to equation \ref{equation:cumulative_features} :
 
 \begin{equation}
 Cf_{nk} = \frac{\sum_{i=1}^n f_{ik}} {\sqrt{abs\left(\sum_{i=1}^nf_{ik}\right)}}
 \label{equation:cumulative_features}
 \end{equation}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{figures/trig_classic_cumulative_features.pdf}
+	\caption{Classic and trigonometric cumulative features}%
+	\label{fig:trig_classic_cumulative_features}
+\end{figure}
 
 \subsection{Prediction of bearings RUL using neural networks}%
 \label{sub:prediction_of_bearings_rul_using_neural_networks}

@@ -90,7 +90,7 @@ Il est évident que la sortie des capteurs suit un tendance spécifique (croissa
 
 Alternativement, toutes les valeurs des capteurs peuvent être combinées et visualisées ensemble en utilisant l'analyse en composantes principales (section \ref{section:dimensionality-reduction}) pour révéler la tendance générale des données. Si les données de surveillance de l'état de santé de l'équipement sont directement indicatives de l'état de santé de l'équipement, la visualisation des composantes principales peut montrer des modèles de dégradation visuelle apparents.
 
-Les valeurs des capteurs de 4 turboréacteurs différents sont combinées à l'aide de l'ACP et les deux premiers composants principaux sont représentés sur la figure \ref{fig:pca-dégradation}. 
+Les valeurs des capteurs de 4 turboréacteurs différents sont combinées à l'aide de l'ACP et les deux premiers composants principaux sont représentés sur la figure \ref{fig:pca-degradation}. 
 
 Il existe un schéma absolument apparent de dégradation de l'état de santé dans les différentes unités, de la gauche (où les couleurs plus foncées indiquent un état de fonctionnement normal) à la droite (où les couleurs plus claires indiquent le développement de défauts).
 
@@ -204,7 +204,7 @@ Le réseau a été entraîné pour 300 époques, avec batch size de 128 échanti
     \label{fig:cmapss-regression-training}
 \end{figure}
 
-Après l'entraînement, le modèle est évalué sur deux unités de la série de tests. La figure \ref{fig:cmapss-regression-prédiction} montre le \acrshort{rul} réel (ligne discontinue), la prédiction du modèle à chaque cycle et un ajustement polyomial de 3ème degré des prédictions du modèle.
+Après l'entraînement, le modèle est évalué sur deux unités de la série de tests. La figure \ref{fig:cmapss-regression-prediction} montre le \acrshort{rul} réel (ligne discontinue), la prédiction du modèle à chaque cycle et un ajustement polyomial de 3ème degré des prédictions du modèle.
 
 \begin{figure}[H]
     \centering
