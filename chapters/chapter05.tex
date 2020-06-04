@@ -287,6 +287,37 @@ Cf_{nk} = \frac{\sum_{i=1}^n f_{ik}} {\sqrt{abs\left(\sum_{i=1}^nf_{ik}\right)}}
 	\label{fig:trig_classic_cumulative_features}
 \end{figure}
 
+
+\begin{table}[]
+\centering
+\begin{tabular}{llll}
+Feature & Monotonicity & Cumulative Feature & Monotonicity \\
+$\sigma(atan)$ & 0.486 & C-$\sigma(atan)$ & 1 \\
+$\sigma(asinh)$ & 0.481 & C-$\sigma(asinh)$ & 1 \\
+kurtosis & 0.059 & C-kurtosis & 0.998 \\
+entropy & 0.035 & C-entropy & 1 \\
+rms & 0.481 & C-rms & 1 \\
+ubound & 0.287 & C-ubound & 1
+\end{tabular}
+\caption{Monotonicity difference between trigonometric and classic features and their cumulative descriptors}
+\label{table:trigonometric-classic-monotonicity}
+\end{table}
+
+\begin{table}[]
+\centering
+\begin{tabular}{llll}
+Feature & Trendability & Cumulative Feature & Trendability \\
+$\sigma(atan)$ & 0.987 & C-$\sigma(atan)$ & 0.993 \\
+$\sigma(asinh)$ & 0.989 & C-$\sigma(asinh)$ & 0.995 \\
+kurtosis & 0.985 & C-kurtosis & 0.890 \\
+entropy & 0.994 & C-entropy & 0.976 \\
+rms & 0.988 & C-rms & 0.993 \\
+ubound & 0.990 & C-ubound & 0.996
+\end{tabular}
+\caption{Trendability difference between trigonometric and classic features and their cumulative descriptors}
+\label{table:trigonometric-classic-trendability}
+\end{table}
+
 \subsection{Prediction of bearings RUL using neural networks}%
 \label{sub:prediction_of_bearings_rul_using_neural_networks}
 
