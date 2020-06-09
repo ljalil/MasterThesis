@@ -228,17 +228,27 @@ The prognostic model's input is vital to its predictions accuracy \cite{coble200
 
 \subsubsection{Trendability and monotonicity}%
 \label{subsub:trendability_and_monotonicity}
-In \cite{coble2009} the authors proposed a set of metrics which can be used to quantify the quality of prognostics features and directly compare their suitability for use in predictive models, two of these metrics are \textbf{monotonicity} and \textbf{trendability}. According to their defiition, monotonicity refers to the nature of the variable whether it is increasing or decreasing and it has a value between 0 and 1 where a variable that is always increasing or decreasing will have monotonicity of 1. Trendability on the other hand 
+In \cite{coble2009} the authors proposed a set of metrics which can be used to quantify the quality of prognostics features and directly compare their suitability for use in predictive models, two of these metrics are \textbf{monotonicity} and \textbf{trendability}. According to their defiition, monotonicity refers to the nature of the variable whether it is increasing or decreasing and it has a value between 0 and 1 where a variable that is always increasing or decreasing will have monotonicity of 1. Monotonicity is defined by equation \ref{equation:monotonicity}: 
 \begin{equation}
-M=\frac{\text{no. of d/dx > 0}}{n-1} - \frac{\text{no. of d/dx < 0}}{n-1}
+	M=\frac{\text{no. of }\frac{d}{dx} > 0}{n-1} - \frac{\text{no. of }\frac{d}{dx} < 0}{n-1}
 \label{equation:monotonicity}
 \end{equation}
 
+Trendability on the other hand was defined as whether a given feature follows the same trend (increasing or decreasing) across a population of systems. A feature that is always decreasing or increasing have a higher trendability than another one that doesn't follow a specific trend across different cases. Accordingly, trendability is defined by equation \ref{equation:trendability}:  
+
+\begin{equation}
+	\begin{aligned}
+		t_i&= \frac{\text{no. of }\frac{d}{dx}>0}{n-1}+\frac{\text{no of } \frac{d^2}{dx^2}>0}{n-2}\\
+Trendability&=1-std(t_i)
+	\end{aligned}
+	\label{equation:trendability}
+\end{equation}
 
 \subsection{Trigonometric features and cumulative descriptors}%
 \label{sub:trigonometric_features}
 In \cite{javed2013} the authors proposed a new feature extraction procedure from vibration data based on discrete wavelet transform (Section \ref{subsub:transformation_en_ondelettes_discrete}) and trigonometric functions. Firts, the raw vibration signal is decomposed using discrete wavelet transform with db4 wavelet and 4th level of decomposition, then the decomposition coefficients are scaled using trigonometric functions (e.g. asinh, atan), finally standard deviation of the scaled coefficients is calculated to obtain the final value. According to the authors, these features are less sensitive to noise and variability of raw vibration signals. 
 
+Table \ref{table:trigonometric-classic_features} shows mathematical definition of different classic and trigonometric features used in litearture:
 
 \begin{table}[ht]
     \centering
@@ -280,50 +290,164 @@ Cf_{nk} = \frac{\sum_{i=1}^n f_{ik}} {\sqrt{abs\left(\sum_{i=1}^nf_{ik}\right)}}
 \label{equation:cumulative_features}
 \end{equation}
 
-\begin{figure}[h]
+In Figure \ref{fig:trig_classic_cumulative_features} cumulative classic and trigonometric features are compared to their non-cumulative counterparts. Even with only visual inspection it is apparent that using cumulative descriptors greatly enhances the quality of prognostics features by reducing noise and fluctuations. 
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{figures/trig_classic_cumulative_features.pdf}
 	\caption{Classic and trigonometric cumulative features}%
 	\label{fig:trig_classic_cumulative_features}
 \end{figure}
 
+To quantify the enhancement caused by using cumulative descriptors on prognostics features, monotonicity and trendability for each feature and its cumulative counterpart is calculated and summarized in Tables \ref{table:trigonometric-classic-monotonicity} and \ref{table:trigonometric-classic-trendability} respectively.
 
-\begin{table}[]
+\begin{table}[ht]
 \centering
-\begin{tabular}{llll}
+\begin{tabu}{cc|cc}
+\tabucline[1.5pt]{-}
 Feature & Monotonicity & Cumulative Feature & Monotonicity \\
+\hline
 $\sigma(atan)$ & 0.486 & C-$\sigma(atan)$ & 1 \\
 $\sigma(asinh)$ & 0.481 & C-$\sigma(asinh)$ & 1 \\
 kurtosis & 0.059 & C-kurtosis & 0.998 \\
 entropy & 0.035 & C-entropy & 1 \\
 rms & 0.481 & C-rms & 1 \\
-ubound & 0.287 & C-ubound & 1
-\end{tabular}
+ubound & 0.287 & C-ubound & 1\\
+\tabucline[1.5pt]{-}
+\end{tabu}
 \caption{Monotonicity difference between trigonometric and classic features and their cumulative descriptors}
 \label{table:trigonometric-classic-monotonicity}
 \end{table}
 
-\begin{table}[]
+\begin{table}[ht]
 \centering
-\begin{tabular}{llll}
+\begin{tabu}{cc|cc}
+\tabucline[1.5pt]{-}
 Feature & Trendability & Cumulative Feature & Trendability \\
+\hline
 $\sigma(atan)$ & 0.987 & C-$\sigma(atan)$ & 0.993 \\
 $\sigma(asinh)$ & 0.989 & C-$\sigma(asinh)$ & 0.995 \\
 kurtosis & 0.985 & C-kurtosis & 0.890 \\
 entropy & 0.994 & C-entropy & 0.976 \\
 rms & 0.988 & C-rms & 0.993 \\
-ubound & 0.990 & C-ubound & 0.996
-\end{tabular}
+ubound & 0.990 & C-ubound & 0.996\\
+\tabucline[1.5pt]{-}
+\end{tabu}
 \caption{Trendability difference between trigonometric and classic features and their cumulative descriptors}
 \label{table:trigonometric-classic-trendability}
 \end{table}
 
-\subsection{Prediction of bearings RUL using neural networks}%
-\label{sub:prediction_of_bearings_rul_using_neural_networks}
+It is very obvious that features monotonicity increased significantly for cumulative features compared to non-cumulative ones. But for trendability the difference was less significant. Figure \ref{fig:features_fitness} plots both monotonicity (x-axis) and trendability (y-axis) of both types of features:
 
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/featuresfitness_fr.pdf}
+	\caption{Features fitness}%
+	\label{fig:features_fitness}
+\end{figure}
 
-\subsection{discussion of results}%
-\label{sub:discussion_of_results}
+\section{Application to oilfield equipment}%
+\label{sec:application_to_oilfield_equipment}
+
+\subsection{Top Drive}%
+\label{sub:top_drive}
+
+In oil drilling rigs, Top Drive is a device that is used to turn the drillstring and replace the conventional rotary table and kelly. The main advantage of Top Drives over conventional solutions is the ability to drill using three joints of pipes instead of just one, thus reducing drastically drilling time. Top Drives also helps drillers to minimize the cost and frequency of stuck pipe incidents \cite{slbtopdrive}.
+
+Figure \ref{fig:figures/bentec_500_ht} shows Bentec 500-HT Top Drive.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figures/bentec_500_ht.jpg}
+	\caption{Topdrive Bentec 500-HT}%
+	\label{fig:figures/bentec_500_ht}
+\end{figure}
+
+From an engineering perspective, Top Drives are much more complicated systems than conventional rotary table and kelly, thus they need more rigorous maintenance programs to ensure their availability considering their major role in drilling operations. Every year the oil and gas technology is pushed harder, to drill in harder conditions and to drill deeper and more challenging oil wells, this poses stricter requirements on used equipment: to be able under and sustain harsher conditions while maximizing its availibility which is of great importance in the field, for example  Top Drives downtime cost can reach 1m\$ per day and cause significant delay to drilling operations \cite{skfbrochure}. 
+
+In \cite{Pournazari2016} the authors reported an industry survey that was conducted to assess the impression of different groups of people (operators, contractors, rig builders…) on the usage of Top Drives. The survey showed an average 60\% satisfaction level across all the groups in the survey, which is an indicative that Top Drives aren't really meeting the expectations in the industry. They were also asked which are the features they would like to see in Top Drives, the most wanted things are less downtime and better ability to detect failures before the breakdown of the system. This means that a more reliable preventive maintenance and prognostics approach is the most wanted improvement to these systems in the field.
+
+\subsection{Top Drive components}%
+\label{sub:top_drive_components}
+
+Top Drives are made of many subassemblies which are shown in Figure \ref{fig:topdrive-subassemblies}\footnote{All the following figures of Top Drive components were taken from Bentec technical bulletin for TD-500-HT and TD-350-HT Top Drives}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{figures/topdrive_subassemblies.png}
+	\caption{Bentec 500-HT Top Drive subassemblies}%
+	\label{fig:topdrive-subassemblies}
+\end{figure}
+
+The Top Drive subassembly of interest here is the drilling unit (Figure \ref{fig:topdrive-drillingunit}) which is responsible for generating the rotation motion and transfering it to the drillstring. Drilling unit is composed of protection frame, hydraulic unit, mudd supply, hanger assembly and\textemdash the most important for the current discussion\textemdash a drive.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.7\linewidth]{figures/topdrive_drillingunit.png}
+	\caption{Bentec 500-HT Top Drive drilling unit}%
+	\label{fig:topdrive-drillingunit}
+\end{figure}
+
+The drive itself is composed of:
+
+\begin{itemize}
+	\item Engine cooling system
+	\item Brake
+	\item AC Motor
+	\item Gearbox (Figure \ref{fig:topdrive-drillingunit-drive-components}(a))
+	\item Mainshaft (Figure \ref{fig:topdrive-drillingunit-drive-components}b)
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[t]{0.4\textwidth}
+         \centering
+	 \includegraphics[width=.7\textwidth]{figures/topdrive_drillingunit_drive_gearbox.png}
+	 \label{fig:topdrive-drillingunit-drive-gearbox}
+	 \caption{Drive gearbox}
+     \end{subfigure}%
+     \begin{subfigure}[t]{0.4\textwidth}
+         \centering
+ \includegraphics[width=0.7\textwidth]{figures/topdrive_drillingunit_drive_mainshaft.png}
+	 \label{fig:topdrive-drillingunit-drive-mainshaft}
+	 \caption{Drive mainshaft}
+     \end{subfigure}
+	\caption{Main components of the drive}%
+	\label{fig:topdrive-drillingunit-drive-components}
+\end{figure}
+
+The gearbox has two stages with transmission ratio of 14:1. The speed of the engine is reduced twice then transferred to the bullgear (1) of the gearbox. The bullgear is located on the thrust bearing. Lubrification of the gearbox is done with combined splash/pressure librification (3). The mainshaft (4) is powered by the bullgear of the gearbox and located in the gearbox with the thrust bearing (2) and it is conducted via lower bearing (3). A wash pipe (1) is connected to execute drilling fluid. The mainshaft also holds the load collar (5) which bears the link adapter to the drill pipe. 
+
+Figure \ref{fig:skf_tapered_roller_thrust_bearing} shows an example of a tapered bearing usually used in Top Drives. While Figure \ref{fig:skf_topdrive} shows the bearing within a Top Drive.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{figures/skf_tapered_roller_thrust_bearing.png}
+	\caption{SKF tapered roller thrust bearing \cite{skf_tapered_roller_thurst_bearing}}%
+	\label{fig:skf_tapered_roller_thrust_bearing}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/skf_topdrive.png}
+	\caption{Bearing position within the Top Drive \cite{skf_bearing}}%
+	\label{fig:skf_topdrive}
+\end{figure}
+
+\subsection{Proposed approach for Top Drive monitoring using neural networks}%
+\label{sub:proposed_approach_for_top_drive_monitoring_using_neural_networks}
+
+Top Drives are already equipped with many sensors to monitor their state like temperature, pressure and flow sensors, yet information that these sensors is only used in a simplified manner by operators \cite{Pournazari2016}. In order to improve maintenance programs and adopt preventive maintenance and prognostics approaches, a more sophisticated and methodological approach to process data provided by these sensors need to be employed, along with introduction of new vibration sensors which are the main monitoring sensors used for bearings and gears, the elements which are present in the top drive and are work under high and varying loads.
+
+Figure \ref{fig:topdrive-drive-sensors} is a simplified schematic representation of the proposed procedures to employ additional sensors for vibrations in the drive to monitor different elements like gears and bearings. Enough sensors should be installed to capture vibrations in the three axes: vertical, horizontal and axial vibrations. When the Top Drive is in use, data collected from these sensors can be used to develop a neural network architecture like the one presented in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}. Data collected earlier during Top Drive healthy state can be used to distinguish and detect diverge from the normal working conditions. If more historic data is present with different fault types, this data can be used to construct a model to actually detect anomalies and classify them according to the previously encountered degradation patterns. The model developed in Section \ref{sec:etude_de_cas_diagnostique_des_roulements} have near perfect accuracy which is very promising. Correctly classifying degradation patterns can also be used to plan and prepare the appropriate maintenance actions and execute them in the appropriate time before any serious degradation can happen which may cause serious non-productive time and high corrective maintenance costs. 
+
+\begin{figure}[h]
+	\centering
+	\input{figures/topdrive_drive_sensors.tex}
+	\caption{Proposed additional vibration sensors to monitor the drive}%
+	\label{fig:topdrive-drive-sensors}
+\end{figure}
+
 
 
 

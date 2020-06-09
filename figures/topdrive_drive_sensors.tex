@@ -1,0 +1,24 @@
+\begin{tikzpicture}
+	\tikzstyle{gear} = [rectangle,  draw, align=center, darkgray, fill=gray, text=white]
+	\tikzstyle{bearing} = [rectangle, draw, align=center]
+	\tikzstyle{shaft} = [rectangle, draw, minimum width = 1em, fill=darkgray, darkgray]
+	\tikzstyle{sensor}  = [circle, fill,red, minimum size=5,inner sep=0]
+	\draw[black!20!white, thick, fill=black!5!white ] (0,0) rectangle (18em,-8em);
+	\node[] at (2.5em,-1em) {Gearbox};
+
+	\node[gear, minimum width=8em, minimum height=2em] at (7em,-4em) (gear) {Gear};
+	\node[gear, minimum width=4em, minimum height=2em, right = 0em  of gear] (pinion) {Pinion};
+
+	\node[bearing, minimum width=7em, minimum height=2em, below = 0em of gear] (thrustbearing) {\footnotesize Thrust bearing};
+
+	\node[shaft, minimum height=4em, above = 0em of pinion] (shaft) {};
+	\node[draw, thick, minimum width=3em, rounded corners, radius=3,minimum height=5em, above = 0em of shaft] {AC Motor};
+
+	\node[shaft, minimum height=3em, below = 0em of thrustbearing] {};
+
+	\node[sensor, below = 0em of thrustbearing] {};
+	\node[sensor, left = 0em of thrustbearing] {};
+	\node[sensor, above = 0em of gear] {};
+	\node[sensor, left = 0em of gear] {};
+	
+\end{tikzpicture}	
