@@ -220,7 +220,105 @@ Testing set & \begin{tabular}[c]{@{}c@{}}Bearing1\_3\\ Bearing1\_4\\ Bearing1\_5
 \label{table:femto-bearings-dataset}
 \end{table}
 
-\subsection{The need for appropriate features}%
+\subsection{Generating data from scaleograms}%
+\label{sub:generating_data_from_scaleograms}
+
+It is important to detect bearing degradation before the actual failure happens. In this section, a convolutional neural network architecture will be used to classify healthy and faulty bearings using scaleograms from vibration data of FEMTO bearings dataset.
+
+Figure \ref{fig:bearings_fault_progress_scaleograms} shows different scaleograms of Bearing1\_1 vibration data took at different stages of the bearing's life.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{figures/femto_scaleograms_fr.pdf}
+	\caption{Scaleograms of different stages of Bearing1\_1 life}%
+	\label{fig:bearings_fault_progress_scaleograms}
+\end{figure}
+
+Scaleograms can show important information about the bearing's health state, but different bearings can have different degradation patterns. For this reason, a dataset of scaleograms extracted from vibration data is constructed. The first 400 vibration snapshots from each bearing are considered to represent a healthy bearing, while the last 80 vibration snapshots are considered faulty. This is considered as a binary classification task, where a convolutional neural network will be used to automatically extract features from scaleograms dataset and classify the bearing's health state. To avoid complexity and the cost of training a large model, the scaleograms are resized to a shape of (128$\times$128) to be a suitable input for the network. This data represents bearings from the first operation condition (from Bearing1\_1 to Bearing1\_7).
+
+\subsection{Detecting bearings failure using convolutional neural networks}%
+\label{sub:detecting_bearings_failure_using_convolutional_neural_networks}
+
+
+\subsubsection{Network architecture}%
+\label{subsub:network_architecture}
+For this task, a convolutional neural network (\acrshort{cnn}) with 3 convolutional layers, 3 maxpooling layers and 3 fully-connected layers is used. The complete network architecture with the number of parameters in the network is represented in Table \ref{table:scaleograms-classifier-architecture}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabu}{lll}
+\tabucline[1.5pt]{-}
+\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+\tabucline[1pt]{-}
+Conv1 (Conv2D)		&	(None, 2, 128, 16)	&	18448\\
+MaxPool1 (MaxPooling2D) &    (None, 1, 64, 16)		&	0\\
+Conv2 (Conv2D)          &    (None, 1, 64, 32)         	&	4640\\
+MaxPool2 (MaxPooling2D) &    (None, 1, 32, 64)         	&	0\\
+Conv3 (Conv2D)          &    (None, 1, 32, 128)        	&	18496\\
+MaxPool3 (MaxPooling2D) &    (None, 1, 16, 128)        	&	0\\
+Flatten1 (Flatten)      &   (None, 2048)              	&	0\\
+Dense1 (Dense)          &    (None, 1024)              	&	524800\\
+Dropout1 (Dropout)	&	(None, 512)		&	0\\
+Dense2 (Dense)          &    (None, 64)                	&	32832\\
+Dropout2 (Dropout)	&	(None, 64)		&	0\\
+Dense3 (Dense)          &    (None, 2)                 	&	66\\
+\tabucline[1pt]{-}
+Total params: 559,346 &				&	\\
+Trainable params: 599,346				&	\\
+Non-trainable params: 0&				&	\\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Bearings health state classifier architecture}
+    \label{table:scaleograms-classifier-architecture}
+\end{table}
+
+\subsubsection{Training process}%
+\label{subsub:training_process}
+Generated dataset contained a total of 1120 samples, 716 samples were used for training, 180 for validation and 224 for test.  The network was trained for only 5 epochs (training for longer epochs resulted in overfitting where training accuracy attained 100\% but only around 60\% for validation and test)  with batch size of 64 samples. Figure \ref{fig:scaleogram-classifier-training} shows the training process.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics{figures/femtocwt_training_fr.pdf}
+	\caption{Bearings health state classifier training}%
+	\label{fig:scaleogram-classifier-training}
+\end{figure}
+
+\subsubsection{Results discussion}%
+\label{subsub:results-discussion}
+The network achieved Table \ref{table:femto-cwt-results}. Table \ref{table:femto-cwt-metrics} shows the additional precision, recall and f1 score metrics.
+
+\begin{table}[H]
+	\centering
+	\begin{tabu}{lcc}
+		\tabucline[1.5pt]{2-3} 
+		&			\textbf{Perte}	&	\textbf{Précision}	\\
+	   \tabucline[1pt]{-}
+		Ensemble d'entraînement &	0.0017	&	100.00\%		\\
+		Ensemble de validation 	&	0.0528 	&	98.89\%			\\
+		Ensemble de test	&	0.0527 	&	98.44\%			\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{Résultats de l'entraînement}
+   \label{table:femto-cwt-results}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabu}{cc}
+		\tabucline[1.5pt]{1-2} 
+		\textbf{Metric} & \textbf{Value}	\\
+	   \tabucline[1pt]{-}
+		Precision	&	0.9896		\\
+		Recall	 	&	0.9694		\\
+		F1 Score	&	0.9794		\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{Additional metrics for network performance}
+   \label{table:femto-cwt-metrics}
+\end{table}
+
+
+\subsection{The need for new prognostics features}%
 \label{sub:the_need_for_appropriate_features}
 When vibration data were used for detecting bearings fault in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}, vibration signals were transformed into images by reshaping 1D signals into 2D arrays which were used as an input to a \acrshort{cnn}. This approach worked very well for diagnositcs but it can't be used for prognostics. 
 
@@ -439,7 +537,7 @@ Figure \ref{fig:skf_tapered_roller_thrust_bearing} shows an example of a tapered
 
 Top Drives are already equipped with many sensors to monitor their state like temperature, pressure and flow sensors, yet information that these sensors is only used in a simplified manner by operators \cite{Pournazari2016}. In order to improve maintenance programs and adopt preventive maintenance and prognostics approaches, a more sophisticated and methodological approach to process data provided by these sensors need to be employed, along with introduction of new vibration sensors which are the main monitoring sensors used for bearings and gears, the elements which are present in the top drive and are work under high and varying loads.
 
-Figure \ref{fig:topdrive-drive-sensors} is a simplified schematic representation of the proposed procedures to employ additional sensors for vibrations in the drive to monitor different elements like gears and bearings. Enough sensors should be installed to capture vibrations in the three axes: vertical, horizontal and axial vibrations. When the Top Drive is in use, data collected from these sensors can be used to develop a neural network architecture like the one presented in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}. Data collected earlier during Top Drive healthy state can be used to distinguish and detect diverge from the normal working conditions. If more historic data is present with different fault types, this data can be used to construct a model to actually detect anomalies and classify them according to the previously encountered degradation patterns. The model developed in Section \ref{sec:etude_de_cas_diagnostique_des_roulements} have near perfect accuracy which is very promising. Correctly classifying degradation patterns can also be used to plan and prepare the appropriate maintenance actions and execute them in the appropriate time before any serious degradation can happen which may cause serious non-productive time and high corrective maintenance costs. 
+Figure \ref{fig:topdrive-drive-sensors} is a simplified schematic representation of the proposed procedures to employ additional sensors (red dots) for vibrations in the drive to monitor different elements like gears and bearings. Enough sensors should be installed to capture vibrations in the three axes: vertical, horizontal and axial vibrations. When the Top Drive is in use, data collected from these sensors can be used to develop a neural network architecture like the one presented in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}. Data collected earlier during Top Drive healthy state can be used to distinguish and detect diverge from the normal working conditions. If more historic data is present with different fault types, this data can be used to construct a model to actually detect anomalies and classify them according to the previously encountered degradation patterns. The model developed in Section \ref{sec:etude_de_cas_diagnostique_des_roulements} have near perfect accuracy which is very promising. Correctly classifying degradation patterns can also be used to plan and prepare the appropriate maintenance actions and execute them in the appropriate time before any serious degradation can happen which may cause serious non-productive time and high corrective maintenance costs. 
 
 \begin{figure}[h]
 	\centering
@@ -448,12 +546,8 @@ Figure \ref{fig:topdrive-drive-sensors} is a simplified schematic representation
 	\label{fig:topdrive-drive-sensors}
 \end{figure}
 
-
-
-
 \section{Conclusion}
 Ce chapitre a adopté une approche de génération de données provenant de la littérature qui convertit les signaux de vibration en images. Les signaux de vibration utilisés ici correspondent à des roulements présentant différents types de défauts et diamètres de défaut. Après avoir converti les signaux non traités en images, un \acrshort{cnn} est utilisé pour classer les signaux transformés (c'est-à-dire les images) dans leurs types de défauts et diamètres correspondants. Le modèle permet d'obtenir une précision de classification quasi parfaite sur l'ensemble de test.
-
 
 \begin{comment}
 \chapter{Bearings Faults Diagnostic using Neural Networks}
