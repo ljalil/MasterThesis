@@ -170,38 +170,39 @@ Pour mieux comprendre les résultats du modèle, une matrice de confusion est co
 
 \section{Etude de cas: Pronostique des roulements}%
 \label{sec:etude_de_cas_pronostique_des_roulements}
-Section \ref{sec:etude_de_cas_diagnostique_des_roulements} presented an approach for diagnosing bearings faults using vibration data and neural networks. Diagnosis is important aspect of maintenance in general, but it's not enough alone, in a predictive maintenance program and in the context of \acrshort{phm}, it is also important to monitor the equipmet, estimate its health state and project it into the future to predict the \acrshort{rul} and that is what is covered in this section. In this section, FEMTO bearings dataset is used.
+Section \ref{sec:etude_de_cas_diagnostique_des_roulements} a présenté une approche pour diagnostiquer les défauts de roulements en utilisant les données de vibrations et les réseaux de neurones. Le diagnostic est un aspect important de la maintenance en général, mais il ne suffit pas à lui seul. Dans un programme de maintenance prédictive et dans le contexte de l'\acrshort{phm}, il est également important de surveiller l'équipement, d'estimer son état de santé et de le projeter dans le futur pour prédire l'\acrshort{rul} et c'est ce qui est couvert dans cette section. C'est ce qui est traité dans cette section. La base de données des roulements FEMTO est utilisé.
+
 
 \subsection{Introduction au base de données FEMTO}%
 \label{sub:introduction_au_base_de_donnees_femto}
 
-FEMTO Bearings dataset was provided by FEMTO-ST Institute (Besançon - France) as a part of PHM 2012 Data Challenge. The dataset consists of vibration and temperature measurements from bearings accelerated aging (run to failure) experiments which were conducted using PRONOSTIA platform.
+La base de données FEMTO Bearings a été fournie par l'institut FEMTO-ST (Besançon - France) dans le cadre du PHM 2012 Data Challenge. La base de données est constituée de mesures de vibrations et de températures provenant d'expériences de vieillissement accéléré (run to failure) de roulements qui ont été réalisées à l'aide de la plate-forme PRONOSTIA.
 
-PRONOSTIA (Figure \ref{fig:pronostia-platform}) is an experimental platform used for accelerated bearings life tests. PRONOSTIA makes it possible to conduct these tests in few hours. Data provided by the platform corresponds to naturally degraded bearings rather than using bearings with artificially-induced faults (e.g. CWRU bearings data).
+PRONOSTIA (Figure \ref{fig:pronostia-platform}) est une plateforme expérimentale utilisée pour les tests de vieillissement accéléré des roulements. PRONOSTIA permet de réaliser ces tests en quelques heures. Les données fournies par la plate-forme correspondent à des roulements naturellement dégradés plutôt qu'à des roulements présentant des défauts artificiels (par exemple, les données des roulements CWRU).
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=.8\linewidth]{figures/pronostia.jpg}
-	\caption{PRONOSTIA platform \cite{pronostia}}%
+	\caption{Platforme PRONOSTIA \cite{pronostia}}%
 	\label{fig:pronostia-platform}
 \end{figure}
 
-PRONOSTIA consists of three main parts:
+La plateforme PRONOSTIA se compose de trois parties principales :
 
 \begin{itemize}
-	\item \textbf{Rotating part}: Asynchronous motor with a power of 250W that transmits rotation motion through a gearbox which allows a rotation speed up to 2830 rpm. The motor's speed and direction of rotation are controlled by the user through a human machine interface (HMI).
-	\item \textbf{Load part}: Which is used to apply a radial force to induce faults in bearings. By applying a load that exeeds the bearing's maximum dynamic load (4000 N), this part allows to drastically reduce the bearing's life and conduct the accelerated aging test. The load is generated using a force actuator that consits of a pneumatic jack powered by a pressure delivered through a digital electro-pneumatic regulator.
-	\item \textbf{Measurement part}: Operation conditions consist of three variables: a) the applied radial force, b) shaft speed and c) torque inflicted on the bearings, all three which are sampled at a frequency of 100Hz. Bearings health is measured by two variables: a) vibrations (both horizontal and vertical) which are measured by 2 accelerometers placed on the bearing's outer race and b) temperature measured by an RTD (Resistance Temperature Detector) probe placed close to the outer race. Vibration is sampled at 26.5kHz and temperature at 10Hz. Vibration measurements consist of snapshots of 2560 samples taken every 10s while temperature measurements are 600 samples taken each minute.
+	\item \textbf{Partie tournante} : Moteur asynchrone d'une puissance de 250W qui transmet un mouvement de rotation par l'intermédiaire d'un réducteur qui permet une vitesse de rotation jusqu'à 2830 tr/min. La vitesse et le sens de rotation du moteur sont contrôlés par l'utilisateur par le biais d'une interface homme-machine (IHM).
+	\item \textbf{Pièce de charge} : Qui est utilisé pour appliquer une force radiale afin d'induire des défauts dans les roulements. En appliquant une charge qui dépasse la charge dynamique maximale du roulement (4000 N), cette pièce permet de réduire drastiquement la durée de vie du roulement et de réaliser le test de vieillissement accéléré. La charge est générée à l'aide d'un actionneur de force qui consiste en un vérin pneumatique alimenté par une pression délivrée par un régulateur électropneumatique numérique.
+	\item \textbf{Pièce de mesure} : Les conditions de fonctionnement comprennent trois variables : a) la force radiale appliquée, b) la vitesse de l'arbre et c) le couple infligé aux roulements, tous trois échantillonnés à une fréquence de 100Hz. La santé des roulements est mesurée par deux variables : a) les vibrations (horizontales et verticales) qui sont mesurées par deux accéléromètres placés sur la bague extérieure du roulement et b) la température mesurée par une sonde RTD (Resistance Temperature Detector) placée à proximité de la bague extérieure. Les vibrations sont échantillonnées à 26,5 kHz et la température à 10 Hz. Les mesures de vibrations consistent en des instantanés de 2560 échantillons prélevés toutes les 10 minutes, tandis que les mesures de température sont de 600 échantillons prélevés chaque minute.
 \end{itemize}
 
-The bearings in the datasets are grouped under three operation conditions:
+Les roulements dans les bases de données sont regroupés sous trois conditions de fonctionnement :
 \begin{itemize}
-	\item First operating conditions: rotation speed of 1800 rpm and load of 4000N.
-	\item Second operating conditions: rotation speed of 1650 rpm and load of 4200N.
-	\item Third operating conditions: rotation speed of 1500 rpm and load of 5000N.
+	\item Premières conditions de fonctionnement : vitesse de rotation de 1800 tr/min et charge de 4000N.
+	\item Deuxième conditions de fonctionnement : vitesse de rotation de 1650 tr/min et charge de 4200N.
+	\item Troisième condition de fonctionnement : vitesse de rotation de 1500 tr/min et charge de 5000N.
 \end{itemize}
 
-Table \ref{table:femto-bearings-dataset} shows different operating conditions and their corresponding bearings in both learning and testing datasets:
+Le tableau \ref{tableau:femto-bearings-dataset} montre différentes conditions de fonctionnement et leurs roulements correspondants dans les bases de données d'apprentissage et de test :
 
 \begin{table}[ht]
 \centering
@@ -216,33 +217,39 @@ Learning set & \begin{tabular}[c]{@{}c@{}}Bearing1\_1\\ Bearing1\_2\end{tabular}
 Testing set & \begin{tabular}[c]{@{}c@{}}Bearing1\_3\\ Bearing1\_4\\ Bearing1\_5\\ Bearing1\_6\\ Bearing1\_7\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing2\_3\\ Bearing2\_4\\ Bearing2\_5\\ Bearing2\_6\\ Bearing2\_7\end{tabular} & Bearing3\_3 \\
 \tabucline[1.5pt]{-}
 \end{tabu}
-\caption{Different operating conditions and correspondig bearings in FEMTO dataset}
+\caption{Différentes conditions de fonctionnement et roulements correspondants dans la base de données FEMTO}
 \label{table:femto-bearings-dataset}
 \end{table}
 
-\subsection{Generating data from scaleograms}%
+\subsection{Génération de données à partir des scaleogrammes}%
 \label{sub:generating_data_from_scaleograms}
 
-It is important to detect bearing degradation before the actual failure happens. In this section, a convolutional neural network architecture will be used to classify healthy and faulty bearings using scaleograms from vibration data of FEMTO bearings dataset.
+Il est important de détecter la dégradation des roulements avant que la défaillance réelle ne se produise. Dans cette section, une architecture de réseau de neurones convolutifs sera utilisée pour classer les roulements sains et les roulements défectueux à l'aide des scaleogrammes provenant des données de vibration de la base de données de roulements FEMTO.
 
-Figure \ref{fig:bearings_fault_progress_scaleograms} shows different scaleograms of Bearing1\_1 vibration data took at different stages of the bearing's life.
+Les figures \ref{fig:bearings_fault_progress_scaleograms_h} et \ref{fig:bearings_fault_progress_scaleograms_v} montrent les différents scaleogrammes des données de vibrations horizontales et verticales du roulement1\_1 (respectivement) prises à différentes étapes de la vie du roulement.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[]{figures/femto_scaleograms_fr.pdf}
-	\caption{Scaleograms of different stages of Bearing1\_1 life}%
-	\label{fig:bearings_fault_progress_scaleograms}
+	\includegraphics[]{figures/femtocwt_scaleograms_h_fr.pdf}
+	\caption{Scalogrammes des différentes phases de la vie du roulement1\_1 (vibrations horizontales)}%
+	\label{fig:bearings_fault_progress_scaleograms_h}
 \end{figure}
 
-Scaleograms can show important information about the bearing's health state, but different bearings can have different degradation patterns. For this reason, a dataset of scaleograms extracted from vibration data is constructed. The first 400 vibration snapshots from each bearing are considered to represent a healthy bearing, while the last 80 vibration snapshots are considered faulty. This is considered as a binary classification task, where a convolutional neural network will be used to automatically extract features from scaleograms dataset and classify the bearing's health state. To avoid complexity and the cost of training a large model, the scaleograms are resized to a shape of (128$\times$128) to be a suitable input for the network. This data represents bearings from the first operation condition (from Bearing1\_1 to Bearing1\_7).
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{figures/femtocwt_scaleograms_v_fr.pdf}
+	\caption{Scalogrammes des différentes phases de la vie du roulement1\_1 (vibrations verticales)}%
+	\label{fig:bearings_fault_progress_scaleograms_v}
+\end{figure}
 
-\subsection{Detecting bearings failure using convolutional neural networks}%
+Les scalogrammes peuvent fournir des informations importantes sur l'état de santé du roulement, mais les différents roulements peuvent avoir des profils de dégradation différents. C'est pourquoi une base de données de scalogrammes est construite à partir des données de vibrations. Les 80 premiers enregistrements de vibrations de chaque roulement sont considérés comme représentant un roulement en bonne santé, tandis que les 80 derniers enregistrements de vibrations sont considérés comme défectueux. Ceci est considéré comme une tâche de classification binaire, où un réseau de neurones convolutifs sera utilisé pour extraire automatiquement les caractéristiques des bases de données des scaleogrammes (données de vibrations horizontales et verticales) et classifier l'état de santé du roulement. Pour éviter la complexité et le coût de l'entraînement d'un grand modèle, les scaleogrammes sont redimensionnés à une forme de (128$\times$128), de sorte que l'entrée du réseau est de forme (2$\times$128$\times$128) où les deux canaux correspondent aux scaleogrammes de vibrations horizontales et verticales. Ces données représentent les roulements de la première condition de fonctionnement (du Roulement1\_1 au Roulement1\_7).
+
+\subsection{Détection de la défaillance des roulements à l'aide de réseaux de neurones convolutifs}%
 \label{sub:detecting_bearings_failure_using_convolutional_neural_networks}
 
-
-\subsubsection{Network architecture}%
+\subsubsection{Architecture de réseau}%
 \label{subsub:network_architecture}
-For this task, a convolutional neural network (\acrshort{cnn}) with 3 convolutional layers, 3 maxpooling layers and 3 fully-connected layers is used. The complete network architecture with the number of parameters in the network is represented in Table \ref{table:scaleograms-classifier-architecture}.
+Pour cette tâche, un réseau de neurones convolutionnel (\acrshort{cnn}) avec 3 couches convolutionnelles, 3 couches de maxpooling et 3 couches entièrement connectées est utilisé. L'architecture complète du réseau avec le nombre de paramètres dans le réseau est représentée dans le tableau \ref{table:scaleograms-classifier-architecture}.
 
 \begin{table}[ht]
     \centering
@@ -272,20 +279,20 @@ Non-trainable params: 0&				&	\\
     \label{table:scaleograms-classifier-architecture}
 \end{table}
 
-\subsubsection{Training process}%
+\subsubsection{Processus d'entraînement}%
 \label{subsub:training_process}
-Generated dataset contained a total of 1120 samples, 716 samples were used for training, 180 for validation and 224 for test.  The network was trained for only 5 epochs (training for longer epochs resulted in overfitting where training accuracy attained 100\% but only around 60\% for validation and test)  with batch size of 64 samples. Figure \ref{fig:scaleogram-classifier-training} shows the training process.
+Generated dataset contained a total of 1120 samples, 716 samples were used for training, 180 for validation and 224 for test. The network was trained for 50 epochs with batch size of 64 samples. Figure \ref{fig:scaleogram-classifier-training} shows the training process.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics{figures/femtocwt_training_fr.pdf}
-	\caption{Bearings health state classifier training}%
+	\caption{Entraînement du classificateur de l'état de santé des roulements}%
 	\label{fig:scaleogram-classifier-training}
 \end{figure}
 
-\subsubsection{Results discussion}%
+\subsubsection{Discussion des résultats}%
 \label{subsub:results-discussion}
-The network achieved Table \ref{table:femto-cwt-results}. Table \ref{table:femto-cwt-metrics} shows the additional precision, recall and f1 score metrics.
+Le réseau a atteint une précision d'entraînement parfaite de 100 \% et une précision de validation et de test similaire d'environ 98 \%. Le tableau \ref{tableau:femto-cwt-results} montre la perte et la précision des données sur l'entraînement, la validation et les tests. Le tableau \ref{tableau:femto-cwt-metrics} montre les indicateurs supplémentaires de précision, de rappel et de score F-1.
 
 \begin{table}[H]
 	\centering
@@ -313,10 +320,18 @@ The network achieved Table \ref{table:femto-cwt-results}. Table \ref{table:femto
 		F1 Score	&	0.9794		\\
    \tabucline[1.5pt]{-}
    \end{tabu}
-   \caption{Additional metrics for network performance}
+   \caption{Indicateurs supplémentaires pour la performance du réseau}
    \label{table:femto-cwt-metrics}
 \end{table}
 
+La figure \ref{fig:bearings_health_state_classifier_roc} montre la courbe ROC du classificateur :
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[]{figures/femtocwt_roc_auc_fr.pdf}
+	\caption{Courbe ROC du classificateur de l'état de santé des roulements sur l'ensemble de test}%
+	\label{fig:bearings_health_state_classifier_roc}
+\end{figure}
 
 \subsection{The need for new prognostics features}%
 \label{sub:the_need_for_appropriate_features}
@@ -324,15 +339,16 @@ When vibration data were used for detecting bearings fault in Section \ref{sec:e
 
 The prognostic model's input is vital to its predictions accuracy \cite{coble2009} and since that's the case, a feature selection step should be carried out while developing the model, which aims to select a set of appropriate features that can make the prediction more accurate \cite{javed2012}. That's why it's important to use concrete metrics which can quantify the quality of our selected prognostics features and help comparing them directly and select the most suitable ones.
 
-\subsubsection{Trendability and monotonicity}%
+\subsubsection{Trendabilité et monotonicité}%
 \label{subsub:trendability_and_monotonicity}
-In \cite{coble2009} the authors proposed a set of metrics which can be used to quantify the quality of prognostics features and directly compare their suitability for use in predictive models, two of these metrics are \textbf{monotonicity} and \textbf{trendability}. According to their defiition, monotonicity refers to the nature of the variable whether it is increasing or decreasing and it has a value between 0 and 1 where a variable that is always increasing or decreasing will have monotonicity of 1. Monotonicity is defined by equation \ref{equation:monotonicity}: 
+Dans \cite{coble2009}, les auteurs ont proposé un ensemble de mesures qui peuvent être utilisées pour quantifier la qualité des caractéristiques de pronostic et comparer directement leur aptitude à être utilisées dans des modèles prédictifs, deux de ces mesures sont \textbf{monotonicité} et \textbf{trendabilité}. Selon leur définition, la monotonicité fait référence à la nature de la variable, qu'elle soit croissante ou décroissante, et elle a une valeur comprise entre 0 et 1, une variable qui est toujours croissante ou décroissante ayant une monotonicité de 1. La monotonicité est définie par l'équation \ref{equation:monotonicity} : 
+
 \begin{equation}
 	M=\frac{\text{no. of }\frac{d}{dx} > 0}{n-1} - \frac{\text{no. of }\frac{d}{dx} < 0}{n-1}
 \label{equation:monotonicity}
 \end{equation}
 
-Trendability on the other hand was defined as whether a given feature follows the same trend (increasing or decreasing) across a population of systems. A feature that is always decreasing or increasing have a higher trendability than another one that doesn't follow a specific trend across different cases. Accordingly, trendability is defined by equation \ref{equation:trendability}:  
+La tendabilité, en revanche, a été définie comme le fait de savoir si une caractéristique donnée suit la même tendance (à la hausse ou à la baisse) dans une population de systèmes. Une caractéristique qui est toujours à la baisse ou à la hausse a une plus grande tendance qu'une autre qui ne suit pas une tendance spécifique dans différents cas. En conséquence, la tendance est définie par l'équation \ref{equation:trendability} :  
 
 \begin{equation}
 	\begin{aligned}
@@ -342,11 +358,13 @@ Trendability&=1-std(t_i)
 	\label{equation:trendability}
 \end{equation}
 
-\subsection{Trigonometric features and cumulative descriptors}%
+\subsection{Caractéristiques trigonométriques et descripteurs cumulatifs}%
 \label{sub:trigonometric_features}
-In \cite{javed2013} the authors proposed a new feature extraction procedure from vibration data based on discrete wavelet transform (Section \ref{subsub:transformation_en_ondelettes_discrete}) and trigonometric functions. Firts, the raw vibration signal is decomposed using discrete wavelet transform with db4 wavelet and 4th level of decomposition, then the decomposition coefficients are scaled using trigonometric functions (e.g. asinh, atan), finally standard deviation of the scaled coefficients is calculated to obtain the final value. According to the authors, these features are less sensitive to noise and variability of raw vibration signals. 
 
-Table \ref{table:trigonometric-classic_features} shows mathematical definition of different classic and trigonometric features used in litearture:
+Dans \cite{javed2013}, les auteurs ont proposé une nouvelle procédure d'extraction des caractéristiques des données de vibration basée sur une transformée en ondelettes discrètes (Section \ref{subsub:transformation_en_ondelettes_discrètes}) et des fonctions trigonométriques. D'abord, le signal de vibration brut est décomposé en utilisant une transformée en ondelettes discrètes avec une ondelette db4 et un 4ème niveau de décomposition, puis les coefficients de décomposition sont mis à l'échelle en utilisant des fonctions trigonométriques (par exemple asinh, atan), enfin l'écart-type des coefficients mis à l'échelle est calculé pour obtenir la valeur finale. Selon les auteurs, ces fonctions sont moins sensibles au bruit et à la variabilité des signaux de vibration bruts. 
+
+Le tableau \ref{table:trigonometric-classic_features} montre la définition mathématique des différentes caractéristiques classiques et trigonométriques utilisées dans le litearture :
+
 
 \begin{table}[ht]
     \centering
@@ -367,37 +385,37 @@ Table \ref{table:trigonometric-classic_features} shows mathematical definition o
 		Upper bound & $max(x)+\frac{1}{2}\frac{max(X)-min(X)}{n-1}$\\
 	\tabucline[1.5pt]{-}
     \end{tabu}
-    \caption{Prognostics trignonometric and classic features \cite{javed2013}}
+    \caption{caractéristiques trigonométriques et classiques de pronostic \cite{javed2013}}
     \label{table:trigonometric-classic_features}
 \end{table}
 
-Figure \ref{fig:trigonometric_features_bearing1_1} shows two trigonometric features (asinh and atan) for Bearing1\_1 from FEMTO dataset. They have been filtered using Savitsky--Golay filter to reduce noise and variability.
+La figure \ref{fig:trigonometric_features_bearing1_1} montre deux caractéristiques trigonométriques (asinh et atan) pour le palier 1\_1 à partir de la base de données FEMTO. Elles ont été filtrées à l'aide du filtre Savitsky--Golay pour réduire le bruit et la variabilité.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.8\linewidth]{figures/trigonometric_features.pdf}
-	\caption{Trigonometric features of Bearing1\_1}%
+	\caption{Caractéristiques trigonométriques du roulement1\_1}%
 	\label{fig:trigonometric_features_bearing1_1}
 \end{figure}
 
 
-Even that trigonometric features are less susceptible to noise compared to classical features (e.g. rms, skewness, kurtosis, etc.), that's not always the case. The authors also proposed the use of cumulative descriptors (i.e. running total) in order to assure monotonicity of the features. The cumulative feature associated with each feature is calculated according to equation \ref{equation:cumulative_features} :
+Même si les caractéristiques trigonométriques sont moins sensibles au bruit que les caractéristiques classiques (par exemple: rms, skewness, kurtosis, etc.), ce n'est pas toujours le cas. ), ce n'est pas toujours le cas. Les auteurs ont également proposé l'utilisation de descripteurs cumulatifs (c'est-à-dire la somme cumulative) afin d'assurer la monotonicité des caractéristiques. La caractéristique cumulative associée à chaque caractéristique est calculée selon l'équation \ref{equation:cumulative_features} :
 
 \begin{equation}
 Cf_{nk} = \frac{\sum_{i=1}^n f_{ik}} {\sqrt{abs\left(\sum_{i=1}^nf_{ik}\right)}}
 \label{equation:cumulative_features}
 \end{equation}
 
-In Figure \ref{fig:trig_classic_cumulative_features} cumulative classic and trigonometric features are compared to their non-cumulative counterparts. Even with only visual inspection it is apparent that using cumulative descriptors greatly enhances the quality of prognostics features by reducing noise and fluctuations. 
+Dans la figure \ref{fig:trig_classic_cumulative_features}, les caractéristiques classiques et trigonométriques cumulées sont comparées à leurs homologues non cumulées. Même avec une simple inspection visuelle, il est évident que l'utilisation de descripteurs cumulatifs améliore considérablement la qualité des caractéristiques de pronostic en réduisant le bruit et les fluctuations. 
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{figures/trig_classic_cumulative_features.pdf}
-	\caption{Classic and trigonometric cumulative features}%
+	\caption{Caractéristiques cumulatives classiques et trigonométriques}%
 	\label{fig:trig_classic_cumulative_features}
 \end{figure}
 
-To quantify the enhancement caused by using cumulative descriptors on prognostics features, monotonicity and trendability for each feature and its cumulative counterpart is calculated and summarized in Tables \ref{table:trigonometric-classic-monotonicity} and \ref{table:trigonometric-classic-trendability} respectively.
+Pour quantifier l'amélioration causée par l'utilisation de descripteurs cumulatifs sur les caractéristiques de pronostic, la monotonicité et la trendabilité de chaque caractéristique et de sa contrepartie cumulative sont calculées et résumées dans les tableaux \ref{table:trigonometric-classic-monotonicity} et \ref{table:trigonometric-classic-trendability} respectivement.
 
 \begin{table}[ht]
 \centering
@@ -413,7 +431,7 @@ rms & 0.481 & C-rms & 1 \\
 ubound & 0.287 & C-ubound & 1\\
 \tabucline[1.5pt]{-}
 \end{tabu}
-\caption{Monotonicity difference between trigonometric and classic features and their cumulative descriptors}
+\caption{Différence de monotonicité entre les caractéristiques trigonométriques et classiques et leurs descripteurs cumulés}
 \label{table:trigonometric-classic-monotonicity}
 \end{table}
 
@@ -431,11 +449,11 @@ rms & 0.988 & C-rms & 0.993 \\
 ubound & 0.990 & C-ubound & 0.996\\
 \tabucline[1.5pt]{-}
 \end{tabu}
-\caption{Trendability difference between trigonometric and classic features and their cumulative descriptors}
+\caption{Différence de trendabilité entre les caractéristiques trigonométriques et classiques et leurs descripteurs cumulés}
 \label{table:trigonometric-classic-trendability}
 \end{table}
 
-It is very obvious that features monotonicity increased significantly for cumulative features compared to non-cumulative ones. But for trendability the difference was less significant. Figure \ref{fig:features_fitness} plots both monotonicity (x-axis) and trendability (y-axis) of both types of features:
+Il est très évident que la monotonicité des caractéristiques a augmenté de manière significative pour les caractéristiques cumulatives par rapport aux caractéristiques non cumulatives. Mais pour la trendabilité, la différence était moins importante. La figure \ref{fig:features_fitness} montre la monotonicité (axe x) et la trendabilité (axe y) des deux types de caractéristiques :
 
 \begin{figure}[H]
 	\centering
@@ -444,20 +462,20 @@ It is very obvious that features monotonicity increased significantly for cumula
 	\label{fig:features_fitness}
 \end{figure}
 
-\section{Application to oilfield equipment}%
+\section{Application aux équipements des chantiers pétroliers}%
 \label{sec:application_to_oilfield_equipment}
 
 \subsection{Top Drive}%
 \label{sub:top_drive}
 
-In oil drilling rigs, Top Drive is a device that is used to turn the drillstring and replace the conventional rotary table and kelly. The main advantage of Top Drives over conventional solutions is the ability to drill using three joints of pipes instead of just one, thus reducing drastically drilling time. Top Drives also helps drillers to minimize the cost and frequency of stuck pipe incidents \cite{slbtopdrive}.
+Dans les platesformes de forage pétrolier, le Top Drive est un dispositif qui sert à faire tourner le train de sonde et à remplacer la table de rotation classique et la tige carrée. Le principal avantage de Top Drive par rapport aux solutions conventionnelles est la possibilité de forer en utilisant trois joints de triges au lieu d'un seul, ce qui réduit considérablement le temps de forage. Top Drives aide également les foreurs à minimiser le coût et la fréquence des incidents liés aux tiges coincées \cite{slbtopdrive}.
 
-Figure \ref{fig:figures/bentec_500_ht} shows Bentec 500-HT Top Drive.
+Figure \ref{fig:figures/bentec_500_ht} montre le Top Drive Bentec 500-HT.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.9\linewidth]{figures/bentec_500_ht.jpg}
-	\caption{Topdrive Bentec 500-HT}%
+	\caption{Top Drive Bentec 500-HT}%
 	\label{fig:figures/bentec_500_ht}
 \end{figure}
 
@@ -465,28 +483,34 @@ From an engineering perspective, Top Drives are much more complicated systems th
 
 In \cite{Pournazari2016} the authors reported an industry survey that was conducted to assess the impression of different groups of people (operators, contractors, rig builders…) on the usage of Top Drives. The survey showed an average 60\% satisfaction level across all the groups in the survey, which is an indicative that Top Drives aren't really meeting the expectations in the industry. They were also asked which are the features they would like to see in Top Drives, the most wanted things are less downtime and better ability to detect failures before the breakdown of the system. This means that a more reliable preventive maintenance and prognostics approach is the most wanted improvement to these systems in the field.
 
-\subsection{Top Drive components}%
+D'un point de vue technique, les Top Drives sont des systèmes beaucoup plus compliqués que les tables de rotation conventionnelles et les tiges carrées, ils ont donc besoin de programmes de maintenance plus rigoureux pour assurer leur disponibilité compte tenu de leur rôle majeur dans les opérations de forage. Chaque année, la technologie du pétrole et du gaz est poussée plus loin, pour forer dans des conditions plus difficiles et pour forer des puits de pétrole plus profonds et plus difficiles, ce qui impose des exigences plus strictes aux équipements utilisés : être capable de supporter des conditions plus difficiles tout en maximisant sa disponibilité, ce qui est d'une grande importance sur le terrain, par exemple le coût du temps d'arrêt des Top Drives peut atteindre 1m\$ par jour et causer des retards importants dans les opérations de forage \cite{skfbrochure}. 
+
+Dans \cite{Pournazari2016}, les auteurs ont rapporté un sondage réalisé dans l'industrie pour évaluer l'impression de différents groupes de personnes (opérateurs, entrepreneurs, constructeurs des appareils de forage...) sur l'utilisation de Top Drives. Le sondage a montré un niveau de satisfaction moyen de 60 \% pour tous les groupes interrogés, ce qui indique que les Top Drives ne répondent pas vraiment aux attentes de l'industrie. On leur a également demandé quelles étaient les caractéristiques qu'ils aimeraient voir dans Top Drives, les choses les plus souhaitées étant une réduction des temps d'arrêt et une meilleure capacité à détecter les pannes avant que le système ne tombe en panne. Cela signifie qu'une maintenance préventive et une approche pronostique plus fiables sont les améliorations les plus souhaitées de ces systèmes sur le terrain.
+
+\subsection{Les composants de Top Drive}%
 \label{sub:top_drive_components}
 
-Top Drives are made of many subassemblies which are shown in Figure \ref{fig:topdrive-subassemblies}\footnote{All the following figures of Top Drive components were taken from Bentec technical bulletin for TD-500-HT and TD-350-HT Top Drives}.
+Les Top Drives sont constitués de nombreux sous-ensembles qui sont présentés dans la figure \ref{fig:topdrive-subassemblies}\footnote{Toutes les figures suivantes des composants Top Drive sont extraites du bulletin technique de Bentec pour les Top Drives TD-500-HT et TD-350-HT}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{figures/topdrive_subassemblies.png}
-	\caption{Bentec 500-HT Top Drive subassemblies}%
+	\caption{Sous-ensembles du Top Drive Bentec 500-HT}%
 	\label{fig:topdrive-subassemblies}
 \end{figure}
 
 The Top Drive subassembly of interest here is the drilling unit (Figure \ref{fig:topdrive-drillingunit}) which is responsible for generating the rotation motion and transfering it to the drillstring. Drilling unit is composed of protection frame, hydraulic unit, mudd supply, hanger assembly and\textemdash the most important for the current discussion\textemdash a drive.
 
-\begin{figure}[h]
+Le sous-ensemble Top Drive qui nous intéresse ici est l'unité de forage (Figure \ref{fig:topdrive-drillingunit}) qui est chargée de générer le mouvement de rotation et de le transférer au train de sonde. L'unité de forage est composée d'un cadre de protection, d'une unité hydraulique, d'une alimentation en boue, d'un ensemble de suspension et\textemdash  le plus important pour la discussion actuelle\textemdash  d'un entraînement.
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=.7\linewidth]{figures/topdrive_drillingunit.png}
-	\caption{Bentec 500-HT Top Drive drilling unit}%
+	\caption{Unité de forage du Top Drive Bentec 500-HT}%
 	\label{fig:topdrive-drillingunit}
 \end{figure}
 
-The drive itself is composed of:
+L'entraînement lui-même est composé de :
 
 \begin{itemize}
 	\item Engine cooling system
@@ -496,58 +520,59 @@ The drive itself is composed of:
 	\item Mainshaft (Figure \ref{fig:topdrive-drillingunit-drive-components}b)
 \end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.4\textwidth}
          \centering
 	 \includegraphics[width=.7\textwidth]{figures/topdrive_drillingunit_drive_gearbox.png}
 	 \label{fig:topdrive-drillingunit-drive-gearbox}
-	 \caption{Drive gearbox}
+	 \caption{Boite de vitesses de l'entraînement}
      \end{subfigure}%
      \begin{subfigure}[t]{0.4\textwidth}
          \centering
  \includegraphics[width=0.7\textwidth]{figures/topdrive_drillingunit_drive_mainshaft.png}
 	 \label{fig:topdrive-drillingunit-drive-mainshaft}
-	 \caption{Drive mainshaft}
+	 \caption{Arbre principal de l'entraînement}
      \end{subfigure}
-	\caption{Main components of the drive}%
+	\caption{Les composants principals de l'entraînement}%
 	\label{fig:topdrive-drillingunit-drive-components}
 \end{figure}
 
-The gearbox has two stages with transmission ratio of 14:1. The speed of the engine is reduced twice then transferred to the bullgear (1) of the gearbox. The bullgear is located on the thrust bearing. Lubrification of the gearbox is done with combined splash/pressure librification (3). The mainshaft (4) is powered by the bullgear of the gearbox and located in the gearbox with the thrust bearing (2) and it is conducted via lower bearing (3). A wash pipe (1) is connected to execute drilling fluid. The mainshaft also holds the load collar (5) which bears the link adapter to the drill pipe. 
+La boîte de vitesses comporte deux étages avec un rapport de transmission de 14:1. La vitesse du moteur est réduite deux fois puis transférée à l'engrenage (1) de la boîte de vitesses. La transmission est située sur le palier de butée. La lubrification de la boîte d'engrenages est effectuée par une librification combinée par barbotage et pression (3). L'arbre principal (4) est alimenté par la transmission de la boîte de vitesses et se trouve dans la boîte de vitesses avec le palier de butée (2) et il est conduit par le palier inférieur (3). Un tuyau de lavage (1) est connecté pour exécuter le fluide de forage. L'arbre principal contient également le collier de charge (5) qui porte l'adaptateur de liaison à la tige de forage. 
 
-Figure \ref{fig:skf_tapered_roller_thrust_bearing} shows an example of a tapered bearing usually used in Top Drives. While Figure \ref{fig:skf_topdrive} shows the bearing within a Top Drive.
+La figure \ref{fig:skf_tapered_roller_thrust_bearing} montre un exemple de palier conique habituellement utilisé dans les entraînements Top Drives. La figure \ref{fig:skf_topdrive} montre le palier dans un entraînement Top Drive.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.6\linewidth]{figures/skf_tapered_roller_thrust_bearing.png}
-	\caption{SKF tapered roller thrust bearing \cite{skf_tapered_roller_thurst_bearing}}%
+	\caption{Palier de butée à rouleaux coniques SKF \cite{skf_tapered_roller_thurst_bearing}}%
 	\label{fig:skf_tapered_roller_thrust_bearing}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.7\linewidth]{figures/skf_topdrive.png}
-	\caption{Bearing position within the Top Drive \cite{skf_bearing}}%
+	\caption{Position des roulements dans le Top Drive \cite{skf_bearing}}%
 	\label{fig:skf_topdrive}
 \end{figure}
 
 \subsection{Proposed approach for Top Drive monitoring using neural networks}%
 \label{sub:proposed_approach_for_top_drive_monitoring_using_neural_networks}
 
-Top Drives are already equipped with many sensors to monitor their state like temperature, pressure and flow sensors, yet information that these sensors is only used in a simplified manner by operators \cite{Pournazari2016}. In order to improve maintenance programs and adopt preventive maintenance and prognostics approaches, a more sophisticated and methodological approach to process data provided by these sensors need to be employed, along with introduction of new vibration sensors which are the main monitoring sensors used for bearings and gears, the elements which are present in the top drive and are work under high and varying loads.
+Les Top Drives sont déjà équipés de nombreux capteurs pour surveiller leur état comme des capteurs de température, de pression et de débit, mais l'information que ces capteurs ne sont utilisés que de manière simplifiée par les opérateurs \cite{Pournazari2016}. Afin d'améliorer les programmes de maintenance et d'adopter des approches de maintenance préventive et de pronostic, une approche plus sophistiquée et méthodologique du traitement des données fournies par ces capteurs doit être utilisée, ainsi que l'introduction de nouveaux capteurs de vibrations qui sont les principaux capteurs de surveillance utilisés pour les roulements et les engrenages, les éléments présents dans le Top Drive et qui travaillent sous des charges élevées et variables.
 
-Figure \ref{fig:topdrive-drive-sensors} is a simplified schematic representation of the proposed procedures to employ additional sensors (red dots) for vibrations in the drive to monitor different elements like gears and bearings. Enough sensors should be installed to capture vibrations in the three axes: vertical, horizontal and axial vibrations. When the Top Drive is in use, data collected from these sensors can be used to develop a neural network architecture like the one presented in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}. Data collected earlier during Top Drive healthy state can be used to distinguish and detect diverge from the normal working conditions. If more historic data is present with different fault types, this data can be used to construct a model to actually detect anomalies and classify them according to the previously encountered degradation patterns. The model developed in Section \ref{sec:etude_de_cas_diagnostique_des_roulements} have near perfect accuracy which is very promising. Correctly classifying degradation patterns can also be used to plan and prepare the appropriate maintenance actions and execute them in the appropriate time before any serious degradation can happen which may cause serious non-productive time and high corrective maintenance costs. 
+La figure \ref{fig:topdrive-drive-sensors} est une représentation schématique simplifiée des procédures proposées pour employer des capteurs supplémentaires (points rouges) pour les vibrations dans l'entraînement afin de surveiller différents éléments comme les engrenages et les roulements. Il faudrait installer suffisamment de capteurs pour capter les vibrations dans les trois axes : les vibrations verticales, horizontales et axiales. Lorsque le Top Drive est en service, les données recueillies par ces capteurs peuvent être utilisées pour développer une architecture de réseau de neurones afin de détecter la dégradation des roulements (Section \ref{sec:etude_de_cas_pronostique_des_roulements}) ou---si suffisamment de données historiques sont disponibles---classer les différents modèles de dégradation (Section \ref{sec:etude_de_cas_diagnostique_des_roulements}). La détection correcte des dégradations ou même la classification des modèles de dégradation peut être utilisée pour planifier et préparer les actions de maintenance appropriées et les exécuter en temps voulu avant qu'une dégradation grave ne se produise, ce qui peut entraîner un temps improductif important et des coûts de maintenance corrective élevés. 
 
-\begin{figure}[h]
+
+\begin{figure}[H]
 	\centering
 	\input{figures/topdrive_drive_sensors.tex}
-	\caption{Proposed additional vibration sensors to monitor the drive}%
+	\caption{Approche proposée pour la surveillance du Top Drive à l'aide de réseaux de neurones}%
 	\label{fig:topdrive-drive-sensors}
 \end{figure}
 
 \section{Conclusion}
-Ce chapitre a adopté une approche de génération de données provenant de la littérature qui convertit les signaux de vibration en images. Les signaux de vibration utilisés ici correspondent à des roulements présentant différents types de défauts et diamètres de défaut. Après avoir converti les signaux non traités en images, un \acrshort{cnn} est utilisé pour classer les signaux transformés (c'est-à-dire les images) dans leurs types de défauts et diamètres correspondants. Le modèle permet d'obtenir une précision de classification quasi parfaite sur l'ensemble de test.
+Ce chapitre présente deux approches différentes pour le diagnostic et le pronostic des roulements à partir des données de vibrations. Les réseaux de neurones présentés ont permis d'obtenir une très grande précision de test. Ensuite, une méthodologie a été présentée pour intégrer ces modèles neuronaux dans les équipements critiques des champs pétrolifères (c'est-à-dire les entraînements Top Drives), ce qui peut avoir un grand impact sur les programmes de maintenance traditionnels existants et contribuer à réduire les temps improductifs et les coûts élevés résultant de la panne de ces équipements importants.
 
 \begin{comment}
 \chapter{Bearings Faults Diagnostic using Neural Networks}
@@ -716,6 +741,398 @@ To further understand the model's results, confusion matrix is constructed. The 
     \includegraphics{figures/cw_bearings_faults_classification.pdf}
     \caption{Confusion matrix of bearings faults classification using \acrshort{cnn}}
     \label{fig:bearings_faults_classification_confusion_matrix}
+\end{figure}
+
+\section{Etude de cas: Pronostique des roulements}%
+\label{sec:etude_de_cas_pronostique_des_roulements}
+Section \ref{sec:etude_de_cas_diagnostique_des_roulements} presented an approach for diagnosing bearings faults using vibration data and neural networks. Diagnosis is important aspect of maintenance in general, but it's not enough alone, in a predictive maintenance program and in the context of \acrshort{phm}, it is also important to monitor the equipmet, estimate its health state and project it into the future to predict the \acrshort{rul} and that is what is covered in this section. In this section, FEMTO bearings dataset is used.
+
+\subsection{Introduction au base de données FEMTO}%
+\label{sub:introduction_au_base_de_donnees_femto}
+
+FEMTO Bearings dataset was provided by FEMTO-ST Institute (Besançon - France) as a part of PHM 2012 Data Challenge. The dataset consists of vibration and temperature measurements from bearings accelerated aging (run to failure) experiments which were conducted using PRONOSTIA platform.
+
+PRONOSTIA (Figure \ref{fig:pronostia-platform}) is an experimental platform used for accelerated bearings life tests. PRONOSTIA makes it possible to conduct these tests in few hours. Data provided by the platform corresponds to naturally degraded bearings rather than using bearings with artificially-induced faults (e.g. CWRU bearings data).
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.8\linewidth]{figures/pronostia.jpg}
+	\caption{PRONOSTIA platform \cite{pronostia}}%
+	\label{fig:pronostia-platform}
+\end{figure}
+
+PRONOSTIA consists of three main parts:
+
+\begin{itemize}
+	\item \textbf{Rotating part}: Asynchronous motor with a power of 250W that transmits rotation motion through a gearbox which allows a rotation speed up to 2830 rpm. The motor's speed and direction of rotation are controlled by the user through a human machine interface (HMI).
+	\item \textbf{Load part}: Which is used to apply a radial force to induce faults in bearings. By applying a load that exeeds the bearing's maximum dynamic load (4000 N), this part allows to drastically reduce the bearing's life and conduct the accelerated aging test. The load is generated using a force actuator that consits of a pneumatic jack powered by a pressure delivered through a digital electro-pneumatic regulator.
+	\item \textbf{Measurement part}: Operation conditions consist of three variables: a) the applied radial force, b) shaft speed and c) torque inflicted on the bearings, all three which are sampled at a frequency of 100Hz. Bearings health is measured by two variables: a) vibrations (both horizontal and vertical) which are measured by 2 accelerometers placed on the bearing's outer race and b) temperature measured by an RTD (Resistance Temperature Detector) probe placed close to the outer race. Vibration is sampled at 26.5kHz and temperature at 10Hz. Vibration measurements consist of snapshots of 2560 samples taken every 10s while temperature measurements are 600 samples taken each minute.
+\end{itemize}
+
+The bearings in the datasets are grouped under three operation conditions:
+\begin{itemize}
+	\item First operating conditions: rotation speed of 1800 rpm and load of 4000N.
+	\item Second operating conditions: rotation speed of 1650 rpm and load of 4200N.
+	\item Third operating conditions: rotation speed of 1500 rpm and load of 5000N.
+\end{itemize}
+
+Table \ref{table:femto-bearings-dataset} shows different operating conditions and their corresponding bearings in both learning and testing datasets:
+
+\begin{table}[ht]
+\centering
+\begin{tabu}{cccc}
+\tabucline[1.5pt]{-}
+Datasets & \multicolumn{3}{c}{Operation conditions} \\
+\cline{2-4}
+ & Conditions 1 & Conditions 2 & Conditions 3 \\
+\hline
+Learning set & \begin{tabular}[c]{@{}c@{}}Bearing1\_1\\ Bearing1\_2\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing2\_1\\ Bearing2\_2\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing3\_1\\ Bearing3\_2\end{tabular} \\
+\hline
+Testing set & \begin{tabular}[c]{@{}c@{}}Bearing1\_3\\ Bearing1\_4\\ Bearing1\_5\\ Bearing1\_6\\ Bearing1\_7\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing2\_3\\ Bearing2\_4\\ Bearing2\_5\\ Bearing2\_6\\ Bearing2\_7\end{tabular} & Bearing3\_3 \\
+\tabucline[1.5pt]{-}
+\end{tabu}
+\caption{Different operating conditions and correspondig bearings in FEMTO dataset}
+\label{table:femto-bearings-dataset}
+\end{table}
+
+\subsection{Generating data from scaleograms}%
+\label{sub:generating_data_from_scaleograms}
+
+It is important to detect bearing degradation before the actual failure happens. In this section, a convolutional neural network architecture will be used to classify healthy and faulty bearings using scaleograms from vibration data of FEMTO bearings dataset.
+
+Figures \ref{fig:bearings_fault_progress_scaleograms_h} and \ref{fig:bearings_fault_progress_scaleograms_v} show different scaleograms of Bearing1\_1 horizontal and vertical vibration data (respectively) taken at different stages of the bearing's life.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{figures/femtocwt_scaleograms_h_fr.pdf}
+	\caption{Scaleograms of different stages of Bearing1\_1 life (horizontal vibrations)}%
+	\label{fig:bearings_fault_progress_scaleograms_h}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[]{figures/femtocwt_scaleograms_v_fr.pdf}
+	\caption{Scaleograms of different stages of Bearing1\_1 life (vertical vibrations)}%
+	\label{fig:bearings_fault_progress_scaleograms_v}
+\end{figure}
+
+Scaleograms can show important information about the bearing's health state, but different bearings can have different degradation patterns. For this reason, a dataset of scaleograms extracted from vibration data is constructed. The first 80 vibration snapshots from each bearing are considered to represent a healthy bearing, while the last 80 vibration snapshots are considered faulty. This is considered as a binary classification task, where a convolutional neural network will be used to automatically extract features from scaleograms (both horizontal and vertical vibration data scaleograms) dataset and classify the bearing's health state. To avoid complexity and the cost of training a large model, the scaleograms are resized to a shape of (128$\times$128), so the input to the network is of shape (2$\times$128$\times$128) where the two channels correspond to both horizontal and vertical vibration scaleograms. This data represents bearings from the first operation condition (from Bearing1\_1 to Bearing1\_7).
+
+\subsection{Detecting bearings failure using convolutional neural networks}%
+\label{sub:detecting_bearings_failure_using_convolutional_neural_networks}
+
+\subsubsection{Network architecture}%
+\label{subsub:network_architecture}
+For this task, a convolutional neural network (\acrshort{cnn}) with 3 convolutional layers, 3 maxpooling layers and 3 fully-connected layers is used. The complete network architecture with the number of parameters in the network is represented in Table \ref{table:scaleograms-classifier-architecture}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabu}{lll}
+\tabucline[1.5pt]{-}
+\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+\tabucline[1pt]{-}
+Conv1 (Conv2D)		&	(None, 2, 128, 16)	&	18448\\
+MaxPool1 (MaxPooling2D) &    (None, 1, 64, 16)		&	0\\
+Conv2 (Conv2D)          &    (None, 1, 64, 32)         	&	4640\\
+MaxPool2 (MaxPooling2D) &    (None, 1, 32, 64)         	&	0\\
+Conv3 (Conv2D)          &    (None, 1, 32, 128)        	&	18496\\
+MaxPool3 (MaxPooling2D) &    (None, 1, 16, 128)        	&	0\\
+Flatten1 (Flatten)      &   (None, 2048)              	&	0\\
+Dense1 (Dense)          &    (None, 1024)              	&	524800\\
+Dropout1 (Dropout)	&	(None, 512)		&	0\\
+Dense2 (Dense)          &    (None, 64)                	&	32832\\
+Dropout2 (Dropout)	&	(None, 64)		&	0\\
+Dense3 (Dense)          &    (None, 2)                 	&	66\\
+\tabucline[1pt]{-}
+Total params: 559,346 &				&	\\
+Trainable params: 599,346				&	\\
+Non-trainable params: 0&				&	\\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Bearings health state classifier architecture}
+    \label{table:scaleograms-classifier-architecture}
+\end{table}
+
+\subsubsection{Training process}%
+\label{subsub:training_process}
+Generated dataset contained a total of 1120 samples, 716 samples were used for training, 180 for validation and 224 for test. The network was trained for 50 epochs with batch size of 64 samples. Figure \ref{fig:scaleogram-classifier-training} shows the training process.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/femtocwt_training_fr.pdf}
+	\caption{Bearings health state classifier training}%
+	\label{fig:scaleogram-classifier-training}
+\end{figure}
+
+\subsubsection{Results discussion}%
+\label{subsub:results-discussion}
+The network achieved a perfect training accuracy of 100\% and similar validation and test accuracy of around 98\%. Table \ref{table:femto-cwt-results} shows loss and accuracy on train, validation and test data. Table \ref{table:femto-cwt-metrics} shows the additional precision, recall and F-1 score metrics.
+
+\begin{table}[H]
+	\centering
+	\begin{tabu}{lcc}
+		\tabucline[1.5pt]{2-3} 
+		&			\textbf{Perte}	&	\textbf{Précision}	\\
+	   \tabucline[1pt]{-}
+		Ensemble d'entraînement &	0.0017	&	100.00\%		\\
+		Ensemble de validation 	&	0.0528 	&	98.89\%			\\
+		Ensemble de test	&	0.0527 	&	98.44\%			\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{Résultats de l'entraînement}
+   \label{table:femto-cwt-results}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabu}{cc}
+		\tabucline[1.5pt]{1-2} 
+		\textbf{Metric} & \textbf{Value}	\\
+	   \tabucline[1pt]{-}
+		Precision	&	0.9896		\\
+		Recall	 	&	0.9694		\\
+		F1 Score	&	0.9794		\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{Additional metrics for network performance}
+   \label{table:femto-cwt-metrics}
+\end{table}
+
+Figure \ref{fig:bearings_health_state_classifier_roc} shows the ROC curve of the classifier:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[]{figures/femtocwt_roc_auc_fr.pdf}
+	\caption{Bearings health state classifier ROC curve on test set}%
+	\label{fig:bearings_health_state_classifier_roc}
+\end{figure}
+
+\subsection{The need for new prognostics features}%
+\label{sub:the_need_for_appropriate_features}
+When vibration data were used for detecting bearings fault in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}, vibration signals were transformed into images by reshaping 1D signals into 2D arrays which were used as an input to a \acrshort{cnn}. This approach worked very well for diagnositcs but it can't be used for prognostics. 
+
+The prognostic model's input is vital to its predictions accuracy \cite{coble2009} and since that's the case, a feature selection step should be carried out while developing the model, which aims to select a set of appropriate features that can make the prediction more accurate \cite{javed2012}. That's why it's important to use concrete metrics which can quantify the quality of our selected prognostics features and help comparing them directly and select the most suitable ones.
+
+\subsubsection{Trendability and monotonicity}%
+\label{subsub:trendability_and_monotonicity}
+In \cite{coble2009} the authors proposed a set of metrics which can be used to quantify the quality of prognostics features and directly compare their suitability for use in predictive models, two of these metrics are \textbf{monotonicity} and \textbf{trendability}. According to their defiition, monotonicity refers to the nature of the variable whether it is increasing or decreasing and it has a value between 0 and 1 where a variable that is always increasing or decreasing will have monotonicity of 1. Monotonicity is defined by equation \ref{equation:monotonicity}: 
+\begin{equation}
+	M=\frac{\text{no. of }\frac{d}{dx} > 0}{n-1} - \frac{\text{no. of }\frac{d}{dx} < 0}{n-1}
+\label{equation:monotonicity}
+\end{equation}
+
+Trendability on the other hand was defined as whether a given feature follows the same trend (increasing or decreasing) across a population of systems. A feature that is always decreasing or increasing have a higher trendability than another one that doesn't follow a specific trend across different cases. Accordingly, trendability is defined by equation \ref{equation:trendability}:  
+
+\begin{equation}
+	\begin{aligned}
+		t_i&= \frac{\text{no. of }\frac{d}{dx}>0}{n-1}+\frac{\text{no of } \frac{d^2}{dx^2}>0}{n-2}\\
+Trendability&=1-std(t_i)
+	\end{aligned}
+	\label{equation:trendability}
+\end{equation}
+
+\subsection{Trigonometric features and cumulative descriptors}%
+\label{sub:trigonometric_features}
+In \cite{javed2013} the authors proposed a new feature extraction procedure from vibration data based on discrete wavelet transform (Section \ref{subsub:transformation_en_ondelettes_discrete}) and trigonometric functions. Firts, the raw vibration signal is decomposed using discrete wavelet transform with db4 wavelet and 4th level of decomposition, then the decomposition coefficients are scaled using trigonometric functions (e.g. asinh, atan), finally standard deviation of the scaled coefficients is calculated to obtain the final value. According to the authors, these features are less sensitive to noise and variability of raw vibration signals. 
+
+Table \ref{table:trigonometric-classic_features} shows mathematical definition of different classic and trigonometric features used in litearture:
+
+\begin{table}[ht]
+    \centering
+    \begin{tabu}{ll}
+		\tabucline[1.5pt]{-}
+		\textbf{Trigonometric features}   & \textbf{Formula} \\
+		\tabucline[1pt]{-}
+		Standard deviation of asinh &   $\sigma\left(log\left[x_j+\sqrt(x_j^2+1)\right]\right)$  \\
+		Standard deviation of atan  &   $\sigma\left(\frac{i}{2}log\left(\frac{i+x_j}{i-x_j}\right)\right)$ \\
+					    &  \\
+		\textbf{Classic features} & \textbf{Formula}\\
+		\tabucline[1pt]{-}
+		Entropy & $E(x)=\sum_jE(x_j)$ \\
+		Energy & $e=\sum_{j=0}^nx_j^2$\\
+		Root mean square & $RMS=\sqrt{\frac{1}{n}(x_1^2+\ldots+x_n^2)}$\\
+		Skewness &  $\frac{\sum_{j=1}^n(x_j-\bar{X})^3}{(n-1)\sigma^3}$\\
+		Kurtosis &  $\frac{\sum_{j=1}^n(x_j-\bar{X})^4}{(n-1)\sigma^4}$\\
+		Upper bound & $max(x)+\frac{1}{2}\frac{max(X)-min(X)}{n-1}$\\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Prognostics trignonometric and classic features \cite{javed2013}}
+    \label{table:trigonometric-classic_features}
+\end{table}
+
+Figure \ref{fig:trigonometric_features_bearing1_1} shows two trigonometric features (asinh and atan) for Bearing1\_1 from FEMTO dataset. They have been filtered using Savitsky--Golay filter to reduce noise and variability.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{figures/trigonometric_features.pdf}
+	\caption{Trigonometric features of Bearing1\_1}%
+	\label{fig:trigonometric_features_bearing1_1}
+\end{figure}
+
+
+Even that trigonometric features are less susceptible to noise compared to classical features (e.g. rms, skewness, kurtosis, etc.), that's not always the case. The authors also proposed the use of cumulative descriptors (i.e. running total) in order to assure monotonicity of the features. The cumulative feature associated with each feature is calculated according to equation \ref{equation:cumulative_features} :
+
+\begin{equation}
+Cf_{nk} = \frac{\sum_{i=1}^n f_{ik}} {\sqrt{abs\left(\sum_{i=1}^nf_{ik}\right)}}
+\label{equation:cumulative_features}
+\end{equation}
+
+In Figure \ref{fig:trig_classic_cumulative_features} cumulative classic and trigonometric features are compared to their non-cumulative counterparts. Even with only visual inspection it is apparent that using cumulative descriptors greatly enhances the quality of prognostics features by reducing noise and fluctuations. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{figures/trig_classic_cumulative_features.pdf}
+	\caption{Classic and trigonometric cumulative features}%
+	\label{fig:trig_classic_cumulative_features}
+\end{figure}
+
+To quantify the enhancement caused by using cumulative descriptors on prognostics features, monotonicity and trendability for each feature and its cumulative counterpart is calculated and summarized in Tables \ref{table:trigonometric-classic-monotonicity} and \ref{table:trigonometric-classic-trendability} respectively.
+
+\begin{table}[ht]
+\centering
+\begin{tabu}{cc|cc}
+\tabucline[1.5pt]{-}
+Feature & Monotonicity & Cumulative Feature & Monotonicity \\
+\hline
+$\sigma(atan)$ & 0.486 & C-$\sigma(atan)$ & 1 \\
+$\sigma(asinh)$ & 0.481 & C-$\sigma(asinh)$ & 1 \\
+kurtosis & 0.059 & C-kurtosis & 0.998 \\
+entropy & 0.035 & C-entropy & 1 \\
+rms & 0.481 & C-rms & 1 \\
+ubound & 0.287 & C-ubound & 1\\
+\tabucline[1.5pt]{-}
+\end{tabu}
+\caption{Monotonicity difference between trigonometric and classic features and their cumulative descriptors}
+\label{table:trigonometric-classic-monotonicity}
+\end{table}
+
+\begin{table}[ht]
+\centering
+\begin{tabu}{cc|cc}
+\tabucline[1.5pt]{-}
+Feature & Trendability & Cumulative Feature & Trendability \\
+\hline
+$\sigma(atan)$ & 0.987 & C-$\sigma(atan)$ & 0.993 \\
+$\sigma(asinh)$ & 0.989 & C-$\sigma(asinh)$ & 0.995 \\
+kurtosis & 0.985 & C-kurtosis & 0.890 \\
+entropy & 0.994 & C-entropy & 0.976 \\
+rms & 0.988 & C-rms & 0.993 \\
+ubound & 0.990 & C-ubound & 0.996\\
+\tabucline[1.5pt]{-}
+\end{tabu}
+\caption{Trendability difference between trigonometric and classic features and their cumulative descriptors}
+\label{table:trigonometric-classic-trendability}
+\end{table}
+
+It is very obvious that features monotonicity increased significantly for cumulative features compared to non-cumulative ones. But for trendability the difference was less significant. Figure \ref{fig:features_fitness} plots both monotonicity (x-axis) and trendability (y-axis) of both types of features:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics{figures/featuresfitness_fr.pdf}
+	\caption{Features fitness}%
+	\label{fig:features_fitness}
+\end{figure}
+
+\section{Application to oilfield equipment}%
+\label{sec:application_to_oilfield_equipment}
+
+\subsection{Top Drive}%
+\label{sub:top_drive}
+
+In oil drilling rigs, Top Drive is a device that is used to turn the drillstring and replace the conventional rotary table and kelly. The main advantage of Top Drives over conventional solutions is the ability to drill using three joints of pipes instead of just one, thus reducing drastically drilling time. Top Drives also helps drillers to minimize the cost and frequency of stuck pipe incidents \cite{slbtopdrive}.
+
+Figure \ref{fig:figures/bentec_500_ht} shows Bentec 500-HT Top Drive.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figures/bentec_500_ht.jpg}
+	\caption{Topdrive Bentec 500-HT}%
+	\label{fig:figures/bentec_500_ht}
+\end{figure}
+
+From an engineering perspective, Top Drives are much more complicated systems than conventional rotary table and kelly, thus they need more rigorous maintenance programs to ensure their availability considering their major role in drilling operations. Every year the oil and gas technology is pushed harder, to drill in harder conditions and to drill deeper and more challenging oil wells, this poses stricter requirements on used equipment: to be able under and sustain harsher conditions while maximizing its availibility which is of great importance in the field, for example  Top Drives downtime cost can reach 1m\$ per day and cause significant delay to drilling operations \cite{skfbrochure}. 
+
+In \cite{Pournazari2016} the authors reported an industry survey that was conducted to assess the impression of different groups of people (operators, contractors, rig builders…) on the usage of Top Drives. The survey showed an average 60\% satisfaction level across all the groups in the survey, which is an indicative that Top Drives aren't really meeting the expectations in the industry. They were also asked which are the features they would like to see in Top Drives, the most wanted things are less downtime and better ability to detect failures before the breakdown of the system. This means that a more reliable preventive maintenance and prognostics approach is the most wanted improvement to these systems in the field.
+
+\subsection{Top Drive components}%
+\label{sub:top_drive_components}
+
+Top Drives are made of many subassemblies which are shown in Figure \ref{fig:topdrive-subassemblies}\footnote{All the following figures of Top Drive components were taken from Bentec technical bulletin for TD-500-HT and TD-350-HT Top Drives}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{figures/topdrive_subassemblies.png}
+	\caption{Bentec 500-HT Top Drive subassemblies}%
+	\label{fig:topdrive-subassemblies}
+\end{figure}
+
+The Top Drive subassembly of interest here is the drilling unit (Figure \ref{fig:topdrive-drillingunit}) which is responsible for generating the rotation motion and transfering it to the drillstring. Drilling unit is composed of protection frame, hydraulic unit, mudd supply, hanger assembly and\textemdash the most important for the current discussion\textemdash a drive.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=.7\linewidth]{figures/topdrive_drillingunit.png}
+	\caption{Bentec 500-HT Top Drive drilling unit}%
+	\label{fig:topdrive-drillingunit}
+\end{figure}
+
+The drive itself is composed of:
+
+\begin{itemize}
+	\item Engine cooling system
+	\item Brake
+	\item AC Motor
+	\item Gearbox (Figure \ref{fig:topdrive-drillingunit-drive-components}(a))
+	\item Mainshaft (Figure \ref{fig:topdrive-drillingunit-drive-components}b)
+\end{itemize}
+
+\begin{figure}[H]
+	\centering
+	\begin{subfigure}[t]{0.4\textwidth}
+         \centering
+	 \includegraphics[width=.7\textwidth]{figures/topdrive_drillingunit_drive_gearbox.png}
+	 \label{fig:topdrive-drillingunit-drive-gearbox}
+	 \caption{Drive gearbox}
+     \end{subfigure}%
+     \begin{subfigure}[t]{0.4\textwidth}
+         \centering
+ \includegraphics[width=0.7\textwidth]{figures/topdrive_drillingunit_drive_mainshaft.png}
+	 \label{fig:topdrive-drillingunit-drive-mainshaft}
+	 \caption{Drive mainshaft}
+     \end{subfigure}
+	\caption{Main components of the drive}%
+	\label{fig:topdrive-drillingunit-drive-components}
+\end{figure}
+
+The gearbox has two stages with transmission ratio of 14:1. The speed of the engine is reduced twice then transferred to the bullgear (1) of the gearbox. The bullgear is located on the thrust bearing. Lubrification of the gearbox is done with combined splash/pressure librification (3). The mainshaft (4) is powered by the bullgear of the gearbox and located in the gearbox with the thrust bearing (2) and it is conducted via lower bearing (3). A wash pipe (1) is connected to execute drilling fluid. The mainshaft also holds the load collar (5) which bears the link adapter to the drill pipe. 
+
+Figure \ref{fig:skf_tapered_roller_thrust_bearing} shows an example of a tapered bearing usually used in Top Drives. While Figure \ref{fig:skf_topdrive} shows the bearing within a Top Drive.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.6\linewidth]{figures/skf_tapered_roller_thrust_bearing.png}
+	\caption{SKF tapered roller thrust bearing \cite{skf_tapered_roller_thurst_bearing}}%
+	\label{fig:skf_tapered_roller_thrust_bearing}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/skf_topdrive.png}
+	\caption{Bearing position within the Top Drive \cite{skf_bearing}}%
+	\label{fig:skf_topdrive}
+\end{figure}
+
+\subsection{Proposed approach for Top Drive monitoring using neural networks}%
+\label{sub:proposed_approach_for_top_drive_monitoring_using_neural_networks}
+
+Top Drives are already equipped with many sensors to monitor their state like temperature, pressure and flow sensors, yet information that these sensors is only used in a simplified manner by operators \cite{Pournazari2016}. In order to improve maintenance programs and adopt preventive maintenance and prognostics approaches, a more sophisticated and methodological approach to process data provided by these sensors need to be employed, along with introduction of new vibration sensors which are the main monitoring sensors used for bearings and gears, the elements which are present in the top drive and are work under high and varying loads.
+
+Figure \ref{fig:topdrive-drive-sensors} is a simplified schematic representation of the proposed procedures to employ additional sensors (red dots) for vibrations in the drive to monitor different elements like gears and bearings. Enough sensors should be installed to capture vibrations in the three axes: vertical, horizontal and axial vibrations. When the Top Drive is in use, data collected from these sensors can be used to develop a neural network architecture to detect bearings degradation (Section \ref{sec:etude_de_cas_pronostique_des_roulements}) or---if enough historic data is available---classifying different degradation patterns (Section \ref{sec:etude_de_cas_diagnostique_des_roulements}). Correctly detecting degradation or even classifying degradation patterns can be used to plan and prepare the appropriate maintenance actions and execute them in the appropriate time before any serious degradation happens which may cause serious non-productive time and high corrective maintenance costs. 
+
+\begin{figure}[H]
+	\centering
+	\input{figures/topdrive_drive_sensors.tex}
+	\caption{Proposed additional vibration sensors to monitor the drive}%
+	\label{fig:topdrive-drive-sensors}
 \end{figure}
 
 \section{Conclusion}
