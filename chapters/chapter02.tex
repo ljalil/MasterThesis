@@ -69,8 +69,8 @@ La Fast Fourier Transform (FFT) est un algorithme efficace utilisé pour implém
 
 \begin{figure}[h]
     \centering
-    \includegraphics{figures/fft.pdf}
-    \caption{Signal in the time domain and its fast Fourier transform}
+    \includegraphics{figures/fft_fr.pdf}
+    \caption{Signal dans le domaine temporel et sa transformation de Fourier rapide}
     \label{figure:fft}
 \end{figure}
 
@@ -82,8 +82,8 @@ La figure \ref{fig:time-frequency-plane} montre la différence de résolution en
 
 \begin{figure}[H]
     \centering
-    \input{figures/time-frequency-resolution.tex}
-    \caption{Time—frequency resolution plane}
+    \input{figures/time-frequency-resolution_fr.tex}
+    \caption{Plan de résolution temps--fréquence}
     \label{fig:time-frequency-plane}
 \end{figure}
 
@@ -133,7 +133,7 @@ Dans des applications pratiques, la transformation en ondelettes discrètes (\ac
 
 \begin{figure}[h]
     \centering
-    \includegraphics{figures/dwt_chirp.pdf}
+    \includegraphics{figures/dwt_chirp_fr.pdf}
     \caption{Décomposition du signal de niveau 3 à l'aide de \acrshort{dwt}}
     \label{fig:dwt-chirp-signal}
 \end{figure}
@@ -162,7 +162,17 @@ Le diagnostic est l'analyse de l'événement postérieur et le pronostic est l'a
 Prognostics are the forecast or prediction of the future performance of a system, this prediction is based on its current state. The prediction is performed using a model, types of prognostics models are already discussed in details in section \ref{section:prognostics-approaches} but the focus of this current discussion is geared towards data-driven models. More concretely, what these models predict is the remaining useful life (\acrshort{rul}) defined in section \ref{section:rul-estimation}. Prognostics models—by estimating \acrshort{rul}—aim at scheduling maintenance actions according to the predictions and production constraints associated with the machine in order to achieve zero unscheduled equipment downtime.
 
 \section{Décision de la maintenance}
+La prochaine et dernière étape de toute approche pronostique consiste à utiliser les résultats du modèle développé (c'est-à-dire les prédictions ou les estimations pour le \acrshort{rul} du système) afin de réaliser des actions de maintenance préventive meilleures et plus précises. Les personnes chargées de la maintenance doivent analyser les résultats du modèle avant de prendre des mesures, car tout modèle comporte une erreur inhérente associée à ses prévisions. Habituellement, les modèles basés sur des données fournissent des intervalles de confiance associés à leurs prédictions qui doivent être considérés avec soin. Il convient également de noter que ces intervalles de confiance reflètent la certitude des modèles quant à leurs prédictions sur la base des données fournies pour l'entraînement. Dans les applications réelles, un nouveau mode de défaillance imprévu peut se produire, ce qui n'était peut-être pas le cas auparavant, et n'a donc pas été prévu pour le modèle dans les données utilisées pour le construire. Ceci est plus ou moins associé à la capacité de différents types de modèles à généraliser pour de nouvelles données imprévues, mais en général, il est bien connu que tout modèle d'entraînement sera moins fiable lorsqu'il effectue des prédictions en utilisant des données que le modèle ne voyait pas avant \cite{Chung2018}. C'est pourquoi il est essentiel de fournir des données de qualité qui reflètent différents modèles de dégradation et modes de défaillance pour que le modèle puisse faire des prédictions plus robustes et plus fiables.
+
+\section{Conclusion}
+L'élaboration d'un modèle de pronostic (fondé sur des données) est un processus qui nécessite de nombreuses étapes : de l'acquisition des données nécessaires à la construction du modèle à l'utilisation des prévisions du modèle pour prendre des décisions de maintenance meilleures et plus précises qui se traduisent par moins (voire zéro) de temps d'arrêt imprévu ; ceci réduit les coûts et diminue les pertes de production, ce dernier point étant le but ultime de toute cette discussion et de la littérature sur les pronostics/la maintenance préventive en général. Cette discussion se concentre sur les modèles basés sur les données, l'un des modèles qui a prouvé sa grande capacité à apprendre des modèles non linéaires complexes dans les données sont les réseaux de neurones. Ces modèles ont une architecture différente en fonction de la structure des données. Ils seront présentés et expliqués en détail dans le prochain chapitre.
+
+\begin{comment}
+
+\section{Décision de la maintenance}
 The next and the last step of any prognostics approach is to use the output of the developed model (i.e. predictions, or estimations for the system's \acrshort{rul}) in making better and more accurate preventive maintenance actions. Maintenance decision makers should analyze the outputs of the model prior to taking any actions, since any model has an inherent error associated with its predictions. Usually, data-driven models provide confidence intervals associated with their predictions which must be considered carefully. Also it must be noted that those confidence itervals are reflection of the models certainty of its predictions based on the data provided for the training, in real applications a new unforeseen failure mode can occure which may not have happened before, thus it wasn't provided for the model as part of the data used to consutrct it. This is more or less associated with the ability of different types of models to generalize for new unforeseen data, but in general it is well-known fact that any data-driven model will be less reliable when performing predictions using data that the model didn't see before \cite{Chung2018}. That's why providing quality data that reflects different degradation patterns and fault modes is essential for the model to make more robust and reliable predictions.
 
 \section{Conclusion}
 Developing a (data-driven) prognostics model is a process that requires many steps: from data acquisition required to construct the model to employing the model predictions in making better and more accurate maintenance decisions which result in less (or even zero) unscheduled downtime this reduced costs and decreased production loss, the latter being the ultimate goal of all this discussion and prognostics/preventive maintenance literature in general. The focus of this discussion is data-driven models, one of the models that proved great ability in learning complex non-linear patterns in data are neural networks. These models have different architecture depending on the structure of data. They will be presented and explained in details in the next chapter.
+
+\end{comment}

@@ -1,5 +1,5 @@
 \chapter{Diagnostic et Pronostic des Roulements avec les Réseaux de Neurones}
-
+\label{chapter:diagnostic-and-prognostic-of-bearings-using-neural-networks}
 \chapterintrobox{La surveillance des vibrations est vitale pour de nombreux systèmes industriels. Les mesures des vibrations contiennent des informations très utiles sur l'état de santé des équipements et les types de défauts. Néanmoins, obtenir des informations à partir de ces signaux dans des applications réelles se révèle être un processus complexe. Cela est principalement dû à la complexité du problème. Ce chapitre présente une approche pour le diagnostic des défauts de roulements à l'aide de réseaux de neurones convolutifs.}
 
 \section{Etude de cas: Diagnostique des roulements}%
@@ -59,22 +59,13 @@ Les signaux des différents types de défauts ont des longueurs variables, ce qu
 \end{equation}
 
 Le nombre d'images correspondant à chaque classe est indiqué dans la figure \ref{fig:bearings_faults_samples_count}:
-\begin{comment}
-
-\begin{figure}[h]
-    \centering
-	\includegraphics{figures/cw_bearings_faults_count.pdf}
-    \caption{Converted signals of different faults types}
-	\label{fig:bearings_faults_samples_count}
-\end{figure}
-\end{comment}
 
 %\begin{comment
 \begin{table}[h]
 	\centering
 	\begin{tabu}{lc}
 		\tabucline[1.5pt]{-} 
-	   Class 					&	Samples count	\\
+	   Classe 					&	Nombre d'échantillons	\\
 	   \hline 
 	   Normal bearing 			&	295				\\
 	   Roller element 0.18mm 	&	146				\\
@@ -90,7 +81,7 @@ Le nombre d'images correspondant à chaque classe est indiqué dans la figure \r
 	   Total 					& 1548 				\\
    \tabucline[1.5pt]{-}
    \end{tabu}
-   \caption{}
+   \caption{Nombre d'échantillons pour chaque classe de défauts}
    \label{table:cw-classes-count}
 \end{table}
 %\end{comment
@@ -125,45 +116,65 @@ Pour effectuer cette tâche de classification, une architecture \acrshort{cnn} e
 		Non-trainable params: 0     &                   &           \\
 	\tabucline[1.5pt]{-}
     \end{tabu}
-    \caption{Architecture \acrshort{cnn}}
+    \caption{Architecture \acrshort{cnn} du classificateur de défauts de roulements}
     \label{table:bearings-faults-cnn-classifier-architecture}
 \end{table}
 
 
 \subsubsection{Processus d'entraînement}
 La base de données contient au total 1 548 échantillons, dont 20 \% sont utilisés comme test, les 80 \% restants étant destinés à l'entraînement. De l'ensemble d'entraînement, 15 \% sont utilisés comme fractionnement de validation pendant le processus d'entraînement. Le réseau a été entraîné pour 30 époques et batch size de 32.
-La figure \ref{fig:bearings_faults_classification_training} montre l'évolution de la précision (\%) et de la perte (entropie croisée catégorique) en fonction des époques d'entraînement. Le réseau converge vers la 10éme époque avec une légère augmentation de la précision et une diminution de la perte par la suite. 
+La figure \ref{fig:bearings_faults_classification_training} montre l'évolution de l'exactitude (\%) et de la perte (entropie croisée catégorique) en fonction des époques d'entraînement. Le réseau converge vers la 10éme époque avec une légère augmentation de l'exactitude et une diminution de la perte par la suite. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cw_bearings_faults_classification_training.pdf}
-    \caption{Entraînement de classificateur}
+    \includegraphics{figures/cw_bearings_faults_classification_training_fr_retrained.pdf}
+    \caption{Entraînement de classificateur de défauts de roulements}
     \label{fig:bearings_faults_classification_training}
 \end{figure}
 
 \subsubsection{Discussion des résultats}
-Le modèle atteint une précision parfaite de 100 \% sur l'ensemble d'entraînement et une précision proche sur l'ensemble de validation. Après l'entraînement, le modèle est évalué sur l'ensemble de test et atteint une précision presque parfaite de 98,72 \%. L'entraînement, la validation et la perte et la précision du test sont résumées dans le tableau \ref{tableau:cw-cnn-results}.
+Le modèle atteint une exactitude parfaite de 100 \% sur l'ensemble d'entraînement et une exactitude de 95.65\% sur l'ensemble de validation. Après l'entraînement, le modèle est évalué sur l'ensemble de test et atteint une exactitude très élevée 95.90 \%. L'entraînement, la validation et la perte et l'exactitude du test sont résumées dans le tableau \ref{tableau:cw-cnn-results}.
 
 \begin{table}[H]
 	\centering
 	\begin{tabu}{lcc}
 		\tabucline[1.5pt]{2-3} 
-						&	\textbf{Perte}	&	\textbf{Précision}	\\
+					&	\textbf{Perte}	&	\textbf{Exactitude}	\\
 	   \tabucline[1pt]{-}
-		Ensemble d'entraînement 		&	0.0003			&	100.00\%				\\
-		Ensemble de validation 	&	0.0269 			&	99.46\%					\\
-		Ensemble de test		&	0.0586 			&	98.71\%					\\
+		Ensemble d'entraînement &	0.0030	&	100.00\%	\\
+		Ensemble de validation 	&	0.1251	&	95.65\%		\\
+		Ensemble de test	&	0.1074 	&	95.90\%		\\
    \tabucline[1.5pt]{-}
    \end{tabu}
-   \caption{Résultats de l'entraînement}
+   \caption{Résultats de l'entraînement du classificateur de défauts de roulements}
    \label{table:cw-cnn-results}
 \end{table}
+
+
+\begin{comment}
+%%These results were obtained prior to retraining the model because some figures weren't in French and had to be obtained.
+\begin{table}[H]
+	\centering
+	\begin{tabu}{lcc}
+		\tabucline[1.5pt]{2-3} 
+					&	\textbf{Perte}	&	\textbf{Exactitude}	\\
+	   \tabucline[1pt]{-}
+		Ensemble d'entraînement &	0.0003	&	100.00\%	\\
+		Ensemble de validation 	&	0.0269 	&	99.46\%		\\
+		Ensemble de test	&	0.0586 	&	98.71\%		\\
+   \tabucline[1.5pt]{-}
+   \end{tabu}
+   \caption{Résultats de l'entraînement du classificateur de défauts de roulements}
+   \label{table:cw-cnn-results}
+\end{table}
+
+\end{comment}
 
 Pour mieux comprendre les résultats du modèle, une matrice de confusion est construite. La matrice de confusion (Figure \ref{fig:bearings_faults_classification_confusion_matrix}) montre les résultats des prédictions du modèle sur l'ensemble de test où l'axe des y montre les classes réelles (réelles) dans l'ensemble de test et l'axe des x les prédictions du modèle. La diagonale de la matrice de confusion est l'endroit où les classes réelles croisent les classes prédites par le modèle pour chaque échantillon et il est évident que le modèle atteint une classification quasi parfaite.
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cw_bearings_faults_classification.pdf}
+    \includegraphics{figures/cw_bearings_faults_classification_fr_retrained.pdf}
     \caption{Matrice de confusion de la classification des défauts de roulements à l'aide de CNN}
     \label{fig:bearings_faults_classification_confusion_matrix}
 \end{figure}
@@ -228,6 +239,7 @@ Il est important de détecter la dégradation des roulements avant que la défai
 
 Les figures \ref{fig:bearings_fault_progress_scaleograms_h} et \ref{fig:bearings_fault_progress_scaleograms_v} montrent les différents scaleogrammes des données de vibrations horizontales et verticales du roulement1\_1 (respectivement) prises à différentes étapes de la vie du roulement.
 
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[]{figures/femtocwt_scaleograms_h_fr.pdf}
@@ -275,13 +287,13 @@ Trainable params: 599,346				&	\\
 Non-trainable params: 0&				&	\\
 	\tabucline[1.5pt]{-}
     \end{tabu}
-    \caption{Bearings health state classifier architecture}
+    \caption{Architecture du classificateur de l'état de santé de roulements}
     \label{table:scaleograms-classifier-architecture}
 \end{table}
 
 \subsubsection{Processus d'entraînement}%
 \label{subsub:training_process}
-Generated dataset contained a total of 1120 samples, 716 samples were used for training, 180 for validation and 224 for test. The network was trained for 50 epochs with batch size of 64 samples. Figure \ref{fig:scaleogram-classifier-training} shows the training process.
+La base de données générée contenait un total de 1120 échantillons, 716 échantillons ont été utilisés pour l'entraînement, 180 pour la validation et 224 pour le test. Le réseau a été entraîné pour 50 époques avec des lots de 64 échantillons. La figure \ref{fig:scaleogram-classifier-training} montre le processus d'entraînement.
 
 \begin{figure}[H]
 	\centering
@@ -292,37 +304,38 @@ Generated dataset contained a total of 1120 samples, 716 samples were used for t
 
 \subsubsection{Discussion des résultats}%
 \label{subsub:results-discussion}
-Le réseau a atteint une précision d'entraînement parfaite de 100 \% et une précision de validation et de test similaire d'environ 98 \%. Le tableau \ref{tableau:femto-cwt-results} montre la perte et la précision des données sur l'entraînement, la validation et les tests. Le tableau \ref{tableau:femto-cwt-metrics} montre les indicateurs supplémentaires de précision, de rappel et de score F-1.
+Le réseau a atteint une exactitude d'entraînement parfaite de 100 \% et une exactitude de validation et de test similaire d'environ 98 \%. Le tableau \ref{tableau:femto-cwt-results} montre la perte et l'exactitude des données sur l'entraînement, la validation et les tests. Le tableau \ref{tableau:femto-cwt-metrics} montre les indicateurs supplémentaires de précision, de rappel et de score F-1.
 
 \begin{table}[H]
 	\centering
 	\begin{tabu}{lcc}
 		\tabucline[1.5pt]{2-3} 
-		&			\textbf{Perte}	&	\textbf{Précision}	\\
+		&			\textbf{Perte}	&	\textbf{Exactitude}	\\
 	   \tabucline[1pt]{-}
 		Ensemble d'entraînement &	0.0017	&	100.00\%		\\
 		Ensemble de validation 	&	0.0528 	&	98.89\%			\\
 		Ensemble de test	&	0.0527 	&	98.44\%			\\
    \tabucline[1.5pt]{-}
    \end{tabu}
-   \caption{Résultats de l'entraînement}
+   \caption{Résultats de l'entraînement du classificateur de l'état de santé de roulements}
    \label{table:femto-cwt-results}
 \end{table}
 
+
 \begin{table}[H]
-	\centering
-	\begin{tabu}{cc}
-		\tabucline[1.5pt]{1-2} 
-		\textbf{Metric} & \textbf{Value}	\\
-	   \tabucline[1pt]{-}
-		Precision	&	0.9896		\\
-		Recall	 	&	0.9694		\\
-		F1 Score	&	0.9794		\\
-   \tabucline[1.5pt]{-}
-   \end{tabu}
-   \caption{Indicateurs supplémentaires pour la performance du réseau}
-   \label{table:femto-cwt-metrics}
+    \centering
+    \begin{tabu}{cccccc}
+        
+    \tabucline[1.5pt]{-}
+    \textbf{Métrique} &  \textbf{Exactitude} &  \textbf{Précision} &  \textbf{Rappel} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
+    \hline
+  \textbf{Valeur} & 98.44\% & 0.9896 & 0.9694 & 0.9794 & 0.8348 \\
+	\tabucline[1.5pt]{-}
+    \end{tabu}
+    \caption{Indicateurs supplémentaires pour la performance du réseau}
+    \label{table:femto-cwt-metrics}
 \end{table}
+end{table}
 
 La figure \ref{fig:bearings_health_state_classifier_roc} montre la courbe ROC du classificateur :
 
@@ -333,11 +346,9 @@ La figure \ref{fig:bearings_health_state_classifier_roc} montre la courbe ROC du
 	\label{fig:bearings_health_state_classifier_roc}
 \end{figure}
 
-\subsection{The need for new prognostics features}%
+\subsection{Le besoin de nouvelles caractéristiques de pronostic}%
 \label{sub:the_need_for_appropriate_features}
-When vibration data were used for detecting bearings fault in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}, vibration signals were transformed into images by reshaping 1D signals into 2D arrays which were used as an input to a \acrshort{cnn}. This approach worked very well for diagnositcs but it can't be used for prognostics. 
-
-The prognostic model's input is vital to its predictions accuracy \cite{coble2009} and since that's the case, a feature selection step should be carried out while developing the model, which aims to select a set of appropriate features that can make the prediction more accurate \cite{javed2012}. That's why it's important to use concrete metrics which can quantify the quality of our selected prognostics features and help comparing them directly and select the most suitable ones.
+L'entrée du modèle de pronostic est essentielle à la précision de ses prédictions \cite{coble2009} et puisque c'est le cas, une étape de sélection des caractéristiques doit être effectuée lors du développement du modèle, qui vise à sélectionner un ensemble de caractéristiques appropriées qui peuvent rendre la prédiction plus précise \cite{javed2012}. C'est pourquoi il est important d'utiliser des mesures concrètes qui peuvent quantifier la qualité des caractéristiques pronostiques sélectionnées et aider à les comparer directement et à sélectionner les plus appropriées.
 
 \subsubsection{Trendabilité et monotonicité}%
 \label{subsub:trendability_and_monotonicity}
@@ -385,7 +396,7 @@ Le tableau \ref{table:trigonometric-classic_features} montre la définition math
 		Upper bound & $max(x)+\frac{1}{2}\frac{max(X)-min(X)}{n-1}$\\
 	\tabucline[1.5pt]{-}
     \end{tabu}
-    \caption{caractéristiques trigonométriques et classiques de pronostic \cite{javed2013}}
+    \caption{Caractéristiques trigonométriques et classiques de pronostic \cite{javed2013}}
     \label{table:trigonometric-classic_features}
 \end{table}
 
@@ -572,7 +583,8 @@ La figure \ref{fig:topdrive-drive-sensors} est une représentation schématique 
 \end{figure}
 
 \section{Conclusion}
-Ce chapitre présente deux approches différentes pour le diagnostic et le pronostic des roulements à partir des données de vibrations. Les réseaux de neurones présentés ont permis d'obtenir une très grande précision de test. Ensuite, une méthodologie a été présentée pour intégrer ces modèles neuronaux dans les équipements critiques des champs pétrolifères (c'est-à-dire les entraînements Top Drives), ce qui peut avoir un grand impact sur les programmes de maintenance traditionnels existants et contribuer à réduire les temps improductifs et les coûts élevés résultant de la panne de ces équipements importants.
+Ce chapitre présente deux approches différentes pour le diagnostic et le pronostic des roulements à partir des données de vibrations. Les réseaux de neurones présentés ont permis d'obtenir une très grande exactitude de test. Ensuite, une méthodologie a été présentée pour intégrer ces modèles neuronaux dans les équipements critiques des champs pétrolifères (c'est-à-dire les entraînements Top Drives), ce qui peut avoir un grand impact sur les programmes de maintenance traditionnels existants et contribuer à réduire les temps improductifs et les coûts élevés résultant de la panne de ces équipements importants.
+
 
 \begin{comment}
 \chapter{Bearings Faults Diagnostic using Neural Networks}
@@ -872,7 +884,7 @@ The network achieved a perfect training accuracy of 100\% and similar validation
 	\centering
 	\begin{tabu}{lcc}
 		\tabucline[1.5pt]{2-3} 
-		&			\textbf{Perte}	&	\textbf{Précision}	\\
+		&			\textbf{Perte}	&	\textbf{Exactitude}	\\
 	   \tabucline[1pt]{-}
 		Ensemble d'entraînement &	0.0017	&	100.00\%		\\
 		Ensemble de validation 	&	0.0528 	&	98.89\%			\\
@@ -909,8 +921,6 @@ Figure \ref{fig:bearings_health_state_classifier_roc} shows the ROC curve of the
 
 \subsection{The need for new prognostics features}%
 \label{sub:the_need_for_appropriate_features}
-When vibration data were used for detecting bearings fault in Section \ref{sec:etude_de_cas_diagnostique_des_roulements}, vibration signals were transformed into images by reshaping 1D signals into 2D arrays which were used as an input to a \acrshort{cnn}. This approach worked very well for diagnositcs but it can't be used for prognostics. 
-
 The prognostic model's input is vital to its predictions accuracy \cite{coble2009} and since that's the case, a feature selection step should be carried out while developing the model, which aims to select a set of appropriate features that can make the prediction more accurate \cite{javed2012}. That's why it's important to use concrete metrics which can quantify the quality of our selected prognostics features and help comparing them directly and select the most suitable ones.
 
 \subsubsection{Trendability and monotonicity}%

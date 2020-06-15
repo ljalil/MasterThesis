@@ -1,0 +1,13 @@
+\begin{tikzpicture}
+    \node[draw, rectangle] (ph) {Approches physiques};
+    \node[draw, circle, below = 1em of ph] (u) {U};
+    \node[draw, rectangle, below = 1em of u] (dd) {Approches data-driven};
+
+    \draw[->, >=angle 60] (u.east)      --      node[above] {\scriptsize Prédiction} ([xshift=4.5em]u.east);
+    \draw[->, >=angle 60] (ph.south)    --      (u.north);
+    \draw[->, >=angle 60] (dd.north)    --      (u.south);
+    \draw[->, >=angle 60] (-4.5,0)      --      node[above] {\scriptsize Entrée} (ph.west);
+    \draw[->, >=angle 60] (-3,0)        |-      (dd.west);
+    %the following lign is just to make the figure center precisely and align with the previous one
+    \draw[->, draw=none] (ph.east) -- ([xshift=4.5em]ph.east);
+\end{tikzpicture}

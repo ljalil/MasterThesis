@@ -1,6 +1,5 @@
-\chapter{Equipment Health Assessment using Artificial Neural Networks}
-%\chapter{Classification of Healthy and Faulty States using Neural Networks}
-
+\chapter{Évaluation de l'État des Équipements par les Réseaux de Neurones}
+\label{chapter:equipment_state_evaluation_using_neural_networks}
 \chapterintrobox{Ce chapitre démontre l'utilisation d'un réseau de neurones artificiels pour estimer l'état de santé d'un ensemble de turbosoufflantes à partir de l'ensemble de données C-MAPSS de la NASA et prédire la durée de vie utile restante. Il présente également différentes mesures permettant d'évaluer les performances du réseau.}
 
 \section{Introduction à la base de données C-MAPSS}
@@ -118,11 +117,11 @@ Un réseau de neurones qui utilise les 24 entrées (tous les paramètres opérat
     \label{table:c-mapss-classifier-architecture}
 \end{table}
 
-Le modèle est entraîné pour 200 époques avec batch size de 32 échantillons, le classificateur atteint une précision de \textbf{93,46\%} sur les données de test. La figure \ref{fig:cmapss-classifier-training} montre le processus d'entraînement du réseau. Dans le diagramme du haut, l'axe des y correspond aux pertes d'entraînement et de validation (crossentropie binaire). L'axe des y dans le diagramme du bas correspond aux précisions d'entraînement et de validation du réseau, l'axe des x partagé entre les deux diagrammes indique les époques de formation. Bien que la précision de validation varie beaucoup, la précision d'entraînement continue de s'améliorer à chaque époque.
+Le modèle est entraîné pour 200 époques avec batch size de 32 échantillons, le classificateur atteint une exactitude de \textbf{93,46\%} sur les données de test. La figure \ref{fig:cmapss-classifier-training} montre le processus d'entraînement du réseau. Dans le diagramme du haut, l'axe des y correspond aux pertes d'entraînement et de validation (crossentropie binaire). L'axe des y dans le diagramme du bas correspond aux précisions d'entraînement et de validation du réseau, l'axe des x partagé entre les deux diagrammes indique les époques de formation. Bien que l'exactitude de validation varie beaucoup, l'exactitude d'entraînement continue de s'améliorer à chaque époque.
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cmapss_classification_training.pdf}
+    \includegraphics{figures/cmapss_classification_training_fr.pdf}
     \caption{Processus d'entraînement du classificateur de l'état des unités}
     \label{fig:cmapss-classifier-training}
 \end{figure}
@@ -131,7 +130,7 @@ La figure \ref{fig:cmapss-classifier-roc} montre la courbe \acrlong{roc} (\acrsh
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cmapss_classification_roc.pdf}
+    \includegraphics{figures/cmapss_classification_roc_fr.pdf}
     \caption{Courbe \acrshort{roc} du classificateur sur les données de test}
     \label{fig:cmapss-classifier-roc}
 \end{figure}
@@ -141,9 +140,9 @@ La figure \ref{fig:cmapss-classifier-roc} montre la courbe \acrlong{roc} (\acrsh
     \begin{tabu}{cccccc}
         
     \tabucline[1.5pt]{-}
-    \textbf{Metric} &  \textbf{Accuracy} &  \textbf{Precision} &  \textbf{Recall} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
+    \textbf{Métrique} &  \textbf{Exactitude} &  \textbf{Précision} &  \textbf{Rappel} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
     \hline
-    \textbf{Score} & 93.43\% & 0.90 & 0.98 & 0.94 & 0.9332 \\
+    \textbf{Valeur} & 93.43\% & 0.90 & 0.98 & 0.94 & 0.9332 \\
 	\tabucline[1.5pt]{-}
     \end{tabu}
     \caption{Métriques du classificateur sur les données de test}
@@ -163,7 +162,7 @@ Cette approche est bien meilleure que la première, mais elle n'est pas très re
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/rul_models.pdf}
+    \includegraphics{figures/rul_models_fr.pdf}
     \caption{Différents modèles de \acrshort{rul}}
     \label{fig:rul-models}
 \end{figure}
@@ -199,7 +198,7 @@ Le réseau a été entraîné pour 300 époques, avec batch size de 128 échanti
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cmapss_regression_training.pdf}
+    \includegraphics{figures/cmapss_regression_training_fr.pdf}
     \caption{Processus d'entraînement du réseau utilitsé pour prédire \acrshort{rul}}
     \label{fig:cmapss-regression-training}
 \end{figure}
@@ -208,12 +207,12 @@ Après l'entraînement, le modèle est évalué sur deux unités de la série de
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cmapss_regression_predictions.pdf}
+    \includegraphics{figures/cmapss_regression_predictions_fr.pdf}
     \caption{Résultats de prédiction de \acrshort{rul} par un réseau de neurones}
     \label{fig:cmapss-regression-prediction}
 \end{figure}
 
-Although the model's prediction are close the the actual \acrshort{rul}, but they are noisy and there is so much fluctuation. The noise can be reduced by smoothing the output for example using moving average or fitting the points to a polynomial. But the reason of the noise in the first place is that fully-connected architecture doesn't take into consideration the previous predictions (i.e. acyclic architecture). Since \acrshort{rul} at each instant of time depends on the \acrshort{rul} from the previous one, taking previous steps into consideration while making new predictions can effectively reduce the noise and also improve prediction accuracy. To achieve that, a cyclic neural archtiecture like recurrent neural networks should be used.
+Bien que les prévisions du modèle soient proches de la réalité, mais elles sont bruyantes et il y a beaucoup de fluctuation. Le bruit peut être réduit en lissant la sortie, par exemple en utilisant une moyenne mobile ou en adaptant les points à un polynôme. Mais la raison du bruit en premier lieu est que l'architecture entièrement connectée ne prend pas en considération les prédictions précédentes (c'est-à-dire l'architecture acyclique). Étant donné qu'à chaque instant, la \acrshort{rul} dépend de la \acrshort{rul} de la précédente, le fait de prendre en considération les étapes précédentes tout en faisant de nouvelles prédictions peut effectivement réduire le bruit et aussi améliorer la précision des prédictions. Pour y parvenir, il convient d'utiliser une architecture neurale cyclique comme les réseaux de neurones récurrents.
 
 \subsection{Amélioration de la prédiction \acrshort{rul} en utilisant les réseaux LSTM}
 
@@ -251,7 +250,7 @@ Le réseau a été entraîné pour 50 époques avec batch size de 16 échantillo
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/cmapss_lstm_training.pdf}
+    \includegraphics{figures/cmapss_lstm_training_fr.pdf}
     \caption{Processus d'entraînement du réseau \acrshort{lstm}}
     \label{fig:cmapss-lstm-training}
 \end{figure}
@@ -277,7 +276,7 @@ Quatre unités différentes ont été réservées comme unités de test. Après 
 
 \begin{figure}[h]
     \centering
-    \includegraphics{figures/cmapss_lstm_regression_predictions.pdf}
+    \includegraphics{figures/cmapss_lstm_regression_predictions_fr.pdf}
     \caption{Résultats de prédiction du réseau \acrshort{lstm}}
     \label{fig:cmapss-lstm-prediction}
 \end{figure}
@@ -289,7 +288,6 @@ Les réseaux de neurones entièrement connectés sont un outil puissant pour qua
 
 \begin{comment}
 \chapter{Equipment Health Assessment using Artificial Neural Networks}
-%\chapter{Classification of Healthy and Faulty States using Neural Networks}
 
 \chapterintrobox{This chapter demonstrates the use of an artificial neural network to estimate the health state of a set of turbofan engines from NASA C-MAPSS dataset and predict the remaining useful life. Also different metrics to assess the performance of the network will be introduced.}
 
@@ -431,7 +429,7 @@ Figure \ref{fig:cmapss-classifier-roc} shows \acrlong{roc} (\acrshort{roc}) Curv
     \begin{tabu}{cccccc}
         
     \tabucline[1.5pt]{-}
-    \textbf{Metric} &  \textbf{Accuracy} &  \textbf{Precision} &  \textbf{Recall} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
+    \textbf{Metric} &  \textbf{Exactitude} &  \textbf{Précision} &  \textbf{Recall} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
     \hline
     \textbf{Score} & 93.43\% & 0.90 & 0.98 & 0.94 & 0.9332 \\
 	\tabucline[1.5pt]{-}
