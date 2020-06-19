@@ -102,7 +102,7 @@ Un réseau de neurones qui utilise les 24 entrées (tous les paramètres opérat
     \centering
     \begin{tabu}{lll}
 		\tabucline[1.5pt]{-}
-		\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+		\textbf{Couche (type)}   & \textbf{Forme de la sortie} &   \textbf{Param \#} \\
 		\tabucline[1pt]{-}
 		Dense1 (Dense) 			&   (None, 8)   &   200\\
 		Dense2 (Dense) 	        &   (None, 4)   &   36       \\
@@ -177,7 +177,7 @@ La dernière section portait sur la classification de l'état de santé des unit
     \centering
     \begin{tabu}{lll}
 		\tabucline[1.5pt]{-}
-		\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+		\textbf{Couche (type)}   & \textbf{Forme de la sortie} &   \textbf{Param \#} \\
 		\tabucline[1pt]{-}
 		Dense1 (Dense) 			&   (None, 32)  &       800     \\
 		Dense2 (Dense)          &   (None, 16)  &       528     \\
@@ -194,7 +194,7 @@ La dernière section portait sur la classification de l'état de santé des unit
     \label{table:cmapss-regression-architecture}
 \end{table}
 
-Le réseau a été entraîné pour 300 époques, avec batch size de 128 échantillons. La figure \ref{fig:cmapss-regression-formation} montre le processus de'entraînement du réseau. Les figures montrent l'évolution des pertes d'entraînement et de validation (erreur quadratique moyenne) et des métriques (erreur absolue moyenne) respectivement en fonction des époques.
+Le réseau a été entraîné pour 300 époques, avec batch size de 128 échantillons. La figure \ref{fig:cmapss-regression-training} montre le processus de'entraînement du réseau. Les figures montrent l'évolution des pertes d'entraînement et de validation (erreur quadratique moyenne) et des métriques (erreur absolue moyenne) respectivement en fonction des époques.
 
 \begin{figure}[H]
     \centering
@@ -224,7 +224,7 @@ L'architecture utilisée ici est décrite dans le tableau \ref{table:cmapss-lstm
     \centering
     \begin{tabu}{lll}
 		\tabucline[1.5pt]{-}
-		\textbf{Layer (type)}   & \textbf{Output shape} &   \textbf{Param \#} \\
+		\textbf{Couche (type)}   & \textbf{Forme de la sortie} &   \textbf{Param \#} \\
 		\tabucline[1pt]{-}
 		LSTM1 (LSTM) 			&   (None, 100, 100)    &       50000   \\
 		LSTM2 (LSTM)           &   (None, 100, 100)    &       80400   \\
@@ -255,17 +255,17 @@ Le réseau a été entraîné pour 50 époques avec batch size de 16 échantillo
     \label{fig:cmapss-lstm-training}
 \end{figure}
 
-Le tableau \ref{tableau:cmapss-lstm-results} montre la perte et la métrique (c'est-à-dire l'erreur absolue moyenne) sur les donnée d'entraînement, validation et de test :
+Le tableau \ref{table:cmapss-lstm-results} montre la perte et la métrique (c'est-à-dire l'erreur absolue moyenne) sur les donnée d'entraînement, validation et de test :
 
 \begin{table}[H]
 	\centering
 	\begin{tabu}{lcc}
 		\tabucline[1.5pt]{2-3} 
-						&	\textbf{Loss}	&	\textbf{Mean Absolute Error}	\\
+						&	\textbf{Perte}	&	\textbf{Erreur absolue moyenne}	\\
 	   \tabucline[1pt]{-}
-		Train set 		&	1600.60			    &	25.43				\\
-		Validation set 	&	3039.68 			&	36.37					\\
-		Test set		&	1379.67 			&	23.27					\\
+		Ensemble d'entraînement 		&	1600.60			    &	25.43				\\
+		Ensemble de validation 	&	3039.68 			&	36.37					\\
+		Ensemble de test		&	1379.67 			&	23.27					\\
    \tabucline[1.5pt]{-}
    \end{tabu}
    \caption{Résultats d'entraînement du réseau\acrshort{lstm}}
@@ -283,8 +283,53 @@ Quatre unités différentes ont été réservées comme unités de test. Après 
 
 Il est évident que les prédictions du réseau \acrshort{lstm} sont bien meilleures et presque exemptes de bruit par rapport à celles faites par le réseau entièrement connecté, comme le montre la figure \ref{fig:cmapss-regression-prediction}. La prédiction \acrshort{rul} est presque identique à la prédiction réelle \acrshort{rul} vers la fin de vie du turboréacteur.
 
+\section{Application aux équipements des chantiers pétroliers}%
+\label{sec:application_to_oilfield_equipment_1}
+Ce chapitre a présenté une approche de maintenance prédictive pour l'estimation des \acrshort{rul} basée sur les données de surveillance de l'état fournies par différents capteurs qui peuvent mesurer différentes variables physiques qui sont liées à l'état de santé de l'équipement. Les données utilisées dans les sections précédentes consistaient en une base de données de turboréacteurs C-MAPSS, mais la même approche peut être étendue à d'autres applications comme les plates-formes pétrolières.
+
+Les chantiers pétroliers modernes contiennent un grand nombre de capteurs répartis sur presque tous les équipements critiques. Ces capteurs mesurent différentes variables physiques telles que la température, le débit, la pression…. Mais la majorité des données fournies par ces capteurs n'est pas correctement exploitée dans un cadre approprié de pronostics et de maintenance prédictive. Il existe d'énormes quantités de données historiques dans les chantiers pétroliers qui, si elles sont exploitées, peuvent améliorer considérablement les programmes de maintenance dans des applications aussi critiques où la réduction des temps d'arrêt est très importante et où l'indisponibilité des équipements peut avoir causé des pertes de production importantes.
+
+\begin{figure}[p!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figures/honeywell-oilrig-sensors.png}
+	\caption{Emplacement des capteurs dans un chantier pétrolier \cite{honeywellrig}}%
+	\label{fig:honeywell-oilrig-sensors}
+\end{figure}
+
+La figure \ref{fig:honeywell-oilrig-sensors} montre différents endroits où les capteurs sont installés sur la plupart des chantiers pétroliers modernes. Le tableau \ref{table:honeywell-oilrig-sensors} énumère les types de différents capteurs qui peuvent être utilisés pour les pronostics, les unités auxquelles ils sont attachés et les variables physiques qu'ils peuvent mesurer. Un réseau de neurones peut être entraîné sur les données historiques de la plate-forme et être utilisé pour surveiller les différents équipements, leur interaction, détecter les anomalies et les signaler à temps afin de mener les actions de maintenance appropriées.
+
+\begin{table}[p!]
+	\centering
+	\begin{adjustbox}{angle=90}
+	\begin{tabu}{clp{30mm}p{120mm}}
+		\tabucline[1.5pt]{-} 
+		\textbf{Capteur} & \textbf{Equipment} & \textbf{Type de capteur}  & \textbf{Value mesurée}\\
+        \hline
+A&	Crown Block &	Load cell	&	Weight on drill line via cable tension\\
+B& Power Generation Unit	&	Pressure&	Oil, water, and hydraulic fluid pressure\\
+D&Accumulator Unit	&	Pressure&	Inlet/outlet pressure with high accuracy\\
+F&Rig Hydraulic Lift	&	Pressure&	Hydraulic pressure, weight, force/strain, or movement, monitor raising or lowering deck for directional drilling\\
+H&Drawworks	&	Load cells	&	Torque, load/weight/position while guiding pipe into position\\
+M&Water/Storage Tank	&	Pressure& Tank liquid levels\\
+N&Top Drive	&	Torque/Pressure&	Monitor torque/twisting movement to ensure right amount of force is applied. Weight on drill bit. Hydraulic pressure and feed information into control system.\\
+O&Trabeling Block	&	Load cells	&	Weight on the drill line via cable tension\\
+R&Deadline anchor	&	Load cells	&	Tension on deadline/drilling line cable\\
+U&Mud Return Line	&	Pressure&	Drilling mud pressure to monitor and control mud flow\\
+Y&Mud Pump	&	Pressure&	Pressure and flow of mud media\\
+AB&BlowOut Preventor &	Pressure&	Monitor RAM position via hydraulic volumetric or pressure behind the piston\\
+AD&Drill Bit	&	Pressure&	Pressure or differential pressure at high temperature and pressure ranges\\
+AE	&	Fluid manifold	&	Pressure	&	Drilling fluid pressure\\
+AF&Mud Tank/Reservoir	&	Pressure&	Tank liquid levels\\
+		\tabucline[1.5pt]{-} 
+    \end{tabu}
+\end{adjustbox}
+    \caption{Liste des capteurs dans un chantier pétrolier \cite{honeywellrig}}
+    \label{table:honeywell-oilrig-sensors}
+
+\end{table}
+
 \section{Conclusion}
-Les réseaux de neurones entièrement connectés sont un outil puissant pour quantifier l'état de santé de systèmes complexes à l'aide de données de surveillance des conditions. L'ensemble de données C-MAPSS est un exemple de système comportant de nombreuses parties en interaction qui fournissent une variété de données de surveillance de l'état de santé (par exemple, la température, la pression, le régime, ...) où la dégradation n'est pas directement liée à une composante mais est indiquée par la somme des tendances de toutes les données de surveillance. Les réseaux de neurones sont capables de saisir de telles tendances et de prédire \acrshort{rul} du système avant une défaillance. Les réseaux entièrement connectés ont d'abord été utilisés pour cette tâche, mais une architecture cyclique comme \acrshort{lstm} peut produire de meilleurs résultats avec une précision accrue et beaucoup moins de bruit.
+Les réseaux de neurones entièrement connectés sont un outil puissant pour quantifier l'état de santé de systèmes complexes à l'aide de données de surveillance des conditions. L'ensemble de données C-MAPSS est un exemple de système comportant de nombreuses parties en interaction qui fournissent une variété de données de surveillance de l'état de santé (par exemple, la température, la pression, le régime, ...) où la dégradation n'est pas directement liée à une composante mais est indiquée par la somme des tendances de toutes les données de surveillance. Les réseaux de neurones sont capables de saisir de telles tendances et de prédire \acrshort{rul} du système avant une défaillance. Les réseaux entièrement connectés ont d'abord été utilisés pour cette tâche, mais une architecture cyclique comme \acrshort{lstm} peut produire de meilleurs résultats avec une précision accrue et beaucoup moins de bruit. Une approche pour integrer les réseaux de neurones dans le cadre de maintenance préventive et pronostic dans les chantiers pétroliers en exploitant les différents capteurs et les données historiques disponibles pour créer un programme de maintenance plus fiable et moderne.
 
 \begin{comment}
 \chapter{Equipment Health Assessment using Artificial Neural Networks}
@@ -562,6 +607,54 @@ Four different units were reserved as testing units, after training the network 
 \end{figure}
 
 It's apparent that \acrshort{lstm} network predictions are much better and almost free of noise compared to those made by the fully-connected network shown in Figure \ref{fig:cmapss-regression-prediction}. Predicted \acrshort{rul} is almost identical to actual \acrshort{rul} towards the end of life of the unit.
+
+
+\section{Application to oilfield equipment}%
+\label{sec:application_to_oilfield_equipment_1}
+This chapter presented a predictive maintenance approach for \acrshort{rul} estimation based on condition monitoring data provided by different sensors that can measure different physical variables that are related to the equipment's health state. The data used in the previous sections consisted of C-MAPSS turbofan engines dataset, but the same approach can be extended to other applications like oil rigs.
+
+Modern oil rigs contain a large number of sensors distributed across almost every critical equipment. These sensors measure different physical variables such as temperature, flow, pressure…. But the majority of the data provided by these sensors isn't properly exploited into an appropriate framework of prognostics and predictive maintenance, there are enormous amounts of historic data in oil rigs that if exploited can greatly enhance maintenance programs in such critical applications where reducing downtime is very important and equipment unavailability can have cause significant production losses.
+
+\begin{figure}[p!]
+	\centering
+	\includegraphics[width=0.9\linewidth]{figures/honeywell-oilrig-sensors.png}
+	\caption{List of sensors installed on oil rigs for monitoring}%
+	\label{fig:honeywell-oilrig-sensors}
+\end{figure}
+
+Figure \ref{fig:honeywell-oilrig-sensors} shows different spots where sensors are installed on most modern oil rigs. Table \ref{table:honeywell-oilrig-sensors} lists types of different sensors that can be used for prognostics, the units to which they are attached and which physical variables they can measure. A neural network can be trained on the rig historic data and be used to monitor different equipments, their interaction, detect anomalies and report them in time in order to carry on the appropriate maintenance actions.
+
+\begin{table}[p!]
+	\centering
+	\begin{adjustbox}{angle=90}
+	\begin{tabu}{clp{30mm}p{120mm}}
+		\tabucline[1.5pt]{-} 
+		\textbf{Sensor} & \textbf{Equipment} & \textbf{Sensor Type}  & \textbf{Measured quantity}\\
+        \hline
+A&	Crown Block &	Load cell	&	Weight on drill line via cable tension\\
+B& Power Generation Unit	&	Pressure&	Oil, water, and hydraulic fluid pressure\\
+D&Accumulator Unit	&	Pressure&	Inlet/outlet pressure with high accuracy\\
+F&Rig Hydraulic Lift	&	Pressure&	Hydraulic pressure, weight, force/strain, or movement, monitor raising or lowering deck for directional drilling\\
+H&Drawworks	&	Load cells	&	Torque, load/weight/position while guiding pipe into position\\
+M&Water/Storage Tank	&	Pressure& Tank liquid levels\\
+N&Top Drive	&	Torque/Pressure&	Monitor torque/twisting movement to ensure right amount of force is applied. Weight on drill bit. Hydraulic pressure and feed information into control system.\\
+O&Trabeling Block	&	Load cells	&	Weight on the drill line via cable tension\\
+R&Deadline anchor	&	Load cells	&	Tension on deadline/drilling line cable\\
+U&Mud Return Line	&	Pressure&	Drilling mud pressure to monitor and control mud flow\\
+Y&Mud Pump	&	Pressure&	Pressure and flow of mud media\\
+AB&BlowOut Preventor &	Pressure&	Monitor RAM position via hydraulic volumetric or pressure behind the piston\\
+AD&Drill Bit	&	Pressure&	Pressure or differential pressure at high temperature and pressure ranges\\
+AE	&	Fluid manifold	&	Pressure	&	Drilling fluid pressure\\
+AF&Mud Tank/Reservoir	&	Pressure&	Tank liquid levels\\
+		\tabucline[1.5pt]{-} 
+    \end{tabu}
+\end{adjustbox}
+    \caption{Honeywell oilrig sensors list}
+    \label{table:honeywell-oilrig-sensors}
+
+\end{table}
+
+
 
 \section{Conclusion}
 Fully-connected neural networks are a powerful tool for quantifying health state of complex systems using condition monitoring data. C-MAPSS dataset is an example of a system with many interacting parts that provide a variety of condition-monitoring data (e.g. temperature, pressure, rpm, …) where the degradation isn't directly related to one component but is indicated by the sum of the trends in all the monitoring data. Neural networks are able to capture such trends and predict the \acrshort{rul} of the system before failure. Fully-connected networks were first used for this task, but a cyclic architecture like \acrshort{lstm} can produce better results with improved accuracy and much less noise.

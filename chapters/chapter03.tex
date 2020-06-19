@@ -99,17 +99,17 @@ Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimi
 \subsection{Convex and non-convex functions}
 
 Gradient Descent dans le contexte de réseaux de neurones est une algorithme utilisée pour optimiser (minimiser) la fonction de coût en trouvant le meilleur ensemble de poids et de biais qui donne le coût le plus bas possible. Les fonctions objectives peuvent être classées en deux types : les fonctions convexes et les fonctions non convexes.
-Une fonction est dite convexe si elle a la propriété que chaque accord se trouve sur ou au-dessus de la fonction. Toute valeur de $x$ dans l'intervalle allant de $x=a$ à $x=b$ peut être écrite sous la forme $\lambda a+(1-\lambda)b$ où $0\leq\lambda\leq 1$. Le point correspondant sur l'accord est donné par $\lambda f(a)+(1-\lambda)f(b)$, et la valeur correspondante de la fonction est $f(\lambda a+(1-\lambda)b)$ (Figure \ref{fig:convexité}). La convexité implique alors :
+Une fonction est dite convexe si elle a la propriété que chaque accord se trouve sur ou au-dessus de la fonction. Toute valeur de $x$ dans l'intervalle allant de $x=a$ à $x=b$ peut être écrite sous la forme $\lambda a+(1-\lambda)b$ où $0\leq\lambda\leq 1$. Le point correspondant sur l'accord est donné par $\lambda f(a)+(1-\lambda)f(b)$, et la valeur correspondante de la fonction est $f(\lambda a+(1-\lambda)b)$ (Figure \ref{fig:convexity}). La convexité implique alors :
 \begin{equation}
     f(\lambda a+(1-\lambda)b)\leq \lambda f(a)+(1-\lambda)f(b)
-    \label{equation:convexité}
+    \label{equation:convexity}
 \end{equation}
 
 Cela équivaut à l'exigence que la dérivée seconde de la fonction soit partout positive \cite{Bishop2006}. Cette condition de convexité peut être étendue aux espaces ayant un nombre arbitraire de dimensions.
 
 \begin{figure}[h]
     \centering
-    \includegraphics{figures/convex_function.pdf}
+    \includegraphics{figures/convex_function_fr.pdf}
     \caption{Condition de convexité}
     \label{fig:convexity}
 \end{figure}
@@ -118,7 +118,7 @@ Une fonction non convexe est une fonction qui ne satisfait pas la condition de c
 
 \begin{figure}[h]
     \centering
-    \includegraphics{figures/gradient_descent.pdf}
+    \includegraphics{figures/gradient_descent_fr.pdf}
     \caption{Exemple de fonction convexe (gauche) et non convexe (droite)}
     \label{fig:convex-nonconvex-functions}
 \end{figure}
@@ -178,7 +178,7 @@ Les réseaux de neurones récurrents (\acrshort{rnn}) sont une architecture spé
 \begin{figure}[H]
     \centering
     \input{figures/rnn.tex}
-    \caption{Recurrent neural networks architecture}
+    \caption{Architecture de réseaux de neurones recurrents}
     \label{fig:rnn}
 \end{figure}
 

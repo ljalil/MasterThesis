@@ -45,14 +45,14 @@ arrowprops = dict(
     connectionstyle = "angle,angleA=0,angleB=90,rad=5", lw='.8')
 bbox = dict(boxstyle="round", fc="1", lw=.8)
 
-axis.annotate('$chord$',(lambda_x-.15,lambda_y-0.05),(lambda_x-0.05,lambda_y+.1), arrowprops=arrowprops, bbox=bbox)
+axis.annotate('$corde$',(lambda_x-.15,lambda_y-0.05),(lambda_x-0.05,lambda_y+.1), arrowprops=arrowprops, bbox=bbox)
 axis.set_xticklabels(['$a$','$x_\lambda$','$b$'])
 axis.set_yticks([])
 axis.set_yticklabels([])
 axis.set_xlabel('$x$')
 axis.set_ylabel('$xlog(x)$')
 fig.tight_layout()
-#fig.savefig('D:\\Thesis\\Document\\figures\\convex_function.pdf',bbox_inches="tight")
+fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/convex_function_fr.pdf',bbox_inches="tight")
 #%%
 x1 = linspace(-5,5,100)
 y1 = linspace(-5,5,100)
@@ -86,10 +86,11 @@ for axis in [axis1, axis2]:
     axis.view_init(20, 30)
 fig.tight_layout(pad=0)
 
-#fig.savefig('D:\\Thesis\\Document\\figures\\gradient_descent.pdf', bbox_inches=Bbox([[0, .15], [6, 2.6]]))
+fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/gradient_descent.pdf', bbox_inches=Bbox([[0, .15], [6, 2.6]]))
 plt.show()
 
 #%% Plot [French]
+
 fig = plt.figure(figsize=(6,2.5))
 axis1 = fig.add_subplot(1,2,1, projection='3d')
 axis1.plot_surface(X1,Y1,Z1, cmap='inferno')
@@ -117,7 +118,6 @@ fig.tight_layout(pad=0)
 
 fig.savefig('D:\\Thesis\\Document\\figures\\gradient_descent_fr.pdf', bbox_inches=Bbox([[0, .15], [6, 2.6]]))
 plt.show()
-
 #%% Saddle Point
 
 x3 = linspace(-2,2,100)
@@ -149,7 +149,7 @@ axis3.autoscale_view('tight')
 
 fig.tight_layout(pad=0)
 
-fig.savefig('D:\\Thesis\\Document\\figures\\saddle_point.pdf', bbox_inches=Bbox([[0.3, 0.2], [3.3, 2.7]]))
+#fig.savefig('D:\\Thesis\\Document\\figures\\saddle_point.pdf', bbox_inches=Bbox([[0.3, 0.2], [3.3, 2.7]]))
 plt.show()
 
 #%% Global local minima
