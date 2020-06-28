@@ -1,63 +1,61 @@
-\chapter{Introduction au Réseaux de Neurones Artificiels}
-\chapterintrobox{Les réseaux neuronaux artificiels sont des systèmes de computation capables de trouver des fonctions complexes qui relient une entrée à une sortie. ces systèmes peuvent être utilisés pour une variété de tâches comme la régression et la classification. Ils peuvent être utilisés dans le domaine de la maintenance prédictive et des pronostics pour estimer l'état de santé de l'équipement et prévoir avec une certaine incertitude sa durée de vie utile restante. Ce chapitre traite les réseaux de neurones, leur topologie, leur entraînement et leur formulation mathématique.}
+\chapter{Introduction to Artificial Neural Networks}
+\chapterintrobox{Artificial neural networks are computational systems capable of finding complex functions that link an input to an output. These systems can be used for a variety of tasks such as regression and classification. They can be used in predictive maintenance and prognostics to estimate the health of equipment and predict with some uncertainty its remaining useful life. This chapter discusses neural networks, their topology, training and mathematical formulation.}
 
+\section{Structure of artificial neural networks}
+Artificial neural networks are computational systems used to find the mapping between an input and an output, they consist of several layers (input layer, output layer and an arbitrary number of hidden layers between the input and the output) and each layer contains a number of neurons where each neuron in each layer is connected to all neurons in the previous and the next layer (except for the input and output layers which are connected only to the next and the previous layer respectively).
+Each neuron of each layer receives an input from the neurons of the previous layer (in the form of a vector), multiplies the vector by a few weights and sums the result and then applies a linear activation function. Each neuron ends up with a single numerical value called activation, which will be passed on to the neurons in the next layer.
 
-\section{La structure de réseaux de neurones artificiels}
-Les réseaux de neurones artificiels sont des systèmes de computation utilisés pour trouver la correspondance entre une entrée et une sortie, ils sont constitués de plusieurs couches (couche d'entrée, couche de sortie et un nombre arbitraire de couches cachées entre l'entrée et la sortie) et chaque couche contient un certain nombre de neurones où chaque neurone de chaque couche est connecté à tous les neurones de la couche précédente et de la couche suivante (à l'exception des couches d'entrée et de sortie qui sont connectées uniquement aux couches suivante et précédente respectivement).
-chaque neurone de chaque couche reçoit une entrée des neurones de la couche précédente (sous la forme d'un vecteur), multiplie le vecteur par quelques poids et somme le résultat puis applique une fonction d'activation linéaire. Chaque neurone se retrouve avec une seule valeur numérique appelée activation, qui sera transmise aux neurones de la couche suivante.
-
-Figure \ref{fig:neural-network-structure} montre un réseau de neurones avec la structure suivante :
+Figure \ref{fig:neural-network-structure} shows a neural network with the following structure:
 
 \begin{itemize}
-    \item Une couche d'entrée avec 3 entrée
-    \item Une seule couche cachée avec 4 neurones
-    \item Une couche de sortie avec 1 neurone 
+    \item Input layer with 3 inputs
+    \item Signle hidden layer with 4 neurons
+    \item Output layer with 1 neuron
 \end{itemize}
 
 \begin{figure}[h]
     \centering
 	\input{figures/mlp-structure.tex}
-    \caption{Structure d'un réseau de neurones}
+    \caption{Structure of an artificial neural network}
     \label{fig:neural-network-structure}
 \end{figure}
 
-\section{Feedforward: de l'entrée vers la sortie}
+\section{Feedforwad networks: from input to output}
 \label{section:feedforward-neural-network}
-L'architecture de la figure \ref{fig:neural-network-structure} est appelée Feedforward Neural Network, c'est une architecture acyclique où l'information circule de la première à la dernière couche sans aucune boucle interne, contrairement aux autres architectures comme les réseaux de neurones récurrents. La première couche est la couche d'entrée, elle n'effectue aucune opération et se limite à recevoir l'entrée. L'entrée est un vecteur de nombres représente les différentes variables. Le vecteur est multiplié par une matrice de poids qui le transforme et l'envoie à la couche suivante (ou à la première couche cachée). Une fonction d'activation est appliquée aux valeurs résultant de la multiplication des valeurs de la couche précédente avec la matrice des poids, le résultat devient les valeurs de la couche suivante, ou activations (la valeur de chaque neurone est appelée activaiton).
+The architecture of figure \ref{fig:neural-network-structure} is called Feedforward Neural Network, it is an acyclic architecture where information flows from the first to the last layer without any internal loop, unlike other architectures such as recurrent neural networks. The first layer is the input layer, it does not perform any operation and is limited to receiving input. The input is a vector of numbers representing the different variables. The vector is multiplied by a matrix of weights that transforms it and sends it to the next layer (or to the first hidden layer). An activation function is applied to the values resulting from the multiplication of the values of the previous layer with the weight matrix, the result becomes the values of the next layer, or activations (the value of each neuron is called activation).
 
-Une formule générale pour passer de la couche $l-1$ à la couche $l$ est donnée par l'équation \ref{equation:forward-step}:
+A general formula for moving from the $l-1$ layer to the $l$ layer is given by the equation \ref{equation:forward-step}:
 
 \begin{equation}
     a^{[l]} = g^{[l]}(W^{[l]}a^{[l-1]}+b^{[l]})
     \label{equation:forward-step}
 \end{equation}
 
-Où $g^{[l]}$ est la fonction d'activation de la couche $l$, $W^{[l]}$ est la matrice des poids qui transforme les valeurs (activations) de la couche $l-1$ à la couche $l$ et $a^{[l]}$ représente les activations de la couche $l$. $b$ est la valeur du biais (ou valeur d'interception), elle est ajoutée à la multiplication entre les activations et la matrice des poids, c'est un paramètre qui peut être appris comme les poids. L'opération se répète pour chaque couche jusqu'à la couche de sortie.
-La première couche peut être considérée comme la couche 0 et les entrées peuvent être désignées par le vecteur $a^{[0]}$.
+Where $g^{[l]}$ is the activation function of the $l$ layer, $W^{[l]}$ is the weights matrix that transforms the values (activations) from the $l-1$ layer to the $l$ layer and $a^{[l]}$ represents the activations of the $l$ layer. $b$ is the value of the bias (or intercept value), it is added to the multiplication between the activations and the weights matrix, it is a parameter that can be learned like the weights. The operation is repeated for each layer up to the output layer.
+The first layer can be considered as layer 0 and the inputs can be designated by the vector $a^{[0]}$.
 
-\section{Fonction d'activation}
-Les fonctions d'activation sont appliquées au résultat de la multiplication des entrées de la couche précédente avec les poids correspondants, pour déterminer la valeur de chaque neurone. Il existe différents types de ces fonctions.
+\section{Activation functions}
+The activation functions are applied to the result of multiplying the inputs of the previous layer with the corresponding weights to determine the value of each neuron. There are different types of these functions.
 
-L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
+The use of the non-linear activation function is very important for neural networks, they allow learning the complex non-linear mapping from input to output. If the network does not use non-linear activation (for example, linear activation or the identity function), then the whole network (regardless of its depth) is equivalent to a network with only one hidden layer.
 
-Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques examples:
-
+There are a variety of activation functions that can be used for the hidden and output layers. Figure \ref{fig:activation-function} shows some examples:
 \begin{figure}[h]
     \centering
 	\input{figures/activation-functions.tex}
-    \caption{Différentes fonctions d'activation}
+    \caption{Different activation functions}
     \label{fig:activation-function}
 \end{figure}
 
-Tablea \ref{table:activation-functions} montre les définition mathematiques de quelques fonctions d'activation:
+Table \ref{table:activation-functions} shows mathematical definition of several activation functions:
 
 \begin{table}[h]
     \centering
     \begin{tabular}{c|c}
         \hline
-        Fonction d'activation & Défnition mathématique \\
+        Activation function & Mathematical definition \\
         \hline
-        Identity (pas d'activation) & Id(x) = x \\
+        Identity (no activation) & Id(x) = x \\
         Sigmoid & $\sigma(x)= \frac{1}{1+e^{-x}}$ \\
         tanh & $tanh(x)=\frac{(e^x-e^{-x})}{(e^x+e^{-x})}$\\
         Rectified Linear Unit (ReLU) & $ReLU(x)=max(0,x)$\\
@@ -65,283 +63,20 @@ Tablea \ref{table:activation-functions} montre les définition mathematiques de 
     \hline
         
     \end{tabular}
-    \caption{Définitions mathématiques de quelques fonctions d'activation}
+    \caption{Mathematical definition of several activation functions}
     \label{table:activation-functions}
 \end{table}
 
-\section{Entraînement du réseau}
-Le processus de formation d'un réseau de neurones consiste à déterminer les poids (coefficients) qui relient les neurones de chaque couche aux neurones de la couche suivante. Ce processus peut être formulé en termes plus mathématiques comme un problème d'optimisation : optimisation des coefficients du réseau pour trouver leurs valeurs qui minimisent une fonction de coût.
 
-L'entraînement du réseau de neurones utilise des données d'entraînement (training data) qui fournissent des entrées et leurs sorties correspondantes.
+\section{Network training}
+The process of training a neural network consists of determining the weights (coefficients) that map the neurons of each layer to the neurons of the next layer. This process can be formulated in more mathematical terms as an optimization problem: optimization of the network coefficients to find their values that minimize a cost function.
 
-\subsection{Fonction de coût}
-La fonction de coût est la fonction utilisée pour calculer la différence entre la sortie du réseau de neurones et la sortie réelle attendue, elle quantifie la performance du réseau. Le but du processus d'entraînement est de minimiser cette fonction en utilisant Gradient Descent (voir la section suivante) pour trouver le meilleur ensemble de poids qui donne la différence la plus basse entre les données d'entraînement et la prédiction du réseau.
+Neural network training uses training data that provide inputs and their corresponding outputs.
 
-Il existe de nombreux types de fonctions de coût, chaque type correspondant à différentes tâches des réseaux de neurones (par exemple, régression, classification binaire, ...). La fonction de coût généralement utilisée pour les problèmes de régression est une fonction d'erreur quadratique moyenne (Equation \ref{equation:mse}) qui calcule la somme des distances entre les prédictions du modèle $\hat{y}_i$ et la sortie réelle ($y_i$), $N$ le nombre de points de données disponibles pour l'entraînement :
+\subsection{Cost function}
+The cost function is the function used to calculate the difference between the output of the neural network and the expected actual output, it quantifies the performance of the network. The goal of the training process is to minimize this function by using Gradient Descent (see next section) to find the best set of weights that gives the lowest difference between the training data and the network prediction.
 
-\begin{equation}
-    MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
-    \label{equation:mse}
-\end{equation}
-
-L'autre principale tâche des réseaux de neurones et des autres types de modèles est la classification. Il existe deux principaux types de classification : la classification binaire, ou classification de deux classes et la classification multiclasse ou classification de plusieurs classes. La première utilise la fonction de perte d'entropie croisée binaire (Equation \ref{equation:logloss}) et la seconde utilise l'entropie croisée catégorielle.
-
-\begin{equation}
-    BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
-    \label{equation:logloss}
-\end{equation}
-
-Le choix de la fonction d'activation pour la dernière couche du réseau est directement lié à la fonction de coût utilisée. Pour les tâches de régression, la fonction d'activation linéaire est utilisée. Pour la classification binaire, c'est la fonction sigmoïde et pour la classification multiclasse, c'est la fonction softmax.
-
-\subsection{Gradient Descent}
-Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimiser une fonction différentiable. Gradient Descent fonctionne en calculant les gradients de la fonction objectif puis en prenant des mesures itératives dans le sens du négatif des gradients.
-
-\subsection{Convex and non-convex functions}
-
-Gradient Descent dans le contexte de réseaux de neurones est une algorithme utilisée pour optimiser (minimiser) la fonction de coût en trouvant le meilleur ensemble de poids et de biais qui donne le coût le plus bas possible. Les fonctions objectives peuvent être classées en deux types : les fonctions convexes et les fonctions non convexes.
-Une fonction est dite convexe si elle a la propriété que chaque accord se trouve sur ou au-dessus de la fonction. Toute valeur de $x$ dans l'intervalle allant de $x=a$ à $x=b$ peut être écrite sous la forme $\lambda a+(1-\lambda)b$ où $0\leq\lambda\leq 1$. Le point correspondant sur l'accord est donné par $\lambda f(a)+(1-\lambda)f(b)$, et la valeur correspondante de la fonction est $f(\lambda a+(1-\lambda)b)$ (Figure \ref{fig:convexity}). La convexité implique alors :
-\begin{equation}
-    f(\lambda a+(1-\lambda)b)\leq \lambda f(a)+(1-\lambda)f(b)
-    \label{equation:convexity}
-\end{equation}
-
-Cela équivaut à l'exigence que la dérivée seconde de la fonction soit partout positive \cite{Bishop2006}. Cette condition de convexité peut être étendue aux espaces ayant un nombre arbitraire de dimensions.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics{figures/convex_function_fr.pdf}
-    \caption{Condition de convexité}
-    \label{fig:convexity}
-\end{figure}
-
-Une fonction non convexe est une fonction qui ne satisfait pas la condition de convexité. La figure \ref{fig:convex-nonconvex-functions} montre un exemple de fonction convexe (à gauche) et de fonction non convexe (à droite) où les paramètres de la fonction sont dans un espace à deux dimensions.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics{figures/gradient_descent_fr.pdf}
-    \caption{Exemple de fonction convexe (gauche) et non convexe (droite)}
-    \label{fig:convex-nonconvex-functions}
-\end{figure}
-
-
-\subsection{Les minima globaux et locaux}
-Le minimum global désigne la valeur la plus basse possible d'un ensemble (ou d'une fonction). Trouver le minimum global consiste à trouver l'ensemble des paramètres qui correspondent à cette valeur minimale. Lorsque la fonction est convexe, trouver le maximum global est possible et facile, des algorithmes comme le Gradient Descent convergent toujours vers le minimum global dans l'optimisation convexe. La fonction de coût de régression linéaire est un exemple de fonction de coût convexe. Pour les modèles plus complexes tels que les réseaux de neurones, la fonction de coût est très non convexe avec de nombreux minima locaux.
-
-La figure \ref{fig:global_local_minima} montre un exemple de fonction non convexe avec un minimum global et un minimum local. Le problème de l'optimisation non convexe est que l'algorithme d'optimisation peut converger vers le minimum local au lieu du minimum global. La convergence de l'algorithme est liée à l'initialisation aléatoire des poids du réseau.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics{figures/global_local_minima.pdf}
-    \caption{Fonction non convexe avec minima globaux et locaux}
-    \label{fig:global_local_minima}
-\end{figure}
-
-\subsection{Points selles}
-Un point selle (saddle point) ou de minimax est un point à la surface du graphique d'une fonction où les pentes (dérivées) dans les directions orthogonales sont toutes nulles (un point critique), mais qui n'est pas un extrême local de la fonction (Figure \ref{fig:saddle-point}).
-
-\begin{figure}[h]
-    \centering
-    \includegraphics{figures/saddle_point.pdf}
-    \caption{Point selle}
-    \label{fig:saddle-point}
-\end{figure}
-
-\subsection{Optimisation de réseaux de neurones}
-Dans \cite{Choromanska2014}, les auteurs ont montré que le fait de rester coincé dans des minima locaux mauvais n'est un problème majeur que pour les réseaux peu profonds, mais devient progressivement moins important à mesure que la taille du réseau augmente. Cela est principalement dû au fait que dans les grands réseaux, les minima locaux sont proches du minimum global, de sorte qu'ils donnent de bonnes performances similaires.
-
-Les hypothèses suivantes ont également été vérifiées empiriquement dans le document mentionné concernant l'apprentissage avec des réseaux de grande taille :
-\begin{itemize}
-    \item Quand un réseau est grand, il n'y a pas de différence significative de performance sur les données de test parmi la plupart des minima locaux.
-    \item La probabilité de trouver un mauvais minimum local dans les petits réseaux est plus élevée que la probabilité de les trouver dans les grands réseaux.
-    \item Trouver le minimum global sur les données d'entraînement ne garantit pas une meilleure performance sur les données de test, mais peut plutôt entraîner une réduction de la performance à cause de overfitting.
-\end{itemize}
-
-\subsection{Backpropagation}
-Backpropagation est l'algorithme utilisé pour calculer les gradients de la fonction de coût (la fonction objectif) d'un réseau de neurones. Comme un réseau de neurones peut être interprété comme une fonction composite, Backpropagation utilise le théorème de dérivation des fonctions composées
-pour trouver les gradients par rapport aux poids du réseau.
-
-L'utilisation de Backpropagation pour l'entraînement de réseaux de neurones a été popularisée par David E. Rumelhart, Geoffrey E. Hintont et Ronald J. Williams \cite{Rumelhart1986}, ils l'ont décrit comme une procédure qui ajuste de manière répétée les poids des connexions du réseau de manière à minimiser une mesure de la différence entre le vecteur de sortie réel du réseau et le vecteur de sortie souhaité. À la suite des ajustements de poids, des unités internes "cachées" qui ne font pas partie de l'entrée ou de la sortie en viennent à représenter des caractéristiques importantes du domaine de la tâche, et les régularités de la tâche sont saisies par les interactions de ces unités.
-
-Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backward Pass, le Forward Pass calcule la sortie de réseau, le Backward pass calcule les gradients de la fonction de coût qui mesure la difference entre cette sortie et la sortie réelle souhaitée:
-
-\begin{figure}[h]
-    \centering
-	\input{figures/forward-backward-pass.tex}
-    \caption{Forward (gauche) et Backward (droite) passes}
-    \label{fig:forward-backward-pass}
-\end{figure}
-
-
-\section{Réseaux de neurones récurrents}
-Les réseaux de neurones récurrents (\acrshort{rnn}) sont une architecture spéciale qui convient mieux à la modélisation de données séquentielles. Les \acrshort{rnn} traitent une séquence d'entrée un élément à la fois, en maintenant dans leurs unités cachées un "vecteur d'état" qui contient implicitement des informations sur l'historique de tous les éléments passés de la séquence \cite{LeCun2015}. Figure \ref{fig:rnn} montre une architecture \acrshort{rnn}. À gauche, on voit la version dépliée avec une boucle cyclique dans la couche cachée et à droite la version déroulée. $x_1$, $x_2$, …$x_t$ représentent le vecteur d'entrée (séquence), $y_1$, $y_2$, …$y_t$ est le vecteur de sortie (peut être une séquence de longueur égale à l'entrée, de longueur différente ou un seul élément). $h_1$, $h_2$, …$h_t$ sont les neurones de la couche cachée, chaque neurone passe un vecteur de son état caché au neurone suivant.
-
-\begin{figure}[H]
-    \centering
-    \input{figures/rnn.tex}
-    \caption{Architecture de réseaux de neurones recurrents}
-    \label{fig:rnn}
-\end{figure}
-
-\subsection{Long Short-Term Memory}
-\label{section:lstm}
-Les \acrshort{rnn}s simples ont des problèmes avec l'apprentissage des dépendances à long terme (c'est-à-dire faire des prédictions basées sur des prédictions faites de nombreux pas dans le passé) et disparition des gradients. \acrlong{lstm} (\acrshort{lstm}) a été présenté pour la première fois par Jürgen Schmidhuber et Sepp Hochreiter \cite{Hochreiter1997}. \acrshort{lstm} surmonte les problèmes liés à les \acrshort{rnn} simples en utilisant ce que l'on appelle un état cellulaire qui permet aux réseaux \acrshort{lstm} d'apprendre les dépendances à long terme. Les cellules \acrshort{lstm} possèdent également trois types de portes (gates) qui, ensemble, contrôlent le flux d'informations à l'intérieur de la cellule :
-
-\begin{itemize}
-    \item \textbf{Porte d'oubli} : Contrôle quelles informations sont conservées ou rejetées au moment $t$
-    \item \textbf{Porte d'entrée} : Contrôle les informations à stocker dans l'état cellulaire au moment $t$
-    \item \textbf{Porte de sortie} : Contrôle la sortie finale de la cellule au moment $t$
-\end{itemize}
-
-Les valeurs des portes d'entrée, d'oubli et de sortie sont calculées à l'aide des équations \ref{equation:lstm_input_gate}, \ref{equation:lstm_forget_gate} et \ref{equation:lstm_output_gate} respectivement :
-
-\begin{align}
-i_t &= \sigma(W_{xi}x_t + W_{hi}h_{t-1}+W_{ci}c_{t-1}+b_i) \label{equation:lstm_input_gate}\\
-f_t &= \sigma(W_{xf}x_t + W_{hf}h_{t-1}+W_{cf}c_{t-1}+b_f) \label{equation:lstm_forget_gate}\\
-o_t &= \sigma(W_{xo}x_t + W_{ho}h_{t-1}+W_{co}c_t+b_o) \label{equation:lstm_output_gate}\\
-\end{align}
-
-Les portes d'entrée, d'oubli et de sortie sont calculées au temps $t$ en utilisant des ensembles de poids et de biais ($W_{xi}$, $W_{hi}$, $W_{ci}$, $b_i$), ($W_{xf}$, $W_{hf}$, $W_{cf}$, $b_f$) et ($W_{xo}$, $W_{ho}$, $W_{co}$, $b_o$) qui contrôle comment chacun de $x_t$, $h_{t-1}$ et $c_{t-1}$ affecte la valeur du porte respectivement. Une fonction sigmoïde est utilisée pour convertir les valeurs dans l'interval de 0 à 1. 
-
-À chaque étape $t$, un état de cellule candidate $\tilde{c}_t$ est calculé en utilisant des poids et un terme de biais ($W_{xc}$, $W_{hc}$, $b_c$) qui fait correspondre les valeurs de l'entrée $x_t$ et de l'état caché précédent $h_{t-1}$ à l'état de la cellule candidate (équation \ref{equation:lstm_candidate_cell_state}). Comme le nom l'indique, $\tilde{c}_t$ sert de candidat pour remplacer l'état actuel de la cellule $c_t$ au moment $t$. L'état de la cellule au moment $t$ est obtenu en utilisant la porte d'oubli pour contrôler quelles informations sont conservées de l'état de la cellule précédente et la porte d'entrée pour contrôler quelles informations sont conservées de l'état de la cellule candidate selon l'équation \ref{equation:lstm_cell_state}. La sortie finale de la cellule est calculée en utilisant l'état actuel de la cellule $c_t$ et la porte de sortie selon l'équation \ref{equation:lstm_hidden_state}.
-
-\begin{align}
-    \tilde{c}_t &= tanh(W_{xc}x_t+W_{hc}h_{t-1}+b_c) \label{equation:lstm_candidate_cell_state} \\
-    c_t &= f_tc_{t-1}+i_t\tilde{c}_t \label{equation:lstm_cell_state}\\
-    h_t &= o_ttanh(c_t) \label{equation:lstm_hidden_state}
-\end{align}
-
-Les portes contrôlent le flux d'informations à l'intérieur de la cellule \acrshort{lstm}, leurs valeurs vont de 0 à 1 (fonction sigmoïde) et contrôlent les informations à conserver et celles à écarter lors de la mise à jour de l'état de la cellule (portes d'oubli et d'entrée) et lors du calcul de la sortie de la cellule \acrshort{lstm} (porte de sortie).
-
-La figure \ref{fig:lstm} illustre les différentes opérations qui se produisent dans une cellule \acrshort{lstm} du signle :
-
-\begin{figure}[h]
-    \centering
-    \input{figures/lstm.tex}
-    \caption{Cellule Long Short-Term Memory}
-    \label{fig:lstm}
-\end{figure}
-
-\section{Convolutional neural networks}
-\label{section:cnn}
-Les réseaux neuronaux convolutifs (\acrlong{cnn}: \acrshort{cnn}) ont ce qu'on appelle des couches convolutives. Une couche convolutive accepte une entrée (généralement des images 2D, mais elle peut aussi être 1D ou 3D) et applique une opération mathématique appelée convolution \footnote{Mathématiquement, l'opération qui se produit dans un \acrshort{cnn} est appelée corrélation croisée, ce qui est un peu différent de la définition mathématique d'une convolution. Dans la littérature sur l'apprentissage automatique, ces opérations sont appelées convolutions, c'est la terminologie qui sera utilisée ici.}. Les convolutions agissent comme des filtres qui extraient des caractéristiques des données brutes en multipliant récursivement ce qu'on appelle le noyau par les données d'entrée.
-Les différents noyaux ont des objectifs différents et peuvent extraire une grande variété de caractéristiques des données brutes. Après l'extraction de caractéristiques par la couche convolutive, ils servent d'entrée pour un réseau neuronal de feedforward (comme décrit dans la section \ref{section:feedforward-neural-network}) pour la classification ou la régression.
-
-
-
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}{0.22\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_00.pdf}
-        \subcaption*{step 01}
-    \end{subfigure}\hfill%
-    \begin{subfigure}{0.22\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_01.pdf}
-        \subcaption*{step 02}
-    \end{subfigure}\hfill%
-    \begin{subfigure}{0.22\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_02.pdf}
-        \subcaption*{step 03}
-    \end{subfigure}\hfill%
-    \begin{subfigure}{0.22\linewidth}
-        \centering
-        \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_03.pdf}
-        \subcaption*{step 04}
-    \end{subfigure}
-    \caption{Appliquer des convolutions (en multipliant l'entrée par un noyau) de manière itérative à différentes régions (bleu foncé) de l'entrée 2D (carré bleu entier). Chaque itération donne une valeur numérique (vert foncé). Le résultat de toutes les itérations est la sortie 2D verte \cite{dumoulin2016guide}.}
-    \label{fig:convolutions}
-\end{figure}
-
-
-\section{Conclusion}
-Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
-
-
-\begin{comment}
-
-\chapter{Introduction au Réseaux de Neurones Artificiels}
-\chapterintrobox{Les réseaux neuronaux artificiels sont des systèmes de computation capables de trouver des fonctions complexes qui relient une entrée à une sortie. ces systèmes peuvent être utilisés pour une variété de tâches comme la régression et la classification. Ils peuvent être utilisés dans le domaine de la maintenance prédictive et des pronostics pour estimer l'état de santé de l'équipement et prévoir avec une certaine incertitude sa durée de vie utile restante. Ce chapitre traite les réseaux de neurones, leur topologie, leur entraînement et leur formulation mathématique.}
-
-
-\section{La structure de réseaux de neurones artificiels}
-Les réseaux de neurones artificiels sont des systèmes de computation utilisés pour trouver la correspondance entre une entrée et une sortie, ils sont constitués de plusieurs couches (couche d'entrée, couche de sortie et un nombre arbitraire de couches cachées entre l'entrée et la sortie) et chaque couche contient un certain nombre de neurones où chaque neurone de chaque couche est connecté à tous les neurones de la couche précédente et de la couche suivante (à l'exception des couches d'entrée et de sortie qui sont connectées uniquement aux couches suivante et précédente respectivement).
-chaque neurone de chaque couche reçoit une entrée des neurones de la couche précédente (sous la forme d'un vecteur), multiplie le vecteur par quelques poids et somme le résultat puis applique une fonction d'activation linéaire. Chaque neurone se retrouve avec une seule valeur numérique appelée activation, qui sera transmise aux neurones de la couche suivante.
-
-Figure \ref{fig:neural-network-structure} montre un réseau de neurones avec la structure suivante :
-
-\begin{itemize}
-    \item Une couche d'entrée avec 3 entrée
-    \item Une seule couche cachée avec 4 neurones
-    \item Une couche de sortie avec 1 neurone 
-\end{itemize}
-
-\begin{figure}[h]
-    \centering
-	\input{figures/mlp-structure.tex}
-    \caption{Structure d'un réseau de neurones}
-    \label{fig:neural-network-structure}
-\end{figure}
-
-\section{Feedforward: de l'entrée vers la sortie}
-\label{section:feedforward-neural-network}
-L'architecture de la figure \ref{fig:neural-network-structure} est appelée Feedforward Neural Network, c'est une architecture acyclique où l'information circule de la première à la dernière couche sans aucune boucle interne, contrairement aux autres architectures comme les réseaux de neurones récurrents. La première couche est la couche d'entrée, elle n'effectue aucune opération et se limite à recevoir l'entrée. L'entrée est un vecteur de nombres représente les différentes variables. Le vecteur est multiplié par une matrice de poids qui le transforme et l'envoie à la couche suivante (ou à la première couche cachée). Une fonction d'activation est appliquée aux valeurs résultant de la multiplication des valeurs de la couche précédente avec la matrice des poids, le résultat devient les valeurs de la couche suivante, ou activations (la valeur de chaque neurone est appelée activaiton).
-
-Une formule générale pour passer de la couche $l-1$ à la couche $l$ est donnée par l'équation \ref{equation:forward-step}:
-
-\begin{equation}
-    a^{[l]} = g^{[l]}(W^{[l]}a^{[l-1]}+b^{[l]})
-    \label{equation:forward-step}
-\end{equation}
-
-Où $g^{[l]}$ est la fonction d'activation de la couche $l$, $W^{[l]}$ est la matrice des poids qui transforme les valeurs (activations) de la couche $l-1$ à la couche $l$ et $a^{[l]}$ représente les activations de la couche $l$. $b$ est la valeur du biais (ou valeur d'interception), elle est ajoutée à la multiplication entre les activations et la matrice des poids, c'est un paramètre qui peut être appris comme les poids. L'opération se répète pour chaque couche jusqu'à la couche de sortie.
-La première couche peut être considérée comme la couche 0 et les entrées peuvent être désignées par le vecteur $a^{[0]}$.
-
-\section{Fonction d'activation}
-Les fonctions d'activation sont appliquées au résultat de la multiplication des entrées de la couche précédente avec les poids correspondants, pour déterminer la valeur de chaque neurone. Il existe différents types de ces fonctions.
-
-L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
-
-Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques examples:
-
-\begin{figure}[h]
-    \centering
-	\input{figures/activation-functions.tex}
-    \caption{Différentes fonctions d'activation}
-    \label{fig:activation-function}
-\end{figure}
-
-Tablea \ref{table:activation-functions} montre les définition mathematiques de quelques fonctions d'activation:
-
-\begin{table}[h]
-    \centering
-    \begin{tabular}{c|c}
-        \hline
-        Fonction d'activation & Défnition mathématique \\
-        \hline
-        Identity (pas d'activation) & Id(x) = x \\
-        Sigmoid & $\sigma(x)= \frac{1}{1+e^{-x}}$ \\
-        tanh & $tanh(x)=\frac{(e^x-e^{-x})}{(e^x+e^{-x})}$\\
-        Rectified Linear Unit (ReLU) & $ReLU(x)=max(0,x)$\\
-        Leaky ReLU & $LeakyReLU(x)=max(0.1 x,x)$\\
-    \hline
-        
-    \end{tabular}
-    \caption{Définitions mathématiques de quelques fonctions d'activation}
-    \label{table:activation-functions}
-\end{table}
-
-\section{Entraînement du réseau}
-Le processus de formation d'un réseau de neurones consiste à déterminer les poids (coefficients) qui relient les neurones de chaque couche aux neurones de la couche suivante. Ce processus peut être formulé en termes plus mathématiques comme un problème d'optimisation : optimisation des coefficients du réseau pour trouver leurs valeurs qui minimisent une fonction de coût.
-
-L'entraînement du réseau de neurones utilise des données d'entraînement (training data) qui fournissent des entrées et leurs sorties correspondantes.
-
-    \subsection{Fonction de coût}
-La fonction de coût est la fonction utilisée pour calculer la différence entre la sortie du réseau de neurones et la sortie réelle attendue, elle quantifie la performance du réseau. Le but du processus d'entraînement est de minimiser cette fonction en utilisant Gradient Descent (voir la section suivante) pour trouver le meilleur ensemble de poids qui donne la différence la plus basse entre les données d'entraînement et la prédiction du réseau.
-
-    There are many types of cost functions, each type corresponds to different neural networks tasks (e.g. regression, binary classification, …). The cost function usually used for regression problems is mean-squared error function (Equation \ref{equation:mse}) which calculates the sum of distances between the model predictions $\hat{y}_i$ and the actual output ($y_i$), $N$ is the number of data points available for training:
-
+There are many types of cost functions, each type corresponds to different neural networks tasks (e.g. regression, binary classification, …). The cost function usually used for regression problems is mean-squared error function (Equation \ref{equation:mse}) which calculates the sum of distances between the model predictions $\hat{y}_i$ and the actual output ($y_i$), $N$ is the number of data points available for training:
 \begin{equation}
     MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
     \label{equation:mse}
@@ -357,7 +92,7 @@ The other major task of neural networks and other types of models is classificat
 The choice of activation function for the last layer of the network is directly related to the used cost function. For regression tasks, linear activation function is used. For binary classficiation it's sigmoid and for multiclass classficiation it's softmax function.
 
 \subsection{Gradient Descent}
-Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimiser une fonction différentiable. Gradient Descent fonctionne en calculant les gradients de la fonction objectif puis en prenant des mesures itératives dans le sens du négatif des gradients.
+Gradient Descent is an iterative optimization algorithm used to optimize a differentiable function. Gradient Descent works by calculating the gradients of the objective function and then taking iterative steps in the negative direction of the gradients.
 
 \subsection{Convex and non-convex functions}
 Gradient descent in neural networks is used to optimize (minimize) the cost function by finding the best set of weights and biases that give the lowest cost possible. Objective functions can be categorized into two types: convex and non-convex functions.
@@ -384,7 +119,6 @@ A non-convex function is a funciton that doesn't satisfy the convexity condition
     \caption{Example of convex and non-convex functions}
     \label{fig:convex-nonconvex-functions}
 \end{figure}
-
 
 \subsection{Global and local minima}
 Global minimum refers to the lowest possible value in a set (or of a function). Finding the global minimum refers to finding the set of parameters that correspond to this minimum value. When the function is convex, finding the global maximum is possible and easy, algorithms like gradient descent always converge to the global minimum in convex optimization. Examples of convex cost functions is linear regression cost function. For more complex models such as neural networks, cost function is highly non-convex with many local minima.
@@ -419,20 +153,18 @@ The following hypotheses were also verified empirically in the mentioned paper r
 \end{itemize}
 
 \subsection{Backpropagation}
-Backpropagation est l'algorithme utilisé pour calculer les gradients de la fonction de coût (la fonction objectif) d'un réseau de neurones. Comme un réseau de neurones peut être interprété comme une fonction composite, Backpropagation utilise le théorème de dérivation des fonctions composées
-pour trouver les gradients par rapport aux poids du réseau.
+Backpropagation is the algorithm used to calculate the gradients of the cost function (the objective function) of a neural network. Since a neural network can be interpreted as functions composition, Backpropagation uses the derivation theorem of a composition of functions to find the gradients in relation to the network weights.
 
-L'utilisation de Backpropagation pour l'entraînement de réseaux de neurones a été popularisée par David E. Rumelhart, Geoffrey E. Hintont et Ronald J. Williams \cite{Rumelhart1986}, ils l'ont décrit comme une procédure qui ajuste de manière répétée les poids des connexions du réseau de manière à minimiser une mesure de la différence entre le vecteur de sortie réel du réseau et le vecteur de sortie souhaité. À la suite des ajustements de poids, des unités internes "cachées" qui ne font pas partie de l'entrée ou de la sortie en viennent à représenter des caractéristiques importantes du domaine de la tâche, et les régularités de la tâche sont saisies par les interactions de ces unités.
+The use of Backpropagation for training neural networks was popularized by David E. Rumelhart, Geoffrey E. Hintont and Ronald J. Williams \cite{Rumelhart1986}, they described it as a procedure that repeatedly adjusts the weights of the network connections so as to minimize a measure of the difference between the actual output vector of the network and the desired output vector. As a result of the weight adjustments, "hidden" internal units that are not part of the input or output come to represent important characteristics of the task domain, and the regularities of the task are captured by the interactions of these units.
 
-Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backward Pass, le Forward Pass calcule la sortie de réseau, le Backward pass calcule les gradients de la fonction de coût qui mesure la difference entre cette sortie et la sortie réelle souhaitée:
+Figure \ref{fig:forward-backward-pass} represents the Forward Pass and the Backward Pass, the Forward Pass calculates the network output, the Backward Pass calculates the gradients of the cost function that measures the difference between this output and the actual desired output:
 
 \begin{figure}[h]
     \centering
 	\input{figures/forward-backward-pass.tex}
-    \caption{Forward (gauche) et Backward (droite) passes}
+    \caption{Forward (left) and Backward (right) passes}
     \label{fig:forward-backward-pass}
 \end{figure}
-
 
 \section{Recurrent Neural Networks}
 \acrlong{rnn} (\acrshort{rnn}) is a special architecture that is more suitable for modeling sequential data. \acrshort{rnn}s process an input sequence one element at a time, maintaining in their hidden units a 'state vector' that implicitly contains information about the history of all the past elemets of the sequence \cite{LeCun2015}. Figure \ref{fig:rnn} shows an example of a \acrshort{rnn} architecture. To the left is the unfolded version with a cylic loop in the hidden layer, to the right is shows unfolding of the network which is easier to understand. $x_1$, $x_2$, …$x_t$ represents the input vector (sequence), $y_1$, $y_2$, …$y_t$ represents the output vector (can be a sequence with length equals to the input, of different length or a single element). $h_1$, $h_2$, …$h_t$ are neurons of the hidden layer. In \acrshort{rnn} each neuron passes a vector of its hidden state to the next neuron corresponding to the next time step.
@@ -484,7 +216,6 @@ Figure \ref{fig:lstm} illustrates the different operations happening in a signle
 
 \section{Convolutional neural networks}
 \label{section:cnn}
-
 \acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-corelation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
 
 \begin{figure}[H]
@@ -509,11 +240,9 @@ Figure \ref{fig:lstm} illustrates the different operations happening in a signle
         \includegraphics[width=\linewidth]{figures/convolutions/no_padding_no_strides_03.pdf}
         \subcaption*{step 04}
     \end{subfigure}
-    \caption{Appliquer des convolutions (en multipliant l'entrée par un noyau) de manière itérative à différentes régions (bleu foncé) de l'entrée 2D (carré bleu entier). Chaque itération donne une valeur numérique (vert foncé). Le résultat de toutes les itérations est la sortie 2D verte \cite{dumoulin2016guide}.}
+    \caption{Applying convolutions (by multiplying the input by a kernel) iteratively to different regions (dark blue) of the 2D input (whole blue square). Each iteration gives a numerical value (dark green). The result of all iterations is the green 2D output \cite{dumoulin2016guide}.}
     \label{fig:convolutions}
 \end{figure}
 
 \section{Conclusion}
-Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
-
-\end{comment}
+Neural networks are a powerful tool to find the complex relationship between an input and an output (e.g. \acrlong{cm} data and machine degradation). They consist of different layers of interconnected neurons. the connection between each 2 layers is defined by a set of weights, which are multiplied by the values of the previous layer to find the values of the next layer, the process is repeated until the output layer is reached. the predicted output is compared to the actual output obtained from the training data, the weights are adjusted to minimize (using Backpropagation and Gradient Descent) the difference between the predictions and the reality.

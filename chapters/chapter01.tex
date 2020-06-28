@@ -1,104 +1,102 @@
-\chapter{Vers une Approche de Pronostic Data-Driven}
+\chapter{Towards a Data-Driven Prognostics Approach}
 
 \chapterintrobox{
-L'objectif de ce chapitre est de présenter les différentes approches pronostiques avec une taxonomie détaillée, les différentes étapes de toute approche pronostique seront décrites puis l'accent sera mis sur les méthodes fondées sur les données.}
+The aim of this chapter is to present the different prognostic approaches with a detailed taxonomy, the different steps of any prognostic approach will be described and then the emphasis will shift towards data-driven methods.
+}
 
-\section{Le Pronostic des équipements mécaniques}
-Les systèmes complexes surtout dans le domaine de pétrolière fonctionnent sous des conditions très sévères (offshore, désert… ) ce qui peut engendrer l’occurrence des défaillances et leur dégradation. Les pannes et les arrêts non planifiés causent automatiquement des pertes de production, ce qui peut avoir des conséquences économiques énormes. Avec ces contraintes économiques, il faut développer les programmes de maintenance pour minimiser la probabilité des défaillances et le coût. Comme discuté dans l'introduction de ce mémoire, ces programmes doivent être basés sur les principes \acrlong{cbm} et \acrlong{phm}.
+\section{Prognostics of mechanical equipment}
+Some complex systems, especially in the oil industry, operate under very severe conditions (offshore, desert, etc.), which can lead to the occurrence of failures and their degradation. Breakdowns and unplanned shutdowns inevitably cause production losses, which can have enormous economic consequences. With these economic constraints, maintenance programs must be developed to minimize the probability of failures, thereby reducing the cost. As discussed in the introduction to this thesis, these programs must be based on the principles of \acrlong{cbm} and \acrlong{phm}.
 
-Le pronostic et la gestion de la santé (\acrlong{phm}) a deux aspects principaux\cite{Hess2008}:
+
+Prognostics and health management (\acrlong{phm}) has two major aspects \cite{Hess2008}:
 
 \begin{enumerate}
-    \item \textbf{Pronostic}: diagnostic prédictif, ce qui comprend la détermination de la durée de vie utile restante (durée de bon fonctionnement) d'une composante ou d'un bien.
-    \item \textbf{Gestion de la santé}: la capabilité de prendre des décisions concernant les actions de maintenance en basant sur les informations du diagnostic/pronostic, les ressources disponibles et la demande opérationnelle.
+    \item \textbf{Pronostics}: Predictive diagnostics, which includes determining the remaining useful life (service life) of a component or a full system.
+    \item \textbf{Health Management}: the ability to make decisions regarding maintenance actions based on diagnostic/prognostic information, available resources and operational demand.
 \end{enumerate}
 
-\section{Estimation de durée de vie utile restante}
-% TODO: mentioning of 
+\section{Estimating Remaining Useful Life}
 \label{section:rul}
 \label{section:rul-estimation}
-L'objectif principal du pronostic c'est l'estimation de la durée de vie utile restante (\acrlong{rul}) du système.
-\acrshort{rul} est défini selon l'équation \ref{eq:rul}:
+The main objective of the prognostics is to estimate the remaining useful life (\acrlong{rul}) of the system.
+\acrshort{rul} is defined according to the equation \ref{eq:rul}:
 
 \begin{equation}
     RUL = t_f-t_c
     \label{eq:rul}
 \end{equation}
 
-Où $t_f$ est le temps prédit pour l’occurrence de la défaillance et $t_c$ est le temps actuel (le temps quand la prédiction est faite).
-%TODO: discussion of abstraction levels for RUL estimation
 
-\section{Approches Physiques, Data-Driven et Hybrides}
+Where $t_f$ is the predicted time for the occurrence of the failure and $t_c$ is the current time (the time when the prediction is made).
+
+\section{Physical, Data-Driven and Hybrid Approaches}
 \label{section:prognostics-approaches}
-Toute approche pronostique peut être basée sur des modèles physiques, modèles data-driven ou une combinaison hybride des deux (Figure \ref{fig:prognostic-approaches-venn}).
+Any prognostic approach can be based on physical models, data-driven models or a hybrid combination of the two (Figure \ref{fig:prognostic-approaches-venn}).
 
 \begin{figure}[ht]
     \centering
-	\input{figures/prognostic-approaches-venn_fr.tex}
-    \caption{Classification des approches de pronostic}
+	\input{figures/prognostic-approaches-venn.tex}
+    \caption{Classification of prognostics approaches}
     \label{fig:prognostic-approaches-venn}
 \end{figure}
 
-Ces trois catégories constituent une classification générale fondée sur l'approche suivie, chacune d'entre elles pouvant être subdivisée en sous-catégories. Une taxonomie détaillée est présentée à la figure \ref{fig:prognostic-approaches-tree}.
+These three categories constitute a general classification based on the approach followed, each of which can be subdivided into sub-categories. A detailed taxonomy is presented in Figure \ref{fig:prognostic-approaches-tree}.
+
 \begin{figure}[ht]
-	\resizebox{\textwidth}{!}{\input{figures/prognostic-approaches_fr.tex}}
-    \caption{Taxonomie des approches de pronostic \cite{Javed2017}}
+	\resizebox{\textwidth}{!}{\input{figures/prognostic-approaches.tex}}
+    \caption{Taxonomy of prognostics approaches \cite{Javed2017}}
     \label{fig:prognostic-approaches-tree}
 \end{figure}
 
-\subsection{Modèles Physiques}
-Les modèles physiques évaluent la santé du système en utilisant une formulation mathématique explicite (boîtes blanches) développée sur la base d'une compréhension scientifique et technique de son comportement. Cependant, le principal avantage de ces modèles physiques consiste à utiliser des modèles de dégradation pour prédire le comportement à long terme \cite{Cubillo2016}. Les approches physiques sont capables de fournir une estimation précise de l'état de santé du systèmes si le modèle physique est développé avec une compréhension complète des mécanismes de défaillance et une estimation efficace des paramètres du modèle. Cependant, pour certains systèmes mécaniques complexes, il est difficile de comprendre la physique des dommages, ce qui limite l'application de ces approches \cite{Lei2018}.
 
-\subsection{Modèles Data-Driven}
-Les modèles \acrlong{dd} s'appuient sur des données collectées précédemment (données de surveillance, données sur les paramètres opérationnels, ... ) pour établir un modèle capable d'évaluer la santé du système et de prévoir son comportement et sa dégradation. Contrairement aux modèles physiques, et comme leur nom l'indique, les modèles \acrlong{dd} ne s'appuient pas sur les connaissances humaines mais principalement sur les données historiques collectées pour modéliser le processus de dégradation. Habituellement, ils sont considérés comme des boîtes noires.
+\subsection{Physics-based models}
+Physics-based models assess the health of the system using an explicit mathematical formulation (white boxes) developed on the basis of a scientific and technical understanding of its behavior. However, the main advantage of these physical models is the use of degradation models to predict long-term behavior \cite{Cubillo2016}. Physical approaches are capable of providing an accurate estimate of the health of the system if the physical model is developed with a complete understanding of the failure mechanisms and efficient estimation of the model parameters. However, for some complex mechanical systems, it is difficult to understand the physics of damage, which limits the application of these approaches \cite{Lei2018}.
 
-\subsubsection{Modèles Statistiques}
-L'approche statistique repose sur la construction et l'ajustement d'un modèle probabiliste en utilisant les données historiques sans dépendre d'aucun principe physique ou technique \cite{Si2011}. 
-Si et al. \cite{Si2011} ont présenté une revue des approches statistiques. Selon cette revue, de nombreux modèles entrent dans cette catégorie tels que les modèles de régression (e.g. la régression linéaire), la moyenne mobile autorégressive et ses variantes, les techniques de filtrage stochastique (e.g. filtre de Kalman, filtre particulaire, ...).
+\subsection{Data-Driven Models}
+\acrlong{dd}  models rely on previously collected data (monitoring data, data on operational parameters, …) to establish a model capable of assessing the health of the system and predicting its behaviour and degradation. Contrary to physical models, and as their name indicates, \acrlong{dd} models do not rely on human knowledge but mainly on historical data collected to model the degradation process. Usually, they are considered as black boxes.
 
-\subsubsection{Machine Learning}
-L'apprentissage machine (en anglais Machine Learning) est un domaine de l'intelligence artificielle qui a explosé ces dernières années et a fait des percées dans de nombreux domaines tels que Computer Vision et Natural Language Processing. Les modèles d'apprentissage machine sont des modèles boîte noire qui permettent de découvrir des mappages même très complexes d'une entrée à une sortie. De nombreux types d'algorithmes entrent dans cette catégorie comme les méthodes connectionnistes (e.g. les réseaux de neurones artificiels), l'apprentissage contextuel (e.g. les machine à vecteurs de support). Différentes approches peuvent être combinées ensemble pour créer des modèles mixte qui peuvent être plus performants qu'un modèle unique.
+\subsection{Statistical Models}
+The statistical approach is based on the construction and fitting of a probabilistic model using historical data without depending on any physical or technical principles. 
+Si et al. \cite{Si2011} presented a review of statistical approaches. According to this review, many models fall into this category such as regression models (e.g. linear regression), autoregressive moving average and its variants, stochastic filtering techniques (e.g. Kalman filter, particles filter, …).
 
+\subsection{Machine Learning}
+Machine Learning is a field of Artificial Intelligence that has exploded in popularity during recent years and has made breakthroughs in many areas such as computer vision and natural language processing. Machine learning models are black box models that allow even very complex mappings from input to output to be discovered. Many types of algorithms fall into this category such as connectionist methods (e.g. artificial neural networks), context learning (e.g. support-vector machines). Different approaches can be combined together to create mixed models that may perform better than a single model.
 
-
-\subsection{Modèles Hybrides}
-Les modèles hybrides sont une combinaison d'un modèle physique et d'un modèle \acrlong{dd}. Il existe deux types de modèles hybrides selon la façon dont les deux types des modèles sont combinés. Le modèle \acrlong{dd} peut être intégré dans un modèle physique en configuration série (Figure \ref{fig:hybrid-approach-series}) où il est utilisé pour ajuster les paramètres du modèle physique qui utilisé alors pour faire des prédictions.
+\subsection{Hybrid Models}
+Hybrid models are a combination of a physical model and an \acrlong{dd} model. There are two types of hybrid models depending on how the two types of models are combined. The \acrlong{dd} model can be integrated into a physical model in a series configuration (Figure \ref{fig:hybrid-approach-series}) where it is used to adjust the parameters of the physical model which is then used to make predictions.
 
 \begin{figure}[H]
     \centering
-    \input{figures/hybrid-approach-series_fr.tex}
-    \caption{Configuration hybride en série (Figure adaptée de la référence \cite{Mangili2013})}
+    \input{figures/hybrid-approach-series.tex}
+    \caption{Series hybrid configuration (Figure adapted from \cite{Mangili2013})}
     \label{fig:hybrid-approach-series}
 \end{figure}
 
-Les deux types de modèles peuvent être combinés dans une configuration parallèle (Figure \ref{fig:hybrid-approach-parallel}) où les deux modèles font des prédictions séparées qui peuvent être combinées pour obtenir l'estimation finale.
+The two types of models can be combined in a parallel configuration (Figure \ref{fig:hybrid-approach-parallel}) where the two models make separate predictions that can be combined to obtain the final estimate.
+
 \begin{figure}[H]
     \centering
-    \input{figures/hybrid-approach-parallel_fr.tex}
-    \caption{Configuration hybride parallèle (Figure adaptée de la référence \cite{Mangili2013})}
+    \input{figures/hybrid-approach-parallel.tex}
+    \caption{Parallel hybrid configuration (Figure adapted from \cite{Mangili2013})}
     \label{fig:hybrid-approach-parallel}
 \end{figure}
 
-\section{Pourquoi une approche Data-Driven?}
-Comme mentionné précédemment, comprendre le processus de dégradation pour les systèmes très complexes est extrêmement difficile, c'est pourquoi le développement des modèles physiques est très problématique pour ces systèmes.
 
-Les 20 dernières années ont vu de grands progrès dans le développement de nouvelles techniques de détection, de méthodes de pronostic/diagnostic et dans l’application des méthodes d’analyse informatisées. 
+\section{Why a Data-Driven Approach?}
+As mentioned previously, understanding the degradation process for very complex systems is extremely difficult, which is why the development of physical models is very problematic for these systems.
 
-Il est intéressant de noter que, lors de l’atelier de 2002 sur la maintenance conditionnelle organisé par Advanced Technology Program du National Institute of Standards and Technology (NIST) des États-Unis, les obstaces suivants à l’application généralisée des mesures de confiance ont été identifiés :
-\begin{itemize}%[label=$\bullet$]
-    \item L’impossibilité de prédire avec exactitude et fiabilité la durée de vie utile restante d'une machine.
-    \item L’incapacité de surveiller continuellement une machine.
-    \item L’incapacité des systèmes de maintenance à apprendre et à identifier les défaillances imminentes et à recommander les mesures à prendre.
+The last 20 years have seen great progress in the development of new detection techniques, prognostics/diagnostics methods and in the application of computer-aided analysis methods. 
+
+It is interesting to note that at the 2002 workshop on condition-based maintenance organized by the Advanced Technology Program of the United States National Institute of Standards and Technology (NIST), the following obstacles to the widespread application of CBMs were identified:
+\begin{itemize}% [label=$\bullet$]
+    \item The impossibility of accurately and reliably predicting the remaining service life of a machine.
+    \item The inability to continuously monitor a machine.
+    \item The Inability of maintenance systems to learn and identify impending failures and recommend action.
 \end{itemize} 
 
-Ces obstacles peuvent être redéfinis comme des déficiences au niveau des pronostics, de la détection et du raisonnement. Ces limitations et d'autres encore de la mise en œuvre actuelle des techniques de maintenance conditionnelle ont, bien entendu, été reconnues par d'autres et ont conduit à l'élaboration de programmes (e.g. dans le domaine militaire) visant à les surmonter \cite{Hess2008}.
+These barriers can be redefined as deficiencies in prognosis, detection and reasoning. These and other limitations in the current implementation of condition-based maintenance techniques have, of course, been recognised by others and have led to the development of programmes (e.g. in the military field) to overcome them \cite{Hess2008}.
 
-Aujourd'hui, les capteurs dans l'industrie sont devenus peu coûteux et omniprésents, la puissance de calcul a augmenté exponentiellement ce qui a permis de dévlopper des algorithmes et outils informatiques plus avancés : la révolution de l'intelligence artificielle et l'apprentissage automatique. L’industrie génère d’énormes quantités de données dans de nombreux domaines dont la majorité est inexploitée, l’exploitation de ces données en utilisant les dernières avancées technologiques peut augmenter les profits, réduire les coûts de manière drastique et s’avérer être un énorme avantage économique.
+Today, sensors in industry have become inexpensive and ubiquitous, computing power has increased exponentially which has allowed the development of more advanced algorithms and computing tools: the artificial intelligence revolution and machine learning. The industry generates huge amounts of data in many areas, the majority of which is untapped. Exploiting this data using the latest technological advances can increase profits, drastically reduce costs and prove to be a huge economic advantage.
 
-\section{Conclusion}
-L'adoption de modèles de pronostic basés sur des données peut être utile, en particulier lorsque le comportement du processus de dégradation est ambigu et que l'élaboration de modèles basés sur la physique pour quantifier l'état de santé de systèmes complexes est compliquée et que leurs résultats ne sont pas fiables. Les récents développements des techniques de détection, l'augmentation de la puissance de calcul disponible (c'est-à-dire des unités de traitement plus rapides et moins coûteuses) et l'abondance de données de surveillance non exploitées ont fourni le cadre nécessaire à l'adoption de ces modèles basés sur les données, qui sont plus faciles à développer, à déployer et à automatiser que leurs homologues basés sur la physique.
-
-\begin{comment}
 \section{Conclusion}
 Adoption of data-driven prognostics models can be helpful especially when behavior of degradation process is ambiguous and developing physics-based models to quantify the health state of complex systems is complicated and their results become unreliable. Recent developments in sensoring techniques, increase in available computation power (i.e. faster and cheaper processing units) and also abundance of—unexploited—monitoring data has provided the needed framework for adopting these data-driven models which are easier to develop, deploy and automate than their physics-based counterparts.
-\end{comment}
