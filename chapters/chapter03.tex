@@ -9,7 +9,7 @@ Figure \ref{fig:neural-network-structure} shows a neural network with the follow
 
 \begin{itemize}
     \item Input layer with 3 inputs
-    \item Signle hidden layer with 4 neurons
+    \item Single hidden layer with 4 neurons
     \item Output layer with 1 neuron
 \end{itemize}
 
@@ -82,14 +82,14 @@ There are many types of cost functions, each type corresponds to different neura
     \label{equation:mse}
 \end{equation}
 
-The other major task of neural networks and other types of models is classificaton. There are two main types of classification: binary classification, or classification of two classes and multiclass classification or classification of many classes. The first one uses binary cross-entropy loss function (Equation \ref{equation:logloss}) and the latter uses categorical cross-entropy.
+The other major task of neural networks and other types of models is classification. There are two main types of classification: binary classification, or classification of two classes and multiclass classification or classification of many classes. The first one uses binary cross-entropy loss function (Equation \ref{equation:logloss}) and the latter uses categorical cross-entropy.
 
 \begin{equation}
     BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
     \label{equation:logloss}
 \end{equation}
 
-The choice of activation function for the last layer of the network is directly related to the used cost function. For regression tasks, linear activation function is used. For binary classficiation it's sigmoid and for multiclass classficiation it's softmax function.
+The choice of activation function for the last layer of the network is directly related to the used cost function. For regression tasks, linear activation function is used. For binary classification it's sigmoid and for multiclass classification it's softmax function.
 
 \subsection{Gradient Descent}
 Gradient Descent is an iterative optimization algorithm used to optimize a differentiable function. Gradient Descent works by calculating the gradients of the objective function and then taking iterative steps in the negative direction of the gradients.
@@ -102,7 +102,7 @@ A convex function is said to be convex if it has the property that every chord l
     \label{equation:convexity}
 \end{equation}
 
-This is equivalent to the requirement that the second derivative of the function be everywhere positive \cite{Bishop2006}. This condition of convexity can be extended to spaces with arbitrariliy large number of dimensions.
+This is equivalent to the requirement that the second derivative of the function be everywhere positive \cite{Bishop2006}. This condition of convexity can be extended to spaces with arbitrarily large number of dimensions.
 
 \begin{figure}[h]
     \centering
@@ -111,7 +111,7 @@ This is equivalent to the requirement that the second derivative of the function
     \label{fig:convexity}
 \end{figure}
 
-A non-convex function is a funciton that doesn't satisfy the convexity condition. Figure \ref{fig:convex-nonconvex-functions} shows an example of a convex (left) and a non-convex function (right) where the function parameters are in two-dimensional space.
+A non-convex function is a function that doesn't satisfy the convexity condition. Figure \ref{fig:convex-nonconvex-functions} shows an example of a convex (left) and a non-convex function (right) where the function parameters are in two-dimensional space.
 
 \begin{figure}[h]
     \centering
@@ -148,14 +148,14 @@ In  \cite{Choromanska2014} the authors showed that getting stuck in poor local m
 The following hypotheses were also verified empirically in the mentioned paper regarding learning with large-size networks:
 \begin{itemize}
     \item When a network is large, there isn't a significant difference in performance on test data among most of local minima.
-    \item Probability of finding a bad local minimum in small networks is higher than the proobability of finding them in larger networks.
-    \item Finding the global minimum on training set doesn't garantee a better performance on testing data, rather it could cause overfitting and reduced performance.
+    \item Probability of finding a bad local minimum in small networks is higher than the probability of finding them in larger networks.
+    \item Finding the global minimum on training set doesn't guarantee a better performance on testing data, rather it could cause overfitting and reduced performance.
 \end{itemize}
 
 \subsection{Backpropagation}
 Backpropagation is the algorithm used to calculate the gradients of the cost function (the objective function) of a neural network. Since a neural network can be interpreted as functions composition, Backpropagation uses the derivation theorem of a composition of functions to find the gradients in relation to the network weights.
 
-The use of Backpropagation for training neural networks was popularized by David E. Rumelhart, Geoffrey E. Hintont and Ronald J. Williams \cite{Rumelhart1986}, they described it as a procedure that repeatedly adjusts the weights of the network connections so as to minimize a measure of the difference between the actual output vector of the network and the desired output vector. As a result of the weight adjustments, "hidden" internal units that are not part of the input or output come to represent important characteristics of the task domain, and the regularities of the task are captured by the interactions of these units.
+The use of Backpropagation for training neural networks was popularized by David E. Rumelhart, Geoffrey E. Hinton and Ronald J. Williams \cite{Rumelhart1986}, they described it as a procedure that repeatedly adjusts the weights of the network connections so as to minimize a measure of the difference between the actual output vector of the network and the desired output vector. As a result of the weight adjustments, "hidden" internal units that are not part of the input or output come to represent important characteristics of the task domain, and the regularities of the task are captured by the interactions of these units.
 
 Figure \ref{fig:forward-backward-pass} represents the Forward Pass and the Backward Pass, the Forward Pass calculates the network output, the Backward Pass calculates the gradients of the cost function that measures the difference between this output and the actual desired output:
 
@@ -167,7 +167,7 @@ Figure \ref{fig:forward-backward-pass} represents the Forward Pass and the Backw
 \end{figure}
 
 \section{Recurrent Neural Networks}
-\acrlong{rnn} (\acrshort{rnn}) is a special architecture that is more suitable for modeling sequential data. \acrshort{rnn}s process an input sequence one element at a time, maintaining in their hidden units a 'state vector' that implicitly contains information about the history of all the past elemets of the sequence \cite{LeCun2015}. Figure \ref{fig:rnn} shows an example of a \acrshort{rnn} architecture. To the left is the unfolded version with a cylic loop in the hidden layer, to the right is shows unfolding of the network which is easier to understand. $x_1$, $x_2$, …$x_t$ represents the input vector (sequence), $y_1$, $y_2$, …$y_t$ represents the output vector (can be a sequence with length equals to the input, of different length or a single element). $h_1$, $h_2$, …$h_t$ are neurons of the hidden layer. In \acrshort{rnn} each neuron passes a vector of its hidden state to the next neuron corresponding to the next time step.
+\acrlong{rnn} (\acrshort{rnn}) is a special architecture that is more suitable for modeling sequential data. \acrshort{rnn}s process an input sequence one element at a time, maintaining in their hidden units a 'state vector' that implicitly contains information about the history of all the past elements of the sequence \cite{LeCun2015}. Figure \ref{fig:rnn} shows an example of a \acrshort{rnn} architecture. To the left is the unfolded version with a cyclic loop in the hidden layer, to the right is shows unfolding of the network which is easier to understand. $x_1$, $x_2$, …$x_t$ represents the input vector (sequence), $y_1$, $y_2$, …$y_t$ represents the output vector (can be a sequence with length equals to the input, of different length or a single element). $h_1$, $h_2$, …$h_t$ are neurons of the hidden layer. In \acrshort{rnn} each neuron passes a vector of its hidden state to the next neuron corresponding to the next time step.
     
 \begin{figure}[H]
         \centering
@@ -205,7 +205,7 @@ At each time step $t$, a candidate cell state $\tilde{c}_t$ is calculated using 
 
 Gates control the flow of information inside the \acrshort{lstm} cell, their values range from 0 to 1 (sigmoid function) and control which information to keep and which to discard when updating the cell state (forget and input gates) and when calculating the \acrshort{lstm} cell output (output gate).
 
-Figure \ref{fig:lstm} illustrates the different operations happening in a signle \acrshort{lstm} cell:
+Figure \ref{fig:lstm} illustrates the different operations happening in a single \acrshort{lstm} cell:
 
 \begin{figure}[h]
     \centering
@@ -216,7 +216,7 @@ Figure \ref{fig:lstm} illustrates the different operations happening in a signle
 
 \section{Convolutional neural networks}
 \label{section:cnn}
-\acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-corelation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
+\acrlong{cnn} (\acrshort{cnn}) have what is called convolutional layers. A convolutional layer takes an input (usually 2D images, but it can be 1D or 3D either) and apply a mathematical operation called convolution\footnote{Mathematically, the operation happening in a \acrshort{cnn} is called cross-correlation which is a bit different than the mathematical definition of a convolution. In Machine Learning literature those operations are called convolutions, this is the terminology that will be used here.}. Convolutions act like filters that extract features from raw data by recursively multiplying what is called kernel with the input data. Different kernels serve different purposes and can extract a wide variety of features from raw data. After feature extraction done by the convolutional layer, they serve as an input for a feedforward neural network (as described in section \ref{section:feedforward-neural-network}) for classification or regression.
 
 \begin{figure}[H]
     \centering

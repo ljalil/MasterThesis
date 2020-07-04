@@ -152,7 +152,7 @@ The model achieves perfect 100\% accuracy on training set and a close accuracy o
    \label{table:cw-cnn-results}
 \end{table}
 
-To further understand the model's results, confusion matrix is constructed. The confusion matrix (Figure \ref{fig:bearings_faults_classification_confusion_matrix}) shows the results of model predictions on the test set where y-axis shows the actual (real) labels in the test set and x-axis the model predictions. Diagnoal of confusion matrix is where actual labels intersect with model's predicted labels for each sample and it is apparent that the model achieves near-perfect classification.
+To further understand the model's results, confusion matrix is constructed. The confusion matrix (Figure \ref{fig:bearings_faults_classification_confusion_matrix}) shows the results of model predictions on the test set where y-axis shows the actual (real) labels in the test set and x-axis the model predictions. Diagonal of confusion matrix is where actual labels intersect with model's predicted labels for each sample and it is apparent that the model achieves near-perfect classification.
 
 \begin{figure}[h]
     \centering
@@ -164,10 +164,10 @@ To further understand the model's results, confusion matrix is constructed. The 
 \section{Case study: Bearings faults prognostics using neural networks}%
 \label{sec:case_study_bearings_faults_prognostics_using_neural_networks}
 
-Section \ref{sec:case_study_bearings_faults_diagnostics_using_neural_networks} presented an approach for diagnosing bearings faults using vibration data and neural networks. Diagnosis is important aspect of maintenance in general, but it's not enough alone, in a predictive maintenance program and in the context of \acrshort{phm}, it is also important to monitor the equipmet, estimate its health state and project it into the future to predict the \acrshort{rul} and that is what is covered in this section. In this section, FEMTO bearings dataset is used.
+Section \ref{sec:case_study_bearings_faults_diagnostics_using_neural_networks} presented an approach for diagnosing bearings faults using vibration data and neural networks. Diagnosis is important aspect of maintenance in general, but it's not enough alone, in a predictive maintenance program and in the context of \acrshort{phm}, it is also important to monitor the equipment, estimate its health state and project it into the future to predict the \acrshort{rul} and that is what is covered in this section. In this section, FEMTO bearings dataset is used.
 
-\subsection{Introduction au base de données FEMTO}%
-\label{sub:introduction_au_base_de_donnees_femto}
+\subsection{Introduction to FEMTO database}%
+\label{sub:introduction_to_femto_database}
 
 FEMTO Bearings dataset was provided by FEMTO-ST Institute (Besançon - France) as a part of PHM 2012 Data Challenge. The dataset consists of vibration and temperature measurements from bearings accelerated aging (run to failure) experiments which were conducted using PRONOSTIA platform.
 
@@ -184,7 +184,7 @@ PRONOSTIA consists of three main parts:
 
 \begin{itemize}
 	\item \textbf{Rotating part}: Asynchronous motor with a power of 250W that transmits rotation motion through a gearbox which allows a rotation speed up to 2830 rpm. The motor's speed and direction of rotation are controlled by the user through a human machine interface (HMI).
-	\item \textbf{Load part}: Which is used to apply a radial force to induce faults in bearings. By applying a load that exeeds the bearing's maximum dynamic load (4000 N), this part allows to drastically reduce the bearing's life and conduct the accelerated aging test. The load is generated using a force actuator that consits of a pneumatic jack powered by a pressure delivered through a digital electro-pneumatic regulator.
+	\item \textbf{Load part}: Which is used to apply a radial force to induce faults in bearings. By applying a load that exceeds the bearing's maximum dynamic load (4000 N), this part allows to drastically reduce the bearing's life and conduct the accelerated aging test. The load is generated using a force actuator that consists of a pneumatic jack powered by a pressure delivered through a digital electro-pneumatic regulator.
 	\item \textbf{Measurement part}: Operation conditions consist of three variables: a) the applied radial force, b) shaft speed and c) torque inflicted on the bearings, all three which are sampled at a frequency of 100Hz. Bearings health is measured by two variables: a) vibrations (both horizontal and vertical) which are measured by 2 accelerometers placed on the bearing's outer race and b) temperature measured by an RTD (Resistance Temperature Detector) probe placed close to the outer race. Vibration is sampled at 26.5kHz and temperature at 10Hz. Vibration measurements consist of snapshots of 2560 samples taken every 10s while temperature measurements are 600 samples taken each minute.
 \end{itemize}
 
@@ -210,7 +210,7 @@ Learning set & \begin{tabular}[c]{@{}c@{}}Bearing1\_1\\ Bearing1\_2\end{tabular}
 Testing set & \begin{tabular}[c]{@{}c@{}}Bearing1\_3\\ Bearing1\_4\\ Bearing1\_5\\ Bearing1\_6\\ Bearing1\_7\end{tabular} & \begin{tabular}[c]{@{}c@{}}Bearing2\_3\\ Bearing2\_4\\ Bearing2\_5\\ Bearing2\_6\\ Bearing2\_7\end{tabular} & Bearing3\_3 \\
 \tabucline[1.5pt]{-}
 \end{tabu}
-\caption{Different operating conditions and correspondig bearings in FEMTO dataset}
+\caption{Different operating conditions and corresponding bearings in FEMTO dataset}
 \label{table:femto-bearings-dataset}
 \end{table}
 
@@ -223,14 +223,16 @@ Figures \ref{fig:bearings_fault_progress_scaleograms_h} and \ref{fig:bearings_fa
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[]{figures/femtocwt_scaleograms_h.pdf}
+	%\includegraphics[]{figures/femtocwt_scaleograms_h.pdf}
+	\includegraphics[]{figures/femtocwt_scaleograms_h}
 	\caption{Scaleograms of different stages of Bearing1\_1 life (horizontal vibrations)}%
 	\label{fig:bearings_fault_progress_scaleograms_h}
 \end{figure}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[]{figures/femtocwt_scaleograms_v.pdf}
+	%\includegraphics[]{figures/femtocwt_scaleograms_v.pdf}
+	\includegraphics[]{figures/femtocwt_scaleograms_v}
 	\caption{Scaleograms of different stages of Bearing1\_1 life (vertical vibrations)}%
 	\label{fig:bearings_fault_progress_scaleograms_v}
 \end{figure}
@@ -291,14 +293,14 @@ The network achieved a perfect training accuracy of 100\% and similar validation
 	\centering
 	\begin{tabu}{lcc}
 		\tabucline[1.5pt]{2-3} 
-		&			\textbf{Perte}	&	\textbf{Exactitude}	\\
+		&			\textbf{Loss}	&	\textbf{Precision}	\\
 	   \tabucline[1pt]{-}
-		Ensemble d'entraînement &	0.0017	&	100.00\%		\\
-		Ensemble de validation 	&	0.0528 	&	98.89\%			\\
-		Ensemble de test	&	0.0527 	&	98.44\%			\\
+		Train dataset	&	0.0017	&	100.00\%		\\
+		Validation dataset 	&	0.0528 	&	98.89\%			\\
+		Test dataset	&	0.0527 	&	98.44\%			\\
    \tabucline[1.5pt]{-}
    \end{tabu}
-   \caption{Résultats de l'entraînement}
+   \caption{Training result}
    \label{table:femto-cwt-results}
 \end{table}
 
@@ -332,7 +334,7 @@ The prognostic model's input is vital to its predictions accuracy \cite{coble200
 
 \subsubsection{Trendability and monotonicity}%
 \label{subsub:trendability_and_monotonicity}
-In \cite{coble2009} the authors proposed a set of metrics which can be used to quantify the quality of prognostics features and directly compare their suitability for use in predictive models, two of these metrics are \textbf{monotonicity} and \textbf{trendability}. According to their defiition, monotonicity refers to the nature of the variable whether it is increasing or decreasing and it has a value between 0 and 1 where a variable that is always increasing or decreasing will have monotonicity of 1. Monotonicity is defined by equation \ref{equation:monotonicity}: 
+In \cite{coble2009} the authors proposed a set of metrics which can be used to quantify the quality of prognostics features and directly compare their suitability for use in predictive models, two of these metrics are \textbf{monotonicity} and \textbf{trendability}. According to their definition, monotonicity refers to the nature of the variable whether it is increasing or decreasing and it has a value between 0 and 1 where a variable that is always increasing or decreasing will have monotonicity of 1. Monotonicity is defined by equation \ref{equation:monotonicity}: 
 \begin{equation}
 	M=\frac{\text{no. of }\frac{d}{dx} > 0}{n-1} - \frac{\text{no. of }\frac{d}{dx} < 0}{n-1}
 \label{equation:monotonicity}
@@ -350,9 +352,9 @@ Trendability&=1-std(t_i)
 
 \subsection{Trigonometric features and cumulative descriptors}%
 \label{sub:trigonometric_features}
-In \cite{javed2013} the authors proposed a new feature extraction procedure from vibration data based on discrete wavelet transform (Section \ref{subsub:discrete_wavelet_transform}) and trigonometric functions. Firts, the raw vibration signal is decomposed using discrete wavelet transform with db4 wavelet and 4th level of decomposition, then the decomposition coefficients are scaled using trigonometric functions (e.g. asinh, atan), finally standard deviation of the scaled coefficients is calculated to obtain the final value. According to the authors, these features are less sensitive to noise and variability of raw vibration signals. 
+In \cite{javed2013} the authors proposed a new feature extraction procedure from vibration data based on discrete wavelet transform (Section \ref{subsub:discrete_wavelet_transform}) and trigonometric functions. First, the raw vibration signal is decomposed using discrete wavelet transform with db4 wavelet and 4th level of decomposition, then the decomposition coefficients are scaled using trigonometric functions (e.g. asinh, atan), finally standard deviation of the scaled coefficients is calculated to obtain the final value. According to the authors, these features are less sensitive to noise and variability of raw vibration signals. 
 
-Table \ref{table:trigonometric-classic_features} shows mathematical definition of different classic and trigonometric features used in litearture:
+Table \ref{table:trigonometric-classic_features} shows mathematical definition of different classic and trigonometric features used in literature:
 
 \begin{table}[ht]
     \centering
@@ -373,7 +375,7 @@ Table \ref{table:trigonometric-classic_features} shows mathematical definition o
 		Upper bound & $max(x)+\frac{1}{2}\frac{max(X)-min(X)}{n-1}$\\
 	\tabucline[1.5pt]{-}
     \end{tabu}
-    \caption{Prognostics trignonometric and classic features \cite{javed2013}}
+    \caption{Prognostics trigonometric and classic features \cite{javed2013}}
     \label{table:trigonometric-classic_features}
 \end{table}
 
@@ -456,7 +458,7 @@ It is very obvious that features monotonicity increased significantly for cumula
 \subsection{Top Drive}%
 \label{sub:top_drive}
 
-In oil drilling rigs, Top Drive is a device that is used to turn the drillstring and replace the conventional rotary table and kelly. The main advantage of Top Drives over conventional solutions is the ability to drill using three joints of pipes instead of just one, thus reducing drastically drilling time. Top Drives also helps drillers to minimize the cost and frequency of stuck pipe incidents \cite{slbtopdrive}.
+In oil drilling rigs, Top Drive is a device that is used to turn the drill string and replace the conventional rotary table and kelly. The main advantage of Top Drives over conventional solutions is the ability to drill using three joints of pipes instead of just one, thus reducing drastically drilling time. Top Drives also helps drillers to minimize the cost and frequency of stuck pipe incidents \cite{slbtopdrive}.
 
 Figure \ref{fig:figures/bentec_500_ht} shows Bentec 500-HT Top Drive.
 
@@ -467,23 +469,23 @@ Figure \ref{fig:figures/bentec_500_ht} shows Bentec 500-HT Top Drive.
 	\label{fig:figures/bentec_500_ht}
 \end{figure}
 
-From an engineering perspective, Top Drives are much more complicated systems than conventional rotary table and kelly, thus they need more rigorous maintenance programs to ensure their availability considering their major role in drilling operations. Every year the oil and gas technology is pushed harder, to drill in harder conditions and to drill deeper and more challenging oil wells, this poses stricter requirements on used equipment: to be able under and sustain harsher conditions while maximizing its availibility which is of great importance in the field, for example  Top Drives downtime cost can reach 1m\$ per day and cause significant delay to drilling operations \cite{skfbrochure}. 
+From an engineering perspective, Top Drives are much more complicated systems than conventional rotary table and kelly, thus they need more rigorous maintenance programs to ensure their availability considering their major role in drilling operations. Every year the oil and gas technology is pushed harder, to drill in harder conditions and to drill deeper and more challenging oil wells, this poses stricter requirements on used equipment: to be able under and sustain harsher conditions while maximizing its availability which is of great importance in the field, for example  Top Drives downtime cost can reach 1m\$ per day and cause significant delay to drilling operations \cite{skfbrochure}. 
 
 In \cite{Pournazari2016} the authors reported an industry survey that was conducted to assess the impression of different groups of people (operators, contractors, rig builders…) on the usage of Top Drives. The survey showed an average 60\% satisfaction level across all the groups in the survey, which is an indicative that Top Drives aren't really meeting the expectations in the industry. They were also asked which are the features they would like to see in Top Drives, the most wanted things are less downtime and better ability to detect failures before the breakdown of the system. This means that a more reliable preventive maintenance and prognostics approach is the most wanted improvement to these systems in the field.
 
 \subsection{Top Drive components}%
 \label{sub:top_drive_components}
 
-Top Drives are made of many subassemblies which are shown in Figure \ref{fig:topdrive-subassemblies}\footnote{All the following figures of Top Drive components were taken from Bentec technical bulletin for TD-500-HT and TD-350-HT Top Drives}.
+Top Drives are made of many sub-assemblies which are shown in Figure \ref{fig:topdrive-subassemblies}\footnote{All the following figures of Top Drive components were taken from Bentec technical bulletin for TD-500-HT and TD-350-HT Top Drives}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{figures/topdrive_subassemblies.png}
-	\caption{Bentec 500-HT Top Drive subassemblies}%
+	\caption{Bentec 500-HT Top Drive sub-assemblies}%
 	\label{fig:topdrive-subassemblies}
 \end{figure}
 
-The Top Drive subassembly of interest here is the drilling unit (Figure \ref{fig:topdrive-drillingunit}) which is responsible for generating the rotation motion and transfering it to the drillstring. Drilling unit is composed of protection frame, hydraulic unit, mudd supply, hanger assembly and\textemdash the most important for the current discussion\textemdash a drive.
+The Top Drive sub-assembly of interest here is the drilling unit (Figure \ref{fig:topdrive-drillingunit}) which is responsible for generating the rotation motion and transferring it to the drill string. Drilling unit is composed of protection frame, hydraulic unit, mud supply, hanger assembly and\textemdash the most important for the current discussion\textemdash a drive.
 
 \begin{figure}[H]
 	\centering
@@ -499,7 +501,7 @@ The drive itself is composed of:
 	\item Brake
 	\item AC Motor
 	\item Gearbox (Figure \ref{fig:topdrive-drillingunit-drive-components}(a))
-	\item Mainshaft (Figure \ref{fig:topdrive-drillingunit-drive-components}b)
+	\item Main shaft (Figure \ref{fig:topdrive-drillingunit-drive-components}b)
 \end{itemize}
 
 \begin{figure}[H]
@@ -514,13 +516,13 @@ The drive itself is composed of:
          \centering
  \includegraphics[width=0.7\textwidth]{figures/topdrive_drillingunit_drive_mainshaft.png}
 	 \label{fig:topdrive-drillingunit-drive-mainshaft}
-	 \caption{Drive mainshaft}
+	 \caption{Drive main shaft}
      \end{subfigure}
 	\caption{Main components of the drive}%
 	\label{fig:topdrive-drillingunit-drive-components}
 \end{figure}
 
-The gearbox has two stages with transmission ratio of 14:1. The speed of the engine is reduced twice then transferred to the bullgear (1) of the gearbox. The bullgear is located on the thrust bearing. Lubrification of the gearbox is done with combined splash/pressure librification (3). The mainshaft (4) is powered by the bullgear of the gearbox and located in the gearbox with the thrust bearing (2) and it is conducted via lower bearing (3). A wash pipe (1) is connected to execute drilling fluid. The mainshaft also holds the load collar (5) which bears the link adapter to the drill pipe. 
+The gearbox has two stages with transmission ratio of 14:1. The speed of the engine is reduced twice then transferred to the bull-gear (1) of the gearbox. The bull-gear is located on the thrust bearing. Lubrication of the gearbox is done with combined splash/pressure lubrication (3). The main shaft (4) is powered by the bull-gear of the gearbox and located in the gearbox with the thrust bearing (2) and it is conducted via lower bearing (3). A wash pipe (1) is connected to execute drilling fluid. The main shaft also holds the load collar (5) which bears the link adapter to the drill pipe. 
 
 Figure \ref{fig:skf_tapered_roller_thrust_bearing} shows an example of a tapered bearing usually used in Top Drives. While Figure \ref{fig:skf_topdrive} shows the bearing within a Top Drive.
 

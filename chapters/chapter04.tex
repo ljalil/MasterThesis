@@ -70,7 +70,7 @@ C-MAPSS data contains 4 datasets: FD001, FD002, FD003 and FD004. Each dataset ha
     \label{table:c-mapss-statistics}
 \end{table}
 
-\section{Visualization of equipment degredation}
+\section{Visualization of equipment degradation}
 Visualizing the simulation output can give a sense of how these variables change during the life of the engine, Figure \ref{fig:sensors-plot} shows four different sensors from one of the engines (values are normalized):
 
 \begin{figure}[h]
@@ -82,20 +82,20 @@ Visualizing the simulation output can give a sense of how these variables change
 \begin{figure}[H]
     \centering
     \includegraphics[width=.9\linewidth]{figures/pca-degradation.pdf}
-    \caption{Equipment health degredation (lighter colors indicate advancing of health degradation) of four turbofan engines from C-MAPSS dataset}
+    \caption{Equipment health degradation (lighter colors indicate advancing of health degradation) of four turbofan engines from C-MAPSS dataset}
     \label{fig:pca-degradation}
 \end{figure}
 
 It is apparent that sensors output follow a specific pattern (increasing or decreasing) from beginning of operation until breakdown, this is very useful and can increase the robustness of the predictive model.
 
-Alternatively, all sensors values can be combined and visualized altogether using Principal Component Analysis (section \ref{section:dimensionality-reduction}) to reveal the general trend in the datat, if condition monitoring data is directly indicative of the equipment health state, visualization of principal components can show apparent visual degradation patterns.
+Alternatively, all sensors values can be combined and visualized altogether using Principal Component Analysis (section \ref{section:dimensionality-reduction}) to reveal the general trend in the data, if condition monitoring data is directly indicative of the equipment health state, visualization of principal components can show apparent visual degradation patterns.
 
 Sensors values from 4 different engines are combined using PCA and the two first principal components are represented on Figure \ref{fig:pca-degradation}. 
 
 There is absolutely an apparent pattern for health state degradation across the different engines from left (where darker colors indicate normal working state) to the right (where the lighter colors indicate fault development).
 
 \section{Engines health classification}
-Before proceeding with a complicated task such as \acrshort{rul} estimation, a simpler task like engines health classification can show the complexity of the problem. This section describes using neural networks to classify engines states as healty or faulty. The first and last 25 cycles from each unit are considered to be healthy and faulty respectively.
+Before proceeding with a complicated task such as \acrshort{rul} estimation, a simpler task like engines health classification can show the complexity of the problem. This section describes using neural networks to classify engines states as healthy or faulty. The first and last 25 cycles from each unit are considered to be healthy and faulty respectively.
 
 A neural network that uses all 24 inputs (all operational settings and sensors) with two hidden layers is used to carry out this classification. Table \ref{table:c-mapss-classifier-architecture} summarizes the network architecture:
 
@@ -141,7 +141,7 @@ Figure \ref{fig:cmapss-classifier-roc} shows \acrlong{roc} (\acrshort{roc}) Curv
     \begin{tabu}{cccccc}
         
     \tabucline[1.5pt]{-}
-    \textbf{Metric} &  \textbf{Exactitude} &  \textbf{Précision} &  \textbf{Recall} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
+    \textbf{Metric} &  \textbf{Accuracy} &  \textbf{Precision} &  \textbf{Recall} &  \textbf{F-1} &  \textbf{ROC AUC}  \\
     \hline
     \textbf{Score} & 93.43\% & 0.90 & 0.98 & 0.94 & 0.9332 \\
 	\tabucline[1.5pt]{-}
@@ -152,7 +152,7 @@ Figure \ref{fig:cmapss-classifier-roc} shows \acrlong{roc} (\acrshort{roc}) Curv
 
 \section{Remaining Useful Life prediction}
 \subsection{Remaining Useful Life modeling}
-In order to train a neural network to estimate the \acrlong{rul} (\acrshort{rul}) of a new unseen data from C-MAPSS dataset, an appropriate \acrshort{rul} that corresponds to the training data must be constructed. \acrshort{rul} was defined in Section \ref{section:rul}, from this definition several approaches to construct an appropriate \acrshort{rul} can be developed for units in the train data (where the total number of cycles before failure is known). The simplest approach is to use an always-decreasing \acrshort{rul}, this implies that the equipment state is always decreasing and moving towards failure. The problem with this approach is that degradation process isn't linear and in real life, machines don't start to degrade as soon as they are start working. A second approach is to use a piecewise function where the equipment state is constant at first then at a specific point it starts to degrade linearly. This approach is much better than the first one but it is not very representative of the real world behaviour of degradation process. In the context of this thesis, \acrshort{rul} is approached as a nonlinear polynomial function where the degradation is slow at first then accelerates towards the end of life. Figure \ref{fig:rul-models} shows the different choices for modeling \acrshort{rul}:
+In order to train a neural network to estimate the \acrlong{rul} (\acrshort{rul}) of a new unseen data from C-MAPSS dataset, an appropriate \acrshort{rul} that corresponds to the training data must be constructed. \acrshort{rul} was defined in Section \ref{section:rul}, from this definition several approaches to construct an appropriate \acrshort{rul} can be developed for units in the train data (where the total number of cycles before failure is known). The simplest approach is to use an always-decreasing \acrshort{rul}, this implies that the equipment state is always decreasing and moving towards failure. The problem with this approach is that degradation process isn't linear and in real life, machines don't start to degrade as soon as they are start working. A second approach is to use a piecewise function where the equipment state is constant at first then at a specific point it starts to degrade linearly. This approach is much better than the first one but it is not very representative of the real world behavior of degradation process. In the context of this thesis, \acrshort{rul} is approached as a nonlinear polynomial function where the degradation is slow at first then accelerates towards the end of life. Figure \ref{fig:rul-models} shows the different choices for modeling \acrshort{rul}:
 
 \begin{figure}[H]
     \centering
@@ -196,7 +196,7 @@ The network was trained for 300 epochs, batch size of 128 samples. Figure \ref{f
     \label{fig:cmapss-regression-training}
 \end{figure}
 
-After training, the model is evaluated on two units from the test set. Figure \ref{fig:cmapss-regression-prediction} shows the actual \acrshort{rul} (dashed line), model prediction at each cycle and a 3rd degree polyomial fit of model's predictions.
+After training, the model is evaluated on two units from the test set. Figure \ref{fig:cmapss-regression-prediction} shows the actual \acrshort{rul} (dashed line), model prediction at each cycle and a 3rd degree polynomial fit of model's predictions.
 
 \begin{figure}[H]
     \centering
@@ -205,12 +205,12 @@ After training, the model is evaluated on two units from the test set. Figure \r
     \label{fig:cmapss-regression-prediction}
 \end{figure}
 
-Although the model's prediction are close the the actual \acrshort{rul}, but they are noisy and there is so much fluctuation. The noise can be reduced by smoothing the output for example using moving average or fitting the points to a polynomial. But the reason of the noise in the first place is that fully-connected architecture doesn't take into consideration the previous predictions (i.e. acyclic architecture). Since \acrshort{rul} at each instant of time depends on the \acrshort{rul} from the previous one, taking previous steps into consideration while making new predictions can effectively reduce the noise and also improve prediction accuracy. To achieve that, a cyclic neural archtiecture like recurrent neural networks should be used.
+Although the model's prediction are close the the actual \acrshort{rul}, but they are noisy and there is so much fluctuation. The noise can be reduced by smoothing the output for example using moving average or fitting the points to a polynomial. But the reason of the noise in the first place is that fully-connected architecture doesn't take into consideration the previous predictions (i.e. acyclic architecture). Since \acrshort{rul} at each instant of time depends on the \acrshort{rul} from the previous one, taking previous steps into consideration while making new predictions can effectively reduce the noise and also improve prediction accuracy. To achieve that, a cyclic neural architecture like recurrent neural networks should be used.
 
 \subsection{Improving \acrshort{rul} prediction using LSTM networks}
-Fully-connected neural networks are powerful tool for modeling a wide range of problems, but using the fully-connected architecture for time series prediction, such as \acrshort{rul} prediction, can yield very noisy output because the network is acyclic and each instant in time is evaluated seperately and doesn't take into account the previous predictions. \acrlong{lstm} (Section \ref{section:lstm}) are a powerful tool for modeling such problems and to make more robust and less noisy predictions. In this section, fully-connected neural network architecture from previous section is replaced with an \acrshort{lstm} network to predict \acrshort{rul} in C-MAPSS dataset.
+Fully-connected neural networks are powerful tool for modeling a wide range of problems, but using the fully-connected architecture for time series prediction, such as \acrshort{rul} prediction, can yield very noisy output because the network is acyclic and each instant in time is evaluated separately and doesn't take into account the previous predictions. \acrlong{lstm} (Section \ref{section:lstm}) are a powerful tool for modeling such problems and to make more robust and less noisy predictions. In this section, fully-connected neural network architecture from previous section is replaced with an \acrshort{lstm} network to predict \acrshort{rul} in C-MAPSS dataset.
 
-The architecure used here is described in Table \ref{table:cmapss-lstm-architecture}:
+The architecture used here is described in Table \ref{table:cmapss-lstm-architecture}:
 
 \begin{table}[h]
     \centering
@@ -236,7 +236,7 @@ The architecure used here is described in Table \ref{table:cmapss-lstm-architect
 
 It is apparent that the \acrshort{lstm} architecture has much more parameters (216,730 parameters) than fully-connected architecture (1,473). This is because of the more complicated design of \acrshort{lstm} cells and their possession of different gates. This results in much longer training time.
 
-\acrshort{lstm} layers take 3 dimensional tensor as an input of shape \textit{(samples, sequence length, features)}. Sequence length was set to 100 in this architecture, that's why every training sample must have a shape of \textit{(sequence length, features)}. All units have the same number of features but different legnths, since every sample must have a sequence length of 100, samples with cycles less than 100 are padded with -10 where \acrshort{lstm} layers are set to ignore any time steps with this value.
+\acrshort{lstm} layers take 3 dimensional tensor as an input of shape \textit{(samples, sequence length, features)}. Sequence length was set to 100 in this architecture, that's why every training sample must have a shape of \textit{(sequence length, features)}. All units have the same number of features but different lengths, since every sample must have a sequence length of 100, samples with cycles less than 100 are padded with -10 where \acrshort{lstm} layers are set to ignore any time steps with this value.
 
 The network was trained for 50 epochs with batch size of 16 and validation split of 0.2 using Adam optimizer. Training process is visualized in Figure \ref{fig:cmapss-lstm-training}:
 
@@ -289,7 +289,7 @@ Modern oil rigs contain a large number of sensors distributed across almost ever
 	\label{fig:honeywell-oilrig-sensors}
 \end{figure}
 
-Figure \ref{fig:honeywell-oilrig-sensors} shows different spots where sensors are installed on most modern oil rigs. Table \ref{table:honeywell-oilrig-sensors} lists types of different sensors that can be used for prognostics, the units to which they are attached and which physical variables they can measure. A neural network can be trained on the rig historic data and be used to monitor different equipments, their interaction, detect anomalies and report them in time in order to carry on the appropriate maintenance actions.
+Figure \ref{fig:honeywell-oilrig-sensors} shows different spots where sensors are installed on most modern oil rigs. Table \ref{table:honeywell-oilrig-sensors} lists types of different sensors that can be used for prognostics, the units to which they are attached and which physical variables they can measure. A neural network can be trained on the rig historic data and be used to monitor different equipment, their interaction, detect anomalies and report them in time in order to carry on the appropriate maintenance actions.
 
 \begin{table}[p!]
 	\centering
@@ -305,18 +305,18 @@ F&Rig Hydraulic Lift	&	Pressure&	Hydraulic pressure, weight, force/strain, or mo
 H&Drawworks	&	Load cells	&	Torque, load/weight/position while guiding pipe into position\\
 M&Water/Storage Tank	&	Pressure& Tank liquid levels\\
 N&Top Drive	&	Torque/Pressure&	Monitor torque/twisting movement to ensure right amount of force is applied. Weight on drill bit. Hydraulic pressure and feed information into control system.\\
-O&Trabeling Block	&	Load cells	&	Weight on the drill line via cable tension\\
+O&Traveling Block	&	Load cells	&	Weight on the drill line via cable tension\\
 R&Deadline anchor	&	Load cells	&	Tension on deadline/drilling line cable\\
 U&Mud Return Line	&	Pressure&	Drilling mud pressure to monitor and control mud flow\\
 Y&Mud Pump	&	Pressure&	Pressure and flow of mud media\\
-AB&BlowOut Preventor &	Pressure&	Monitor RAM position via hydraulic volumetric or pressure behind the piston\\
+AB&Blowout Preventor &	Pressure&	Monitor RAM position via hydraulic volumetric or pressure behind the piston\\
 AD&Drill Bit	&	Pressure&	Pressure or differential pressure at high temperature and pressure ranges\\
 AE	&	Fluid manifold	&	Pressure	&	Drilling fluid pressure\\
 AF&Mud Tank/Reservoir	&	Pressure&	Tank liquid levels\\
 		\tabucline[1.5pt]{-} 
     \end{tabu}
 \end{adjustbox}
-    \caption{Honeywell oilrig sensors list}
+    \caption{Honeywell oil rig sensors list}
     \label{table:honeywell-oilrig-sensors}
 
 \end{table}

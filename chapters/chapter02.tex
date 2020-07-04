@@ -1,6 +1,6 @@
 \chapter{Steps of a Data-Driven Approach}
 \chapterintrobox{
-A \acrlong{dd} prognostics approach (an approach that uses system's operation data, like historic monitoring data, to build a model that is used to predict remaining usefil life) must go through multiple stages---from data acquisition to estimating remaining service life. In this chapter, these different steps will be discussed in detail.
+A \acrlong{dd} prognostics approach (an approach that uses system's operation data, like historic monitoring data, to build a model that is used to predict remaining useful life) must go through multiple stages---from data acquisition to estimating remaining service life. In this chapter, these different steps will be discussed in detail.
 }
 
 \section{Data acquisition}
@@ -12,8 +12,8 @@ Data acquisition is a process of capturing and storing different types of monito
 Although research on advanced concepts such as wireless sensor networks and energy harvesting to power autonomous sensors is ongoing, data acquisition (sensors) and manipulation are now fairly well established. Consequently, much of the research in this discipline focuses on analyzing the data obtained to extract information \cite{Tinga2014}. Because this discipline is well developed, many new data acquisition facilities and techniques have been designed and applied in modern industries. These powerful and versatile facilities have made data acquisition for \acrshort{phm} implementation more practical and feasible\cite{Lei2016}.
 
 \section{Features Extraction}
-The data-driven prognostics approach is mainly used when it is difficult to understand the physical behaviour of a complex system. Understanding the behaviour and interaction of the different elements that lead to machine degradation is the starting point for developing a physical model for prognostics.
-On the other hand, this approach uses condition monitoring data to implicitly model its behaviour. The models used in the data-driven approach use monitoring data to model complex behavior and capture complex models, but they are considered as black boxes: they do not necessarily provide insight into the process.
+The data-driven prognostics approach is mainly used when it is difficult to understand the physical behavior of a complex system. Understanding the behavior and interaction of the different elements that lead to machine degradation is the starting point for developing a physical model for prognostics.
+On the other hand, this approach uses condition monitoring data to implicitly model its behavior. The models used in the data-driven approach use monitoring data to model complex behavior and capture complex models, but they are considered as black boxes: they do not necessarily provide insight into the process.
 In general, the performance of these models depends on the quality of the input (i.e. data). The human part cannot perform the task that the model performs, but processing the input data can significantly increase the results. This processing is necessary because the sensor data on which the model is based is usually redundant, noisy and incomplete, and there are many reasons for these imperfections.
 
 Feature extraction is an important pre-processing step in the development process of machine learning models and directly influences the performance of the model. Therefore, this step must be performed carefully in order to extract meaningful features from the raw data. Vibration data contains very useful information about the state of the system, but requires extensive pre-processing before it can be used as input data for a specific model. This chapter describes some of the signal processing techniques used in traditional vibration analysis, but in this context they will be used as feature extractors for a neural network architecture.
@@ -41,7 +41,7 @@ Figure \ref{fig:signal-processing} presents different techniques for each type o
 \begin{figure}[h]
     \centering
 	\input{figures/feature-extraction.tex}
-    \caption{Techniques de traitement du signal dans les différents domaines}
+    \caption{Different signal processing techniques}
     \label{fig:signal-processing}
 \end{figure}
 
@@ -55,7 +55,7 @@ The Fourier transform (FT) of a signal $x(t)$ can be mathematically given by equ
     \label{equation:fourier-transform}
 \end{equation}
 
-In practical applications of digital signal processing where signals are discrete in time rather than continuous (e.g. vibration analysis) a discretized version called discrete fourier transform (DFT) is used instead, it is expressed mathematically by equation \ref{equation:discrete-fourier-transform}:
+In practical applications of digital signal processing where signals are discrete in time rather than continuous (e.g. vibration analysis) a discretized version called discrete Fourier transform (DFT) is used instead, it is expressed mathematically by equation \ref{equation:discrete-fourier-transform}:
 
 \begin{equation}
     X(w) = \sum_{-\infty}^{\infty}x(t)e^{-jwt}dt
@@ -72,9 +72,9 @@ Fast Fourier transform (FFT) is an effective algorithm used to implement DFT in 
 \end{figure}
 
 \subsection{Wavelet transform}
-Wavelet transform is also a spectral analysis tool, like Fourier transform. The main difference is that Fourier transform decomposes the signal into sinusoidal components, but wavelet transform decomposes it into a set of oscillatory functions called \textbf{wavelets}. Unlike sinusoids, wavelets are localized in time, thus wavelet transform doesn't only provide information about the frequency present in a signal but also the time of their occurence. Wavelet transform is a much better solution than Fourier transform when studying non-linear non-stationary signals (i.e. its frequency components vary with time).
+Wavelet transform is also a spectral analysis tool, like Fourier transform. The main difference is that Fourier transform decomposes the signal into sinusoidal components, but wavelet transform decomposes it into a set of oscillatory functions called \textbf{wavelets}. Unlike sinusoids, wavelets are localized in time, thus wavelet transform doesn't only provide information about the frequency present in a signal but also the time of their occurrence. Wavelet transform is a much better solution than Fourier transform when studying non-linear non-stationary signals (i.e. its frequency components vary with time).
 
-Figure \ref{fig:time-frequency-plane} shows the difference in time and frequency resolutions between different methods. In the waveform, the signal has absolute resolution in time and zero resolution in frequency. Fourier transform on the contrary transforms the signal totally into the frequency domain, therefore it has absolute resolution in frequency but no resolution in time. Short-time Fourier transform is calculated identically to fourier transform but it is performed on separate segments of the original signal to preserve some resolution in time. Wavelet transform on the other hand exhibits a high time resolution for high frequencies and high frequency resolution for low frequencies:
+Figure \ref{fig:time-frequency-plane} shows the difference in time and frequency resolutions between different methods. In the waveform, the signal has absolute resolution in time and zero resolution in frequency. Fourier transform on the contrary transforms the signal totally into the frequency domain, therefore it has absolute resolution in frequency but no resolution in time. Short-time Fourier transform is calculated identically to Fourier transform but it is performed on separate segments of the original signal to preserve some resolution in time. Wavelet transform on the other hand exhibits a high time resolution for high frequencies and high frequency resolution for low frequencies:
 
 \begin{figure}[H]
     \centering
@@ -106,7 +106,8 @@ The output of \acrshort{cwt} is a scaleogram like the one in figure \ref{fig:sca
 
 \begin{figure}[H]
     \centering
-    \includegraphics{figures/scaleogram.pdf}
+    %\includegraphics{figures/scaleogram.pdf}
+    \includegraphics{figures/scaleogram.png}
     \caption{Scaleogram of vibration data snapshot}
     \label{fig:scaleogram}
 \end{figure}
@@ -115,7 +116,7 @@ The x and y axes represent time and frequency respectively. Different colors ind
 
 \subsubsection{Discrete wavelet transform}%
 \label{subsub:discrete_wavelet_transform}
-In practical applicaions, discrete wavelet transform (DWT) is implemented as a filter bank where the signal is passed therough low- and high-pass filters to obtain \textbf{approximation} and \textbf{decomposition coefficients}. Figure \ref{fig:dwt} shows a DWT with 2 levels of decomposition which yields 2nd order approximation and decomposition coefficients:
+In practical applications, discrete wavelet transform (DWT) is implemented as a filter bank where the signal is passed through low- and high-pass filters to obtain \textbf{approximation} and \textbf{decomposition coefficients}. Figure \ref{fig:dwt} shows a DWT with 2 levels of decomposition which yields 2nd order approximation and decomposition coefficients:
 
 \begin{figure}[H]
     \centering
@@ -154,7 +155,7 @@ Diagnosis is the analysis of the later event and prognosis is the analysis of th
 Prognostics are the forecast or prediction of the future performance of a system, this prediction is based on its current state. The prediction is performed using a model, types of prognostic models are already discussed in details in section \ref{section:prognostics-approaches} but the focus of this current discussion is geared towards data-driven models. More concretely, what these models predict is the remaining useful life (\acrshort{rul}) defined in section \ref{section:rul-estimation}. Prognostics models---by estimating \acrshort{rul}---aim at scheduling maintenance actions according to the predictions and production constraints associated with the machine in order to achieve zero unscheduled equipment downtime.
 
 \section{Maintenance decision}
-The next and the last step of any prognostics approach is to use the output of the developed model (i.e. predictions, or estimations for the system's \acrshort{rul}) in making better and more accurate preventive maintenance actions. Maintenance decision makers should analyze the outputs of the model prior to taking any actions, since any model has an inherent error associated with its predictions. Usually, data-driven models provide confidence intervals associated with their predictions which must be considered carefully. Also it must be noted that those confidence itervals are reflection of the models certainty of its predictions based on the data provided for the training, in real applications a new unforeseen failure mode can occure which may not have happened before, thus it wasn't provided for the model as part of the data used to consutrct it. This is more or less associated with the ability of different types of models to generalize for new unforeseen data, but in general it is well-known fact that any data-driven model will be less reliable when performing predictions using data that the model didn't see before \cite{Chung2018}. That's why providing quality data that reflects different degradation patterns and fault modes is essential for the model to make more robust and reliable predictions.
+The next and the last step of any prognostics approach is to use the output of the developed model (i.e. predictions, or estimations for the system's \acrshort{rul}) in making better and more accurate preventive maintenance actions. Maintenance decision makers should analyze the outputs of the model prior to taking any actions, since any model has an inherent error associated with its predictions. Usually, data-driven models provide confidence intervals associated with their predictions which must be considered carefully. Also it must be noted that those confidence intervals are reflection of the models certainty of its predictions based on the data provided for the training, in real applications a new unforeseen failure mode can occur which may not have happened before, thus it wasn't provided for the model as part of the data used to construct it. This is more or less associated with the ability of different types of models to generalize for new unforeseen data, but in general it is well-known fact that any data-driven model will be less reliable when performing predictions using data that the model didn't see before \cite{Chung2018}. That's why providing quality data that reflects different degradation patterns and fault modes is essential for the model to make more robust and reliable predictions.
 
 \section{Conclusion}
 Developing a (data-driven) prognostics model is a process that requires many steps: from data acquisition required to construct the model to employing the model predictions in making better and more accurate maintenance decisions which result in less (or even zero) unscheduled downtime this reduced costs and decreased production loss, the latter being the ultimate goal of all this discussion and prognostics/preventive maintenance literature in general. The focus of this discussion is data-driven models, one of the models that proved great ability in learning complex non-linear patterns in data are neural networks. These models have different architecture depending on the structure of data. They will be presented and explained in details in the next chapter.
