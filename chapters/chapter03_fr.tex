@@ -22,7 +22,7 @@ Figure \ref{fig:neural-network-structure} montre un réseau de neurones avec la 
 
 \section{Feedforward: de l'entrée vers la sortie}
 \label{section:feedforward-neural-network}
-L'architecture de la figure \ref{fig:neural-network-structure} est appelée Feedforward Neural Network, c'est une architecture acyclique où l'information circule de la première à la dernière couche sans aucune boucle interne, contrairement aux autres architectures comme les réseaux de neurones récurrents. La première couche est la couche d'entrée, elle n'effectue aucune opération et se limite à recevoir l'entrée. L'entrée est un vecteur de nombres représente les différentes variables. Le vecteur est multiplié par une matrice de poids qui le transforme et l'envoie à la couche suivante (ou à la première couche cachée). Une fonction d'activation est appliquée aux valeurs résultant de la multiplication des valeurs de la couche précédente avec la matrice des poids, le résultat devient les valeurs de la couche suivante, ou activations (la valeur de chaque neurone est appelée activaiton).
+L'architecture de la figure \ref{fig:neural-network-structure} est appelée Feedforward Neural Network, c'est une architecture acyclique où l'information circule de la première à la dernière couche sans aucune boucle interne, contrairement aux autres architectures comme les réseaux de neurones récurrents. La première couche est la couche d'entrée, elle n'effectue aucune opération et se limite à recevoir l'entrée. L'entrée est un vecteur de nombres représente les différentes variables. Le vecteur est multiplié par une matrice de poids qui le transforme et l'envoie à la couche suivante (ou à la première couche cachée). Une fonction d'activation est appliquée aux valeurs résultant de la multiplication des valeurs de la couche précédente avec la matrice des poids, le résultat devient les valeurs de la couche suivante, ou activations (la valeur de chaque neurone est appelée activation).
 
 Une formule générale pour passer de la couche $l-1$ à la couche $l$ est donnée par l'équation \ref{equation:forward-step}:
 
@@ -39,7 +39,7 @@ Les fonctions d'activation sont appliquées au résultat de la multiplication de
 
 L'utilisation de la fonction d'activation non linéaire est très importante pour les réseaux de neurones, ils permettent d'apprendre la correspondance non linéaire complexe de l'entrée à la sortie. Si le réseau n'utilise pas l'activation non linéaire (par exemple, l'activation linéaire ou la fonction d'identité), alors le réseau entier (quelle que soit sa profondeur) est équivalent à un réseau avec une seule couche cachée.
 
-Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques examples:
+Il existe une variété de fonctions d'activation qui peuvent être utilisées pour les couches cachées et de sortie. La figure \ref{fig:activation-function} montre quelques exemples:
 
 \begin{figure}[h]
     \centering
@@ -48,15 +48,15 @@ Il existe une variété de fonctions d'activation qui peuvent être utilisées p
     \label{fig:activation-function}
 \end{figure}
 
-Tableau \ref{table:activation-functions} montre les définition mathematiques de quelques fonctions d'activation:
+Tableau \ref{table:activation-functions} montre les définition mathématiques de quelques fonctions d'activation:
 
 \begin{table}[h]
     \centering
     \begin{tabular}{c|c}
         \hline
-        Fonction d'activation & Défnition mathématique \\
+        Fonction d'activation & Définition mathématique \\
         \hline
-        Identity (pas d'activation) & Id(x) = x \\
+        Identité (pas d'activation) & Id(x) = x \\
         Sigmoid & $\sigma(x)= \frac{1}{1+e^{-x}}$ \\
         tanh & $tanh(x)=\frac{(e^x-e^{-x})}{(e^x+e^{-x})}$\\
         Rectified Linear Unit (ReLU) & $ReLU(x)=max(0,x)$\\
@@ -75,14 +75,14 @@ L'entraînement du réseau de neurones utilise des données d'entraînement (tra
 \subsection{Fonction de coût}
 La fonction de coût est la fonction utilisée pour calculer la différence entre la sortie du réseau de neurones et la sortie réelle attendue, elle quantifie la performance du réseau. Le but du processus d'entraînement est de minimiser cette fonction en utilisant Gradient Descent (voir la section suivante) pour trouver le meilleur ensemble de poids qui donne la différence la plus basse entre les données d'entraînement et la prédiction du réseau.
 
-Il existe de nombreux types de fonctions de coût, chaque type correspondant à différentes tâches des réseaux de neurones (par exemple, régression, classification binaire, ...). La fonction de coût généralement utilisée pour les problèmes de régression est une fonction d'erreur quadratique moyenne (Equation \ref{equation:mse}) qui calcule la somme des distances entre les prédictions du modèle $\hat{y}_i$ et la sortie réelle ($y_i$), $N$ le nombre de points de données disponibles pour l'entraînement :
+Il existe de nombreux types de fonctions de coût, chaque type correspondant à différentes tâches des réseaux de neurones (par exemple, régression, classification binaire, ...). La fonction de coût généralement utilisée pour les problèmes de régression est une fonction d'erreur quadratique moyenne (Équation \ref{equation:mse}) qui calcule la somme des distances entre les prédictions du modèle $\hat{y}_i$ et la sortie réelle ($y_i$), $N$ le nombre de points de données disponibles pour l'entraînement :
 
 \begin{equation}
     MSE=\frac{1}{N}\sum_{i=1}^N(y_i-\hat{y}_i)
     \label{equation:mse}
 \end{equation}
 
-L'autre principale tâche des réseaux de neurones et des autres types de modèles est la classification. Il existe deux principaux types de classification : la classification binaire, ou classification de deux classes et la classification multiclasse ou classification de plusieurs classes. La première utilise la fonction de perte d'entropie croisée binaire (Equation \ref{equation:logloss}) et la seconde utilise l'entropie croisée catégorielle.
+L'autre principale tâche des réseaux de neurones et des autres types de modèles est la classification. Il existe deux principaux types de classification : la classification binaire, ou classification de deux classes et la classification multiclasse ou classification de plusieurs classes. La première utilise la fonction de perte d'entropie croisée binaire (Équation \ref{equation:logloss}) et la seconde utilise l'entropie croisée catégorielle.
 
 \begin{equation}
     BCE = \sum_{i=1}^{N}\hat{y}_i log(y_i)+(1-\hat{y}_i)log(1-\hat{y}_i)
@@ -94,8 +94,7 @@ Le choix de la fonction d'activation pour la dernière couche du réseau est dir
 \subsection{Gradient Descent}
 Gradient Descent est un algorithme d'optimisation itératif utilisé pour optimiser une fonction différentiable. Gradient Descent fonctionne en calculant les gradients de la fonction objectif puis en prenant des mesures itératives dans le sens du négatif des gradients.
 
-\subsection{Convex and non-convex functions}
-
+\subsection{Fonctions convexes et non-convexes}
 Gradient Descent dans le contexte de réseaux de neurones est une algorithme utilisée pour optimiser (minimiser) la fonction de coût en trouvant le meilleur ensemble de poids et de biais qui donne le coût le plus bas possible. Les fonctions objectives peuvent être classées en deux types : les fonctions convexes et les fonctions non convexes.
 Une fonction est dite convexe si elle a la propriété que chaque accord se trouve sur ou au-dessus de la fonction. Toute valeur de $x$ dans l'intervalle allant de $x=a$ à $x=b$ peut être écrite sous la forme $\lambda a+(1-\lambda)b$ où $0\leq\lambda\leq 1$. Le point correspondant sur l'accord est donné par $\lambda f(a)+(1-\lambda)f(b)$, et la valeur correspondante de la fonction est $f(\lambda a+(1-\lambda)b)$ (Figure \ref{fig:convexity}). La convexité implique alors :
 \begin{equation}
@@ -160,7 +159,7 @@ pour trouver les gradients par rapport aux poids du réseau.
 
 L'utilisation de Backpropagation pour l'entraînement de réseaux de neurones a été popularisée par David E. Rumelhart, Geoffrey E. Hintont et Ronald J. Williams \cite{Rumelhart1986}, ils l'ont décrit comme une procédure qui ajuste de manière répétée les poids des connexions du réseau de manière à minimiser une mesure de la différence entre le vecteur de sortie réel du réseau et le vecteur de sortie souhaité. À la suite des ajustements de poids, des unités internes "cachées" qui ne font pas partie de l'entrée ou de la sortie en viennent à représenter des caractéristiques importantes du domaine de la tâche, et les régularités de la tâche sont saisies par les interactions de ces unités.
 
-Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backward Pass, le Forward Pass calcule la sortie de réseau, le Backward pass calcule les gradients de la fonction de coût qui mesure la difference entre cette sortie et la sortie réelle souhaitée:
+Figure \ref{fig:forward-backward-pass} représente le Forward Pass et le Backward Pass, le Forward Pass calcule la sortie de réseau, le Backward pass calcule les gradients de la fonction de coût qui mesure la différence entre cette sortie et la sortie réelle souhaitée:
 
 \begin{figure}[h]
     \centering
@@ -176,7 +175,7 @@ Les réseaux de neurones récurrents (\acrshort{rnn}) sont une architecture spé
 \begin{figure}[H]
     \centering
     \input{figures/rnn.tex}
-    \caption{Architecture de réseaux de neurones recurrents}
+    \caption{Architecture de réseaux de neurones récurrents}
     \label{fig:rnn}
 \end{figure}
 
@@ -210,7 +209,7 @@ Les portes d'entrée, d'oubli et de sortie sont calculées au temps $t$ en utili
 
 Les portes contrôlent le flux d'informations à l'intérieur de la cellule \acrshort{lstm}, leurs valeurs vont de 0 à 1 (fonction sigmoïde) et contrôlent les informations à conserver et celles à écarter lors de la mise à jour de l'état de la cellule (portes d'oubli et d'entrée) et lors du calcul de la sortie de la cellule \acrshort{lstm} (porte de sortie).
 
-La figure \ref{fig:lstm} illustre les différentes opérations qui se produisent dans une cellule \acrshort{lstm} du signle :
+La figure \ref{fig:lstm} illustre les différentes opérations qui se produisent dans une cellule \acrshort{lstm} :
 
 \begin{figure}[h]
     \centering
@@ -254,4 +253,4 @@ Les différents noyaux ont des objectifs différents et peuvent extraire une gra
 
 
 \section{Conclusion}
-Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones interconnectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.
+Les réseaux de neurones sont un outil puissant pour trouver la relation complexe entre une entrée et une sortie (e.g. les données de \acrlong{cm} et la dégradation de la machine). Ils sont constitués de différentes couches de neurones inter-connectées. la connexion entre chaque 2 couches est définie par un ensemble de poids, qui sont multipliés par les valeurs de la couche précédente pour trouver les valeurs de la couche suivante, le processus est répété jusqu'à ce que la couche de sortie soit atteinte. la sortie prédite est comparée à la sortie réelle obtenue à partir des données d'entraînement, les poids sont ajustés pour minimiser (en utilisant Backpropagation et Gradient Descent) la différence entre les prédictions et la réalité.

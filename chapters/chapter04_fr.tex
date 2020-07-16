@@ -150,7 +150,7 @@ La figure \ref{fig:cmapss-classifier-roc} montre la courbe \acrlong{roc} (\acrsh
 \end{table}
 
 \section{Prédiction de \acrshort{rul}}
-\subsection{Modèlisation de \acrshort{rul}}
+\subsection{Modélisation de \acrshort{rul}}
 
 Afin d'entraîner un réseau de neurones pour l'estimation de  \acrlong{rul} (\acrshort{rul}) d'une nouvelle donnée non vue provenant de base de données C-MAPSS, un \acrshort{rul} approprié correspondant aux données d'entraînement doit être construit.
 
@@ -194,16 +194,16 @@ La dernière section portait sur la classification de l'état de santé des unit
     \label{table:cmapss-regression-architecture}
 \end{table}
 
-Le réseau a été entraîné pour 300 époques, avec batch size de 128 échantillons. La figure \ref{fig:cmapss-regression-training} montre le processus de'entraînement du réseau. Les figures montrent l'évolution des pertes d'entraînement et de validation (erreur quadratique moyenne) et des métriques (erreur absolue moyenne) respectivement en fonction des époques.
+Le réseau a été entraîné pour 300 époques, avec batch size de 128 échantillons. La figure \ref{fig:cmapss-regression-training} montre le processus d'entraînement du réseau. Les figures montrent l'évolution des pertes d'entraînement et de validation (erreur quadratique moyenne) et des métriques (erreur absolue moyenne) respectivement en fonction des époques.
 
 \begin{figure}[H]
     \centering
     \includegraphics{figures/cmapss_regression_training_fr.pdf}
-    \caption{Processus d'entraînement du réseau utilitsé pour prédire \acrshort{rul}}
+    \caption{Processus d'entraînement du réseau utilisé pour prédire \acrshort{rul}}
     \label{fig:cmapss-regression-training}
 \end{figure}
 
-Après l'entraînement, le modèle est évalué sur deux unités de la série de tests. La figure \ref{fig:cmapss-regression-prediction} montre le \acrshort{rul} réel (ligne discontinue), la prédiction du modèle à chaque cycle et un ajustement polyomial de 3ème degré des prédictions du modèle.
+Après l'entraînement, le modèle est évalué sur deux unités de la série de tests. La figure \ref{fig:cmapss-regression-prediction} montre le \acrshort{rul} réel (ligne discontinue), la prédiction du modèle à chaque cycle et un ajustement polynômial de 3ème degré des prédictions du modèle.
 
 \begin{figure}[H]
     \centering
@@ -246,7 +246,7 @@ Il est évident que l'architecture \acrshort{lstm} a beaucoup plus de paramètre
 
 Les couches \acrshort{lstm} prennent un tenseur tridimensionnel de la forme \textit{(samples, sequence length, features)} comme entrée. La longueur de la séquence a été fixée à 100 dans cette architecture, c'est pourquoi chaque échantillon d'entraînement doit avoir une forme de \textit{(sequence length, features)}. Toutes les unités ont le même nombre de caractéristiques mais des longueurs différentes, puisque chaque échantillon doit avoir une longueur de séquence de 100, les échantillons avec des cycles inférieurs à 100 sont complétés par -10 où les couches \acrshort{lstm} sont définies pour ignorer tout les instants de temps avec cette valeur.
 
-Le réseau a été entraîné pour 50 époques avec batch size de 16 échantillons et un fractionnement de validation de 0,2 en utilisant l'algorithme d'optimization Adam. Le processus d'entraînement est visualisé sur la figure \ref{fig:cmapss-lstm-training} :
+Le réseau a été entraîné pour 50 époques avec batch size de 16 échantillons et un fractionnement de validation de 0,2 en utilisant l'algorithme d'optimisation Adam. Le processus d'entraînement est visualisé sur la figure \ref{fig:cmapss-lstm-training} :
 
 \begin{figure}[H]
     \centering
@@ -303,7 +303,7 @@ La figure \ref{fig:honeywell-oilrig-sensors} montre différents endroits où les
 	\begin{adjustbox}{angle=90}
 	\begin{tabu}{clp{30mm}p{120mm}}
 		\tabucline[1.5pt]{-} 
-		\textbf{Capteur} & \textbf{Equipment} & \textbf{Type de capteur}  & \textbf{Value mesurée}\\
+		\textbf{Capteur} & \textbf{Équipement} & \textbf{Type de capteur}  & \textbf{Value mesurée}\\
         \hline
 A&	Crown Block &	Load cell	&	Weight on drill line via cable tension\\
 B& Power Generation Unit	&	Pressure&	Oil, water, and hydraulic fluid pressure\\

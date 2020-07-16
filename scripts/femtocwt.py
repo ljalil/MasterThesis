@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 import pywt
 from skimage.transform import resize
-
+#%%
 from keras.models import Sequential
 from keras.layers import LSTM, Conv2D, MaxPool2D, Flatten, Dropout, Dense, Masking
 from keras.utils import to_categorical
@@ -36,12 +36,13 @@ bearing = 'Bearing1_1'
 path = os.path.join(main_path, bearing)
 files_list = sorted(os.listdir(path))
 number_of_files = len(files_list)
-files_to_plot = (linspace(0,number_of_files-1,8)).astype('int32')
+files_to_plot = (linspace(0,number_of_files-2,8)).astype('int32')
 coefs_h = []
 coefs_v = []
 for file in files_to_plot:
     file_path = os.path.join(path, files_list[file])
     data = pd.read_csv(file_path, header=None)
+    print(file_path)
     vibration_h = data[4].values
     vibration_v = data[5].values
     [coef_h, freq] = pywt.cwt(vibration_h, scales, wavelet, 1/frequency)
@@ -61,8 +62,8 @@ fig, axes = plt.subplots(2, 4, figsize=(6,3.5), sharex=True, sharey=True)
 for index, axis in enumerate(axes.flatten()):
     cntr = axis.contourf(resized_coefs_h[index], levels=80)
     axis.set_title(r'{}\%'.format(round((index+1)*100/8)))
-    for c in cntr.collections:
-        c.set_edgecolor("face")
+#    for c in cntr.collections:
+ #       c.set_edgecolor("face")
 
 for axis in axes.flatten():
     axis.set_xticks([0,128])
@@ -76,7 +77,8 @@ plt.xlabel(r"Time (s)")
 plt.ylabel("Frequency (kHz)",labelpad=15)
 fig.tight_layout(w_pad=.2, h_pad=0.2)
 plt.gcf().subplots_adjust(left=.14,bottom=0.15)
-fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_h.pdf')
+#fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_h.pdf')
+fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_h.png')
 
 
 #%% Plotting scaleograms: vertical vibrations
@@ -84,8 +86,8 @@ fig, axes = plt.subplots(2, 4, figsize=(6,3.5), sharex=True, sharey=True)
 for index, axis in enumerate(axes.flatten()):
     cntr = axis.contourf(resized_coefs_v[index], levels=80)
     axis.set_title(r'{}\%'.format(round((index+1)*100/8)))
-    for c in cntr.collections:
-        c.set_edgecolor("face")
+#    for c in cntr.collections:
+#        c.set_edgecolor("face")
 
 for axis in axes.flatten():
     axis.set_xticks([0,128])
@@ -99,7 +101,8 @@ plt.xlabel(r"Time (s)")
 plt.ylabel("Frequency (kHz)",labelpad=15)
 fig.tight_layout(w_pad=.2, h_pad=0.2)
 plt.gcf().subplots_adjust(left=.14,bottom=0.15)
-fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_v.pdf')
+#fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_v.pdf')
+fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_v.png')
 
 
 #%% Plotting scaleograms: horizontal vibrations [french]
@@ -107,8 +110,8 @@ fig, axes = plt.subplots(2, 4, figsize=(6,3.5), sharex=True, sharey=True)
 for index, axis in enumerate(axes.flatten()):
     cntr = axis.contourf(resized_coefs_h[index], levels=80)
     axis.set_title(r'{}\%'.format(round((index+1)*100/8)))
-    for c in cntr.collections:
-        c.set_edgecolor("face")
+#    for c in cntr.collections:
+#        c.set_edgecolor("face")
 
 for axis in axes.flatten():
     axis.set_xticks([0,128])
@@ -122,7 +125,8 @@ plt.xlabel(r"Temps (s)")
 plt.ylabel("Fréquence (kHz)",labelpad=15)
 fig.tight_layout(w_pad=.2, h_pad=0.2)
 plt.gcf().subplots_adjust(left=.14,bottom=0.15)
-fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_h_fr.pdf')
+#fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_h_fr.pdf')
+fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_h_fr.png')
 
 
 #%% Plotting scaleograms: vertical vibrations [french]
@@ -130,8 +134,8 @@ fig, axes = plt.subplots(2, 4, figsize=(6,3.5), sharex=True, sharey=True)
 for index, axis in enumerate(axes.flatten()):
     cntr = axis.contourf(resized_coefs_v[index], levels=80)
     axis.set_title(r'{}\%'.format(round((index+1)*100/8)))
-    for c in cntr.collections:
-        c.set_edgecolor("face")
+#    for c in cntr.collections:
+#        c.set_edgecolor("face")
 
 for axis in axes.flatten():
     axis.set_xticks([0,128])
@@ -145,7 +149,8 @@ plt.xlabel(r"Temps (s)")
 plt.ylabel("Fréquence (kHz)",labelpad=15)
 fig.tight_layout(w_pad=.2, h_pad=0.2)
 plt.gcf().subplots_adjust(left=.14,bottom=0.15)
-fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_v_fr.pdf')
+#fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_v_fr.pdf')
+fig.savefig('/home/abdeljalil/Workspace/MasterThesis/figures/femto_scaleograms_v_fr.png')
 
 
 #%% Creating dataset from scaleograms
